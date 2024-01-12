@@ -44,14 +44,10 @@ SET
   pre_desc_pot = $15,
   total_pago_fact_potencia = $16,
   total_pago_anual_potencia = $17
-WHERE franjas_id = $1
-RETURNING *`,
+  WHERE franjas_id = $1
+  RETURNING *`,
 
-WHERE franjas_id = $1
-RETURNING *`,
-
-deleteFranjas_Cliente:`DELETE FROM franjas_cliente WHERE franjas_id = $1;`
-}
-
+  deleteFranjas_Cliente: `DELETE FROM franjas_cliente WHERE franjas_id = $1;`,
+};
 
 module.exports = queriesFranjas_Cliente;
