@@ -5,8 +5,9 @@ const getAllPropuestas = async (req, res) => {
     const result = await propuestaModel.getAllPropuestas();
     res.json(result);
   } catch (error) {
-    console.error("Error executing GET all query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
@@ -16,19 +17,21 @@ const getPropuestaById = async (req, res) => {
     const result = await propuestaModel.getPropuestaById(id);
     res.json(result);
   } catch (error) {
-    console.error("Error executing GET by ID query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
 const createPropuesta = async (req, res) => {
   const values = Object.values(req.body);
   try {
-    await propuestaModel.createPropuesta(values);
-    res.status(201).send("Propuesta created successfully");
+    const newPropuesta = await propuestaModel.createPropuesta(values);
+    res.status(201).json(newPropuesta);
   } catch (error) {
-    console.error("Error executing POST query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
@@ -37,10 +40,11 @@ const updatePropuesta = async (req, res) => {
   const values = Object.values(req.body);
   try {
     await propuestaModel.updatePropuesta(id, values);
-    res.send("Propuesta updated successfully");
+    res.json(req.body);
   } catch (error) {
-    console.error("Error executing PUT query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
@@ -50,8 +54,9 @@ const deletePropuesta = async (req, res) => {
     await propuestaModel.deletePropuesta(id);
     res.send("Propuesta deleted successfully");
   } catch (error) {
-    console.error("Error executing DELETE query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 

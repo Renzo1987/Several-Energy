@@ -5,8 +5,9 @@ const getAllFranjasCliente = async (req, res) => {
     const result = await franjasClienteModel.getAllFranjasCliente();
     res.json(result.rows);
   } catch (error) {
-    console.error("Error executing GET query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
@@ -14,21 +15,27 @@ const getFranjasClienteById = async (req, res) => {
   const { id } = req.params;
   try {
     const result = await franjasClienteModel.getFranjasClienteById(id);
-    res.json(result.rows);
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: "Client not found" });
+    } else {
+      res.json(result.rows[0]);
+    }
   } catch (error) {
-    console.error("Error executing GET by ID query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
 const createFranjasCliente = async (req, res) => {
   const values = Object.values(req.body);
   try {
-    await franjasClienteModel.createFranjasCliente(values);
-    res.status(201).send("Franjas_Cliente created successfully");
+    const result = await franjasClienteModel.createFranjasCliente(values);
+    res.status(201).json(result);
   } catch (error) {
-    console.error("Error executing POST query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
@@ -37,10 +44,11 @@ const updateFranjasCliente = async (req, res) => {
   const values = Object.values(req.body);
   try {
     await franjasClienteModel.updateFranjasCliente(id, values);
-    res.send("Franjas_Cliente updated successfully");
+    res.json(result);
   } catch (error) {
-    console.error("Error executing PUT query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
@@ -50,8 +58,9 @@ const deleteFranjasCliente = async (req, res) => {
     await franjasClienteModel.deleteFranjasCliente(id);
     res.send("Franjas_Cliente deleted successfully");
   } catch (error) {
-    console.error("Error executing DELETE query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 

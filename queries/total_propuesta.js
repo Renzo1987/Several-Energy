@@ -1,6 +1,5 @@
-const queriesTotalPropuesta= {
-    
-    createTotalPropuesta: `INSERT INTO total_propuesta(
+const queriesTotalPropuesta = {
+  createTotalPropuesta: `INSERT INTO total_propuesta(
                           info_id, 
                           t_con_anual, 
                           t_con_fact_actual, 
@@ -15,14 +14,14 @@ const queriesTotalPropuesta= {
                           )
                           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
                           RETURNING *`,
-  
-    getTotalPropuesta: `SELECT * FROM total_propuesta`,
-  
-    getTotalPropuestaById: `SELECT * 
+
+  getTotalPropuesta: `SELECT * FROM total_propuesta`,
+
+  getTotalPropuestaById: `SELECT * 
                           FROM total_propuesta
                           WHERE total_propuesta_id=$1`,
-  
-    updateTotalPropuesta: `UPDATE total_propuesta
+
+  updateTotalPropuesta: `UPDATE total_propuesta
                           SET 
                           t_con_anual = $2, 
                           t_con_fact_actual = $3, 
@@ -36,8 +35,8 @@ const queriesTotalPropuesta= {
                           ahorro_anual = $11  
                           WHERE total_propuesta_id = $1
                           RETURNING *`,
-  
-    deleteTotalPropuesta: `DELETE FROM total_propuesta WHERE total_propuesta_id = $1;`
-  };
-  
-  module.exports = queriesTotalPropuesta;
+
+  deleteTotalPropuesta: `DELETE FROM total_propuesta WHERE total_propuesta_id = $1;`,
+};
+
+module.exports = queriesTotalPropuesta;

@@ -5,8 +5,9 @@ const getAllTotalesCliente = async (req, res) => {
     const result = await totalesClienteModel.getAllTotalesCliente();
     res.json(result);
   } catch (error) {
-    console.error("Error executing GET query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
@@ -16,31 +17,32 @@ const getTotalesClienteById = async (req, res) => {
     const result = await totalesClienteModel.getTotalesClienteById(id);
     res.json(result);
   } catch (error) {
-    console.error("Error executing GET by ID query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
 const createTotalesCliente = async (req, res) => {
-  const values = Object.values(req.body);
   try {
-    await totalesClienteModel.createTotalesCliente(values);
-    res.status(201).send("Totales_Cliente created successfully");
+    const result = await totalesClienteModel.createTotalesCliente(req.body);
+    res.status(201).json(result);
   } catch (error) {
-    console.error("Error executing POST query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
 const updateTotalesCliente = async (req, res) => {
   const { id } = req.params;
-  const values = Object.values(req.body);
   try {
-    await totalesClienteModel.updateTotalesCliente(id, values);
-    res.send("Totales_Cliente updated successfully");
+    await totalesClienteModel.updateTotalesCliente(id, req.body);
+    res.json({ message: "Totales_Cliente updated successfully" });
   } catch (error) {
-    console.error("Error executing PUT query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 
@@ -48,10 +50,11 @@ const deleteTotalesCliente = async (req, res) => {
   const { id } = req.params;
   try {
     await totalesClienteModel.deleteTotalesCliente(id);
-    res.send("Totales_Cliente deleted successfully");
+    res.json({ message: "Totales_Cliente deleted successfully" });
   } catch (error) {
-    console.error("Error executing DELETE query:", error);
-    res.status(500).send("Internal Server Error");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 

@@ -29,11 +29,9 @@ async function createTotalesCliente(body) {
         total_anual_estimado,
       ]
     );
-
     return result.rows[0];
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw { error: "Internal Server Error", details: error.message };
   }
 }
 
@@ -42,8 +40,7 @@ async function getAllTotalesCliente() {
     const result = await pool.query(totalesClienteQueries.getTotales_Cliente);
     return result.rows;
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw { error: "Internal Server Error", details: error.message };
   }
 }
 
@@ -55,21 +52,19 @@ async function getTotalesClienteById(id) {
     );
     return result.rows[0];
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw { error: "Internal Server Error", details: error.message };
   }
 }
 
-async function updateTotalesCliente(id, values) {
+async function updateTotalesCliente(id, updatedValues) {
   try {
     const result = await pool.query(
       totalesClienteQueries.updateTotales_Cliente,
-      [id, ...values]
+      [id, ...updatedValues]
     );
     return result.rows[0];
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw { error: "Internal Server Error", details: error.message };
   }
 }
 
@@ -81,8 +76,7 @@ async function deleteTotalesCliente(id) {
     );
     return result.rowCount > 0;
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw { error: "Internal Server Error", details: error.message };
   }
 }
 

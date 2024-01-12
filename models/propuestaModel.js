@@ -23,8 +23,11 @@ async function createPropuesta(body) {
 
     return result.rows[0];
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw {
+      status: 500,
+      error: "Internal Server Error",
+      details: error.message,
+    };
   }
 }
 
@@ -33,8 +36,11 @@ async function getAllPropuesta() {
     const result = await pool.query(propuestaQueries.getPropuesta);
     return result.rows;
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw {
+      status: 500,
+      error: "Internal Server Error",
+      details: error.message,
+    };
   }
 }
 
@@ -43,21 +49,40 @@ async function getPropuestaById(id) {
     const result = await pool.query(propuestaQueries.getPropuestaById, [id]);
     return result.rows[0];
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw {
+      status: 500,
+      error: "Internal Server Error",
+      details: error.message,
+    };
   }
 }
 
-async function updatePropuesta(id, values) {
+async function updatePropuesta(
+  id,
+  [
+    franja,
+    total_pago_fact_energia,
+    total_pago_anual_energia,
+    total_pago_fact_potencia,
+    total_pago_anual_potencia,
+  ]
+) {
   try {
     const result = await pool.query(propuestaQueries.updatePropuesta, [
       id,
-      ...values,
+      franja,
+      total_pago_fact_energia,
+      total_pago_anual_energia,
+      total_pago_fact_potencia,
+      total_pago_anual_potencia,
     ]);
     return result.rows[0];
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw {
+      status: 500,
+      error: "Internal Server Error",
+      details: error.message,
+    };
   }
 }
 
@@ -66,8 +91,11 @@ async function deletePropuesta(id) {
     const result = await pool.query(propuestaQueries.deletePropuesta, [id]);
     return result.rowCount > 0;
   } catch (error) {
-    console.error(error);
-    throw error;
+    throw {
+      status: 500,
+      error: "Internal Server Error",
+      details: error.message,
+    };
   }
 }
 
