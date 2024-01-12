@@ -13,7 +13,7 @@ function createData(
   franja,
   consumoAnual,
   consumoFacturaActual,
-  precioMedioAnual,
+  precioMediaAnual,
   precioMesFacturacion,
   descuento
 ) {
@@ -21,7 +21,7 @@ function createData(
     franja,
     consumoAnual,
     consumoFacturaActual,
-    precioMedioAnual,
+    precioMediaAnual,
     precioMesFacturacion,
     descuento,
   };
@@ -47,6 +47,15 @@ const FormEnergy = () => {
   const [rowsData, setRowsData] = useState(rows);
   const [totalesRows, setTotalesRows] = useState(rowsTotales);
 
+  const calculateTotals = (rows) => {
+    return rows.map(row => {
+      let precioConDescuento = row.precioMesFacturacion * (1 - row.descuento / 100);
+      let totalPagoFactura = row.consumoFacturaActual * precioConDescuento;
+      let totalPagoAnual = row.consumoAnual * (row.precioMediaAnual * (1 - row.descuento / 100));
+      return createDataTotales(precioConDescuento, totalPagoFactura, totalPagoAnual);
+    });
+  };
+
   const handleChange = (index, column, value) => {
     const newRows = rowsData.map((row, i) => {
       if (i === index) {
@@ -55,17 +64,9 @@ const FormEnergy = () => {
       return row;
     });
     setRowsData(newRows);
+    setTotalesRows(calculateTotals(newRows))
   };
 
-  const handleTotalesChange = (index, column, value) => {
-    const newTotalesRows = totalesRows.map((row, i) => {
-      if (i === index) {
-        return { ...row, [column]: value };
-      }
-      return row;
-    });
-    setTotalesRows(newTotalesRows);
-  };
 
   return (
     <>
@@ -75,7 +76,7 @@ const FormEnergy = () => {
             <TableRow className="table-row">
               <TableCell className="table-cell">Franja</TableCell>
               <TableCell className="table-cell" align="center">
-                Consumo anual
+                Consumo anual 
               </TableCell>
               <TableCell className="table-cell" align="center">
                 Consumo factura actual
@@ -127,7 +128,7 @@ const FormEnergy = () => {
                     size="small"
                     value={row.precioMedioAnual}
                     onChange={(e) =>
-                      handleChange(index, "precioMedioAnual", e.target.value)
+                      handleChange(index, "precioMediaAnual", e.target.value)
                     }
                   />
                 </TableCell>
