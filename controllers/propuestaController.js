@@ -2,7 +2,7 @@ const propuestaModel = require("../models/propuestaModel");
 
 const getAllPropuestas = async (req, res) => {
   try {
-    const result = await propuestaModel.getAllPropuestas();
+    const result = await propuestaModel.getAllPropuesta();
     res.json(result);
   } catch (error) {
     res
@@ -24,9 +24,8 @@ const getPropuestaById = async (req, res) => {
 };
 
 const createPropuesta = async (req, res) => {
-  const values = Object.values(req.body);
   try {
-    const newPropuesta = await propuestaModel.createPropuesta(values);
+    const newPropuesta = await propuestaModel.createPropuesta(req.body);
     res.status(201).json(newPropuesta);
   } catch (error) {
     res

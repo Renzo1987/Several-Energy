@@ -28,9 +28,9 @@ const getFranjasClienteById = async (req, res) => {
 };
 
 const createFranjasCliente = async (req, res) => {
-  const values = Object.values(req.body);
+
   try {
-    const result = await franjasClienteModel.createFranjasCliente(values);
+    const result = await franjasClienteModel.createFranjasCliente(req.body);
     res.status(201).json(result);
   } catch (error) {
     res

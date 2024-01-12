@@ -1,5 +1,5 @@
 const express = require("express");
-const totalesClienteController = require("../controllers/totalesClienteController"); // Assuming you have a controller for totales_cliente
+const totalesClienteController = require("../controllers/totalesClienteController"); 
 
 const router = express.Router();
 

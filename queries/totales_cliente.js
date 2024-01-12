@@ -1,5 +1,6 @@
 const queriesTotales_Cliente = {
-  createTotales_Cliente: `INSERT INTO totales_cliente (info_id,
+  createTotales_Cliente: `INSERT INTO totales_cliente (
+                        info_id,
                         t_con_anual,
                         t_con_fact_actual,
                         t_pago_fact_energia,
@@ -18,7 +19,8 @@ const queriesTotales_Cliente = {
                           WHERE totales_id=$1`,
 
   updateTotales_Cliente: `UPDATE totales_cliente 
-                        SET t_con_anual = $2, 
+                        SET 
+                        t_con_anual = $2, 
                         t_con_fact_actual = $3, 
                         t_pago_fact_energia = $4, 
                         t_pago_anual_energia = $5, 

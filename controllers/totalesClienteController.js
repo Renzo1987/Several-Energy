@@ -35,7 +35,7 @@ const createTotalesCliente = async (req, res) => {
 };
 
 const updateTotalesCliente = async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
   try {
     await totalesClienteModel.updateTotalesCliente(id, req.body);
     res.json({ message: "Totales_Cliente updated successfully" });
