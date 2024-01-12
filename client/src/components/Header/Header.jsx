@@ -5,13 +5,13 @@ import AuthContext from "../../context/AuthProvider";
 
 const Header = () => {
 
-  // const [auth] = useContext(AuthContext)
+  const { auth } = useContext(AuthContext)
 
   return (
-    <header>
+    <header className={ !auth.asesor ? "offscreen" : "header" }>
       <img className="logo-img" src={logoImg}></img>
       <section className="asesor-info">
-        <h4>¡Hola usuario!</h4>
+        <h4>¡Hola {auth.asesor}!</h4>
         <img src={UserIcon} className="user-icon" alt="" />
       </section>
     </header>

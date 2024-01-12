@@ -45,9 +45,8 @@ const Login = () => {
             setEmail("")
             setPwd("")
             setSuccess(true)
-            setTimeout(() => {
-                navigate("/home")
-            }, 3000);
+            navigate("/home")
+            
         } catch (err) {
             if (!err?.response) {
                 setErrMsg("No Server Response")
@@ -71,13 +70,7 @@ const Login = () => {
             </article>  
             <article id="login-form">
                 <img src={logoSeveral} className='auth-logo' alt="" />
-                {success ? (
-                    <section>
-                        <h2>Usuario auténticado</h2>
-                        <p>Redirigiendo...</p>
-                    </section>
-                ) : (
-                <section>
+                 <section>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h2 className='login-title'>Iniciar sesión</h2>
 
@@ -114,7 +107,6 @@ const Login = () => {
                         </span>
                     </p>
                 </section>
-                )}
             </article>
         </section>
     )
