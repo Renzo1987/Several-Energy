@@ -1,32 +1,71 @@
-const pool = require("../config/db");
-const queriesTotales_Cliente = require("../queries/totales_cliente");
+const pool = require("../config/db_pgsql");
+const totalesClienteQueries = require("../queries/queriesTotales_Cliente");
 
-const createTotalesCliente = async (values) => {
-  return pool.query(queriesTotales_Cliente.createTotales_Cliente, values);
-};
+async function createTotalesCliente(values) {
+  try {
+    const result = await pool.query(
+      totalesClienteQueries.createTotales_Cliente,
+      values
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-const getTotalesCliente = async () => {
-  return pool.query(queriesTotales_Cliente.getTotales_Cliente);
-};
+async function getAllTotalesCliente() {
+  try {
+    const result = await pool.query(totalesClienteQueries.getTotales_Cliente);
+    return result.rows;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-const getTotalesClienteById = async (id) => {
-  return pool.query(queriesTotales_Cliente.getTotales_ClienteById, [id]);
-};
+async function getTotalesClienteById(id) {
+  try {
+    const result = await pool.query(
+      totalesClienteQueries.getTotales_ClienteById,
+      [id]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-const updateTotalesCliente = async (id, values) => {
-  return pool.query(queriesTotales_Cliente.updateTotales_Cliente, [
-    id,
-    ...values,
-  ]);
-};
+async function updateTotalesCliente(id, values) {
+  try {
+    const result = await pool.query(
+      totalesClienteQueries.updateTotales_Cliente,
+      [id, ...values]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-const deleteTotalesCliente = async (id) => {
-  return pool.query(queriesTotales_Cliente.deleteTotales_Cliente, [id]);
-};
+async function deleteTotalesCliente(id) {
+  try {
+    const result = await pool.query(
+      totalesClienteQueries.deleteTotales_Cliente,
+      [id]
+    );
+    return result.rowCount > 0;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 module.exports = {
   createTotalesCliente,
-  getTotalesCliente,
+  getAllTotalesCliente,
   getTotalesClienteById,
   updateTotalesCliente,
   deleteTotalesCliente,

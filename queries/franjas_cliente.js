@@ -21,7 +21,7 @@ const queriesFranjas_Cliente = {
   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
   RETURNING *`,
 
-  getFranjas_cliente: `SELECT * FROM franjas_cliente;`,
+  getFranjas_Cliente: `SELECT * FROM franjas_cliente;`,
 
   getFranjas_ClienteById: `SELECT * FROM franjas_cliente WHERE franjas_id = $1;`,
 

@@ -1,29 +1,62 @@
 const pool = require("../config/db_pgsql");
-const queriesPropuesta = require("../queries/propuesta");
+const propuestaQueries = require("../queries/queriesPropuesta");
 
-const createPropuesta = async (values) => {
-  return pool.query(queriesPropuesta.createPropuesta, values);
-};
+async function createPropuesta(values) {
+  try {
+    const result = await pool.query(propuestaQueries.createPropuesta, values);
+    return result.rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-const getPropuesta = async () => {
-  return pool.query(queriesPropuesta.getPropuesta);
-};
+async function getAllPropuestas() {
+  try {
+    const result = await pool.query(propuestaQueries.getPropuesta);
+    return result.rows;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-const getPropuestaById = async (id) => {
-  return pool.query(queriesPropuesta.getPropuestaById, [id]);
-};
+async function getPropuestaById(id) {
+  try {
+    const result = await pool.query(propuestaQueries.getPropuestaById, [id]);
+    return result.rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-const updatePropuesta = async (id, values) => {
-  return pool.query(queriesPropuesta.updatePropuesta, [id, ...values]);
-};
+async function updatePropuesta(id, values) {
+  try {
+    const result = await pool.query(propuestaQueries.updatePropuesta, [
+      id,
+      ...values,
+    ]);
+    return result.rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-const deletePropuesta = async (id) => {
-  return pool.query(queriesPropuesta.deletePropuesta, [id]);
-};
+async function deletePropuesta(id) {
+  try {
+    const result = await pool.query(propuestaQueries.deletePropuesta, [id]);
+    return result.rowCount > 0;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 module.exports = {
   createPropuesta,
-  getPropuesta,
+  getAllPropuestas,
   getPropuestaById,
   updatePropuesta,
   deletePropuesta,

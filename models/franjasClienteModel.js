@@ -1,32 +1,67 @@
 const pool = require("../config/db_pgsql");
-const queriesFranjas_Cliente = require("../queries/queriesFranjas_Cliente");
+const franjasQueries = require("../queries/queriesFranjas_Cliente");
 
-const createFranjasCliente = async (values) => {
-  return pool.query(queriesFranjas_Cliente.createFranjas_Cliente, values);
-};
+async function createFranjasCliente(values) {
+  try {
+    const result = await pool.query(
+      franjasQueries.createFranjas_Cliente,
+      values
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-const getFranjasCliente = async () => {
-  return pool.query(queriesFranjas_Cliente.getFranjas_cliente);
-};
+async function getAllFranjasCliente() {
+  try {
+    const result = await pool.query(franjasQueries.getFranjas_Cliente);
+    return result.rows;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-const getFranjasClienteById = async (id) => {
-  return pool.query(queriesFranjas_Cliente.getFranjas_ClienteById, [id]);
-};
+async function getFranjasClienteById(id) {
+  try {
+    const result = await pool.query(franjasQueries.getFranjas_ClienteById, [
+      id,
+    ]);
+    return result.rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-const updateFranjasCliente = async (id, values) => {
-  return pool.query(queriesFranjas_Cliente.updateFranjas_Cliente, [
-    id,
-    ...values,
-  ]);
-};
+async function updateFranjasCliente(id, values) {
+  try {
+    const result = await pool.query(franjasQueries.updateFranjas_Cliente, [
+      id,
+      ...values,
+    ]);
+    return result.rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-const deleteFranjasCliente = async (id) => {
-  return pool.query(queriesFranjas_Cliente.deleteFranjas_Cliente, [id]);
-};
+async function deleteFranjasCliente(id) {
+  try {
+    const result = await pool.query(franjasQueries.deleteFranjas_Cliente, [id]);
+    return result.rowCount > 0;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 module.exports = {
   createFranjasCliente,
-  getFranjasCliente,
+  getAllFranjasCliente,
   getFranjasClienteById,
   updateFranjasCliente,
   deleteFranjasCliente,

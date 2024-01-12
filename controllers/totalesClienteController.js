@@ -2,8 +2,8 @@ const totalesClienteModel = require("../models/totalesClienteModel");
 
 const getAllTotalesCliente = async (req, res) => {
   try {
-    const result = await totalesClienteModel.getTotalesCliente();
-    res.json(result.rows);
+    const result = await totalesClienteModel.getAllTotalesCliente();
+    res.json(result);
   } catch (error) {
     console.error("Error executing GET query:", error);
     res.status(500).send("Internal Server Error");
@@ -14,7 +14,7 @@ const getTotalesClienteById = async (req, res) => {
   const { id } = req.params;
   try {
     const result = await totalesClienteModel.getTotalesClienteById(id);
-    res.json(result.rows);
+    res.json(result);
   } catch (error) {
     console.error("Error executing GET by ID query:", error);
     res.status(500).send("Internal Server Error");
