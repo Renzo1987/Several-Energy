@@ -73,11 +73,8 @@ const Login = () => {
                 <img src={logoSeveral} className='auth-logo' alt="" />
                 {success ? (
                     <section>
-                        <h1>You are logged in!</h1>
-                        <br />
-                        <p>
-                            <a href="#">Go to Home</a>
-                        </p>
+                        <h2>Usuario auténticado</h2>
+                        <p>Redirigiendo...</p>
                     </section>
                 ) : (
                 <section>
@@ -109,7 +106,7 @@ const Login = () => {
                         <button disabled={ !email || !pwd ? true : false }>Iniciar sesión</button>
                     </form>
                     <p className="align-start">
-                        ¿Eres nuevo? 
+                        ¿Eres un nuevo colaborador? 
                         <span className='line'>
                             <Link to="/register">
                                 <a href="#">Crear cuenta</a>

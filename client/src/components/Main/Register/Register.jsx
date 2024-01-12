@@ -116,12 +116,11 @@ const Register = () => {
             <article id="register-form">
                 {success ? (
                     <section className="signup-section">
-                        <h1>Success!</h1>
-                        <p>
+                        <h2 className="success-title">Solicitud de creación de cuenta enviada</h2>
+                        <p className="success-p">Tu solicitud será revisada por un administrador lo antes posible. Recibirás un mensaje en tu correo electrónico cuando haya sido aprobada.</p>
                         <Link to="/login">
-                            <a href="#">Sign In</a>
+                             <button className="success-btn">Volver al Inicio</button>
                         </Link>
-                        </p>
                     </section>
                 ) : (
                     <section className="signup-section">

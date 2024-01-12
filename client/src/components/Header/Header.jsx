@@ -9,10 +9,11 @@ const Header = () => {
 
   return (
     <header>
-      {/* <img src={logoImg}></img>
+      <img className="logo-img" src={logoImg}></img>
       <section className="asesor-info">
-        <img src={UserIcon} alt="" />
-      </section> */}
+        <h4>¡Hola usuario!</h4>
+        <img src={UserIcon} className="user-icon" alt="" />
+      </section>
     </header>
   )
 };
