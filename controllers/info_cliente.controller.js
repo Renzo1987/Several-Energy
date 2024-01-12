@@ -11,7 +11,7 @@ async function getAllInfoClienteController(req, res) {
   
   async function getInfoClienteByIdController(req, res) {
     try {
-      const id = req.params.info_id;
+      const id = req.params.id;
       const data = await info_cliente.getInfoClienteById(id);
       if (data) {
         res.json(data);
@@ -34,13 +34,15 @@ async function getAllInfoClienteController(req, res) {
   
   async function updateInfoClienteController(req, res) {
     try {
-      const id = req.params.info_id;
+      const id = req.params.id;
       const updatedData = await info_cliente.updateInfoCliente(id, req.body);
       if (updatedData) {
+        
         res.status(200).json(updatedData);
       } else {
         res.status(404).json({ error: 'Datos not found' });
       }
+  
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -48,7 +50,7 @@ async function getAllInfoClienteController(req, res) {
   
   async function deleteInfoClienteController(req, res) {
     try {
-      const id = req.params.info_id;
+      const id = req.params.id;
       const exito = await info_cliente.deleteInfoCliente(id);
       if (exito) {
         res.status(200).json({ message: 'Datos_Cliente deleted successfully' });

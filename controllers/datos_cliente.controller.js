@@ -11,7 +11,7 @@ async function getAllDatosClienteController(req, res) {
   
   async function getDatosClienteByIdController(req, res) {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.id;
       const data = await datos_cliente.getDatosClienteById(id);
       if (data) {
         res.json(data);

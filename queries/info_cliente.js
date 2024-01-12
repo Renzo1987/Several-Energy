@@ -16,10 +16,12 @@ const queriesInfo_Cliente = {
                         WHERE info_id=$1`,
 
   updateInfo_Cliente: `UPDATE info_cliente 
-                        SET titular = $2, 
-                        direccion = $3, 
-                        cup = $4, 
-                        comp_actual = $5 
+                        SET 
+                        usuario_id=$2,
+                        titular = $3, 
+                        direccion = $4, 
+                        cup = $5, 
+                        comp_actual = $6 
                         WHERE info_id = $1
                         RETURNING *`,
 

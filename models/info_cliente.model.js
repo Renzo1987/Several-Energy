@@ -43,13 +43,14 @@ async function getInfoClienteById(info_id) {
 async function updateInfoCliente(info_id, body) {
   try {
     const { 
+      usuario_id,
       titular, 
       direccion, 
       cup, 
       comp_actual} = body
     const result = await pool.query(
       queriesInfo_Cliente.updateInfo_Cliente,
-      [titular, direccion, cup, comp_actual, info_id]
+      [info_id, usuario_id, titular, direccion, cup, comp_actual] 
     );
     return result.rows[0];
   } catch (error) {
