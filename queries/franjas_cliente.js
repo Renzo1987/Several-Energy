@@ -1,4 +1,3 @@
-// queriesFranjas_Cliente.js
 const queriesFranjas_Cliente = {
   createFranjas_Cliente: `INSERT INTO franjas_cliente (
     info_id, 
