@@ -11,7 +11,6 @@ const datos_clienteRoutes = require("./routes/datos_cliente.routes");
 const info_clienteRoutes = require("./routes/info_cliente.routes");
 const total_propuestaRoutes = require("./routes/total_propuesta.routes");
 
-const usersRoutes = require("./routes/users.routes");
 const franjasUserRoutes = require("./routes/franja_cliente.routes");
 const propuestaRoutes = require("./routes/propuesta.routes");
 const totales_clienteRoutes = require("./routes/totales_cliente.routes");

@@ -1,5 +1,5 @@
 const pool = require("../config/db_pgsql");
-const franjasQueries = require("../queries/queriesFranjas_Cliente");
+const franjasQueries = require("../queries/franjas_cliente");
 
 async function createFranjasCliente(body) {
   try {

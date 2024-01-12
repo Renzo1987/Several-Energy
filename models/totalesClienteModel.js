@@ -1,5 +1,5 @@
 const pool = require("../config/db_pgsql");
-const totalesClienteQueries = require("../queries/queriesTotales_Cliente");
+const totalesClienteQueries = require("../queries/totales_cliente");
 
 async function createTotalesCliente(body) {
   try {

@@ -1,5 +1,5 @@
 const pool = require("../config/db_pgsql");
-const propuestaQueries = require("../queries/queriesPropuesta");
+const propuestaQueries = require("../queries/propuesta");
 
 async function createPropuesta(body) {
   try {
