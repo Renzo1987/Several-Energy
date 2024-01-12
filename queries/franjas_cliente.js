@@ -47,7 +47,11 @@ SET
 WHERE franjas_id = $1
 RETURNING *`,
 
-  deleteFranjas_Cliente: `DELETE FROM franjas_cliente WHERE franjas_id = $1;`,
-};
+WHERE franjas_id = $1
+RETURNING *`,
+
+deleteFranjas_Cliente:`DELETE FROM franjas_cliente WHERE franjas_id = $1;`
+}
+
 
 module.exports = queriesFranjas_Cliente;

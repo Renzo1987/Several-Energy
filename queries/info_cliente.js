@@ -6,7 +6,8 @@ const queriesInfo_Cliente = {
                         direccion, 
                         cup, 
                         comp_actual) 
-                        VALUES ($1, $2, $3, $4, $5);`,
+                        VALUES ($1, $2, $3, $4, $5)
+                        RETURNING *`,
 
   getInfo_Cliente: `SELECT * FROM info_cliente`,
 
@@ -19,7 +20,8 @@ const queriesInfo_Cliente = {
                         direccion = $3, 
                         cup = $4, 
                         comp_actual = $5 
-                        WHERE info_id = $1;`,
+                        WHERE info_id = $1
+                        RETURNING *`,
 
   deleteInfo_Cliente: `DELETE FROM info_cliente WHERE info_id = $1;`
 };

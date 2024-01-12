@@ -1,11 +1,16 @@
 const express = require("express");
-const session = require("express-session");
-const morgan = require("./middlewares/morgan");
-const cors = require("cors");
-const corsOptions = require("./config/cors_options");
-const path = require("path");
+const session = require('express-session');
+const morgan = require('./middlewares/morgan');
+const cors = require('cors');
+const corsOptions = require('./config/cors_options');
+const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const usersRoutes = require("./routes/users.routes");
+const datos_clienteRoutes = require("./routes/datos_cliente.routes");
+const info_clienteRoutes = require("./routes/info_cliente.routes")
+const total_propuestaRoutes = require("./routes/total_propuesta.routes")
+
 
 const usersRoutes = require("./routes/users.routes");
 const franjasUserRoutes = require("./routes/franja_cliente.routes");
@@ -22,7 +27,11 @@ app.get("/", (req, res) => {
 });
 
 //Routes
-app.use("/api/", usersRoutes);
+app.use('/api/', usersRoutes);
+app.use('/api/', datos_clienteRoutes);
+app.use('/api/', info_clienteRoutes);
+app.use('/api/', total_propuestaRoutes);
+
 
 app.all("*", (req, res) => {
   res.status(404).send("404 - Page not found");

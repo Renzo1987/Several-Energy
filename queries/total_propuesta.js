@@ -13,7 +13,8 @@ const queriesTotalPropuesta= {
                           ahorro_fact_actual,
                           ahorro_anual                         
                           )
-                          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`,
+                          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+                          RETURNING *`,
   
     getTotalPropuesta: `SELECT * FROM total_propuesta`,
   
@@ -33,7 +34,8 @@ const queriesTotalPropuesta= {
                           total_anual_estimado = $9,
                           ahorro_fact_actual = $10,
                           ahorro_anual = $11  
-                          WHERE total_propuesta_id = $1;`,
+                          WHERE total_propuesta_id = $1
+                          RETURNING *`,
   
     deleteTotalPropuesta: `DELETE FROM total_propuesta WHERE total_propuesta_id = $1;`
   };
