@@ -1,11 +1,49 @@
 const pool = require("../config/db_pgsql");
 const franjasQueries = require("../queries/queriesFranjas_Cliente");
 
-async function createFranjasCliente(values) {
+async function createFranjasCliente(body) {
   try {
+    const {
+      info_id,
+      franja,
+      con_anual,
+      con_fact_actual,
+      pre_ener_act_me,
+      pre_ener_act_mes_fact,
+      descuento_energia,
+      pre_desc_energia,
+      total_pago_fact_energia,
+      total_pago_anual_energia,
+      pot_cont,
+      pot_fact,
+      precio_pot,
+      descuento_potencia,
+      pre_desc_pot,
+      total_pago_fact_potencia,
+      total_pago_anual_potencia,
+    } = body;
+
     const result = await pool.query(
-      franjasQueries.createFranjas_Cliente,
-      values
+      queriesFranjas_Cliente.createFranjas_Cliente,
+      [
+        info_id,
+        franja,
+        con_anual,
+        con_fact_actual,
+        pre_ener_act_me,
+        pre_ener_act_mes_fact,
+        descuento_energia,
+        pre_desc_energia,
+        total_pago_fact_energia,
+        total_pago_anual_energia,
+        pot_cont,
+        pot_fact,
+        precio_pot,
+        descuento_potencia,
+        pre_desc_pot,
+        total_pago_fact_potencia,
+        total_pago_anual_potencia,
+      ]
     );
     return result.rows[0];
   } catch (error) {
@@ -13,7 +51,6 @@ async function createFranjasCliente(values) {
     throw error;
   }
 }
-
 async function getAllFranjasCliente() {
   try {
     const result = await pool.query(franjasQueries.getFranjas_Cliente);

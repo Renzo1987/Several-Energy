@@ -1,12 +1,35 @@
 const pool = require("../config/db_pgsql");
 const totalesClienteQueries = require("../queries/queriesTotales_Cliente");
 
-async function createTotalesCliente(values) {
+async function createTotalesCliente(body) {
   try {
+    const {
+      info_id,
+      t_con_anual,
+      t_con_fact_actual,
+      t_pago_fact_energia,
+      t_pago_anual_energia,
+      t_pago_fact_potencia,
+      t_pago_anual_potencia,
+      importe_total_factura,
+      total_anual_estimado,
+    } = body;
+
     const result = await pool.query(
       totalesClienteQueries.createTotales_Cliente,
-      values
+      [
+        info_id,
+        t_con_anual,
+        t_con_fact_actual,
+        t_pago_fact_energia,
+        t_pago_anual_energia,
+        t_pago_fact_potencia,
+        t_pago_anual_potencia,
+        importe_total_factura,
+        total_anual_estimado,
+      ]
     );
+
     return result.rows[0];
   } catch (error) {
     console.error(error);

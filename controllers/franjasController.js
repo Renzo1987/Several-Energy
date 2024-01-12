@@ -2,7 +2,7 @@ const franjasClienteModel = require("../models/franjasClienteModel");
 
 const getAllFranjasCliente = async (req, res) => {
   try {
-    const result = await franjasClienteModel.getFranjasCliente();
+    const result = await franjasClienteModel.getAllFranjasCliente();
     res.json(result.rows);
   } catch (error) {
     console.error("Error executing GET query:", error);

@@ -1,9 +1,26 @@
 const pool = require("../config/db_pgsql");
 const propuestaQueries = require("../queries/queriesPropuesta");
 
-async function createPropuesta(values) {
+async function createPropuesta(body) {
   try {
-    const result = await pool.query(propuestaQueries.createPropuesta, values);
+    const {
+      info_id,
+      franja,
+      total_pago_fact_energia,
+      total_pago_anual_energia,
+      total_pago_fact_potencia,
+      total_pago_anual_potencia,
+    } = body;
+
+    const result = await pool.query(propuestaQueries.createPropuesta, [
+      info_id,
+      franja,
+      total_pago_fact_energia,
+      total_pago_anual_energia,
+      total_pago_fact_potencia,
+      total_pago_anual_potencia,
+    ]);
+
     return result.rows[0];
   } catch (error) {
     console.error(error);
@@ -11,7 +28,7 @@ async function createPropuesta(values) {
   }
 }
 
-async function getAllPropuestas() {
+async function getAllPropuesta() {
   try {
     const result = await pool.query(propuestaQueries.getPropuesta);
     return result.rows;
@@ -56,7 +73,7 @@ async function deletePropuesta(id) {
 
 module.exports = {
   createPropuesta,
-  getAllPropuestas,
+  getAllPropuesta,
   getPropuestaById,
   updatePropuesta,
   deletePropuesta,

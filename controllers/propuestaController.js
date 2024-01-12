@@ -1,5 +1,15 @@
 const propuestaModel = require("../models/propuestaModel");
 
+const getAllPropuestas = async (req, res) => {
+  try {
+    const result = await propuestaModel.getAllPropuestas();
+    res.json(result);
+  } catch (error) {
+    console.error("Error executing GET all query:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const getPropuestaById = async (req, res) => {
   const { id } = req.params;
   try {
