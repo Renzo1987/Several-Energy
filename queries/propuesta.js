@@ -1,6 +1,5 @@
-const queriesPropuesta= {
-    
-    createPropuesta: `INSERT INTO propuesta(
+const queriesPropuesta = {
+  createPropuesta: `INSERT INTO propuesta(
                           info_id, 
                           franja, 
                           total_pago_fact_energia, 
@@ -15,8 +14,8 @@ const queriesPropuesta= {
     getPropuestaById: `SELECT * 
                           FROM propuesta
                           WHERE propuesta_id=$1`,
-  
-    updatePropuesta: `UPDATE propuesta
+
+  updatePropuesta: `UPDATE propuesta
                           SET franja = $2, 
                           total_pago_fact_energia = $3, 
                           total_pago_anual_energia = $4,

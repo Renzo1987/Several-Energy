@@ -1,6 +1,6 @@
-const queriesFranjas_Cliente= {
-
-createFranjas_Cliente:`INSERT INTO franjas_cliente (
+// queriesFranjas_Cliente.js
+const queriesFranjas_Cliente = {
+  createFranjas_Cliente: `INSERT INTO franjas_cliente (
     info_id, 
     franja, 
     con_anual, 
@@ -22,11 +22,11 @@ createFranjas_Cliente:`INSERT INTO franjas_cliente (
   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
   RETURNING *`,
 
-getFranjas_cliente:`SELECT * FROM franjas_cliente;`,
+  getFranjas_cliente: `SELECT * FROM franjas_cliente;`,
 
-getFranjas_ClienteById:`SELECT * FROM franjas_cliente WHERE franjas_id = $1;`,
+  getFranjas_ClienteById: `SELECT * FROM franjas_cliente WHERE franjas_id = $1;`,
 
-updateFranjas_Cliente:`UPDATE franjas_cliente 
+  updateFranjas_Cliente: `UPDATE franjas_cliente 
 SET 
   franja = $2, 
   con_anual = $3, 
@@ -44,6 +44,8 @@ SET
   pre_desc_pot = $15,
   total_pago_fact_potencia = $16,
   total_pago_anual_potencia = $17
+WHERE franjas_id = $1
+RETURNING *`,
 
 WHERE franjas_id = $1
 RETURNING *`,
@@ -51,4 +53,5 @@ RETURNING *`,
 deleteFranjas_Cliente:`DELETE FROM franjas_cliente WHERE franjas_id = $1;`
 }
 
-module.exports= queriesFranjas_Cliente
+
+module.exports = queriesFranjas_Cliente;
