@@ -11,7 +11,7 @@ async function getAllInfoClienteController(req, res) {
   
   async function getInfoClienteByIdController(req, res) {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.info_id;
       const data = await info_cliente.getInfoClienteById(id);
       if (data) {
         res.json(data);
@@ -34,7 +34,7 @@ async function getAllInfoClienteController(req, res) {
   
   async function updateInfoClienteController(req, res) {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.info_id;
       const updatedData = await info_cliente.updateInfoCliente(id, req.body);
       if (updatedData) {
         res.status(200).json(updatedData);
@@ -48,7 +48,7 @@ async function getAllInfoClienteController(req, res) {
   
   async function deleteInfoClienteController(req, res) {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.info_id;
       const exito = await info_cliente.deleteInfoCliente(id);
       if (exito) {
         res.status(200).json({ message: 'Datos_Cliente deleted successfully' });

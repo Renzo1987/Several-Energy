@@ -24,7 +24,7 @@ async function createFranjasCliente(body) {
     } = body;
 
     const result = await pool.query(
-      queriesFranjas_Cliente.createFranjas_Cliente,
+      franjasQueries.createFranjas_Cliente,
       [
         info_id,
         franja,
