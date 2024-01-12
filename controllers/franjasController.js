@@ -12,14 +12,15 @@ const getAllFranjasCliente = async (req, res) => {
 };
 
 const getFranjasClienteById = async (req, res) => {
-  const { id } = req.params;
+  const id  = req.params.id
   try {
     const result = await franjasClienteModel.getFranjasClienteById(id);
-    if (result.rows.length === 0) {
-      res.status(404).json({ error: "Client not found" });
-    } else {
-      res.json(result.rows[0]);
-    }
+    // if (result.rows.length === 0) {
+    //   res.status(404).json({ error: "Client not found" });
+    // } else {
+    //   res.json(result.rows[0]);
+    // }
+    res.json(result.rows[0]);
   } catch (error) {
     res
       .status(500)
