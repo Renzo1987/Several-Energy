@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useInfoCliente } from "../../../../../context/InfoClienteProvider";
-import axios from "axios";
+import axios from "../../../../../api/axios";
+const POST_URL = "api/infocliente"
 
 const FormClient = () => {
+
+  const navigate = useNavigate()
   const [infoData, setInfoData] = useState({
     titular: "",
     direccion: "",
@@ -12,19 +15,21 @@ const FormClient = () => {
 
   const { infoClienteState } = useInfoCliente();
 
-
   const postInfoCliente = async () => {
+    const asesorData = await axios.get(`api/infocliente/obtenerasesor/${infoData.titular}`)
+    console.log(asesorData.data)
+
     const infoCliente = {
       ...infoData,
       cup: infoClienteState.cup,
-      usuario_id: 1, 
+      asesor_id: asesorData.data.usuario_id, 
     };
   
     try {
-      const response = await axios.post( "http://localhost:3000/api/infocliente", infoCliente
+      const response = await axios.post(POST_URL, infoCliente
       );
       console.log(response);
-      navigate("/energy"); 
+      // navigate("/energy"); 
     } catch (error) {
       console.error("Hubo un error al enviar los datos", error);
     }
@@ -41,38 +46,41 @@ const FormClient = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <label htmlFor="titular">Nombre y apellidos</label>
       <input
         type="text"
         name="titular"
-        placeholder="Nombre y apellido"
         value={infoData.titular}
         onChange={handleChange}
         pattern="[a-zA-Z\s]+"
         title="Solo letras son permitidos."
       />
+      <label htmlFor="direccion">Dirección</label>
       <input
         type="text"
         name="direccion"
-        placeholder="Dirección"
         value={infoData.direccion}
         onChange={handleChange}
         pattern="[a-zA-Z0-9\s]+"
         title="Solo letras y números son permitidos."
         required
       />
+      <label htmlFor="comp_actual">Compañía actual</label>
       <input
         type="text"
         name="comp_actual"
-        placeholder="Compañía actual"
         value={infoData.comp_actual}
         onChange={handleChange}
         pattern="[a-zA-Z0-9\s]+"
         title="Solo letras y números son permitidos."
         required
       /> 
-      <Link to="/energy">
-      <button type="submit">Continuar</button>
-      </Link>
+      <article className="navigation-sct">
+        <Link to="/cups">
+          <button className="back-btn">Atrás</button>
+        </Link>
+          <button type="submit" disabled={!infoData.titular || !infoData.direccion || !infoData.comp_actual ? true : false} className="continue-btn">Continuar</button>
+      </article>
     </form>
   );
 };

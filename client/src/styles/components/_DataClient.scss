@@ -1,0 +1,27 @@
+#client-data-sct {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    height: 100%;
+    width: 100%;
+
+    form, h1 {
+        width: 70%;
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        input {
+            margin-bottom: 20px;
+            background-color: #E6E6E6;
+            border: none;
+        }
+
+        .navigation-sct {
+            width: 100%;
+        }
+    }
+}
