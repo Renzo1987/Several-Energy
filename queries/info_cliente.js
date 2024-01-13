@@ -15,6 +15,10 @@ const queriesInfo_Cliente = {
                         FROM info_cliente
                         WHERE info_id=$1`,
 
+  getAsesorByName: `SELECT usuario_id
+                        FROM info_cliente
+                        WHERE titular=$1`,
+
   updateInfo_Cliente: `UPDATE info_cliente 
                         SET 
                         usuario_id=$2,

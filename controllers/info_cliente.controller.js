@@ -22,6 +22,20 @@ async function getAllInfoClienteController(req, res) {
       res.status(500).json({ error: error.message });
     }
   }
+
+  async function getUserIDByClientName(req, res) {
+    try {
+      const name = req.params.name;
+      const data = await info_cliente.getAsesorByName(name);
+      if (data) {
+        res.json(data);
+      } else {
+        res.status(404).json({ error: 'Datos not found' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
   
   async function createInfoClienteController(req, res) {
     try { 
@@ -64,6 +78,7 @@ async function getAllInfoClienteController(req, res) {
   
   module.exports = {getAllInfoClienteController,
     getInfoClienteByIdController,
+    getUserIDByClientName,
     createInfoClienteController,
     updateInfoClienteController,
     deleteInfoClienteController

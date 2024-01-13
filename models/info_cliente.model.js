@@ -28,6 +28,16 @@ async function getInfoCliente() {
     }
   }
 
+async function getAsesorByName(name) {
+  try {
+    const result = await pool.query(queriesInfo_Cliente.getAsesorByName, [name]);
+    return result.rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 async function getInfoClienteById(info_id) {
   try {
     const result = await pool.query(queriesInfo_Cliente.getInfo_ClienteById, [info_id]);
@@ -73,6 +83,7 @@ module.exports ={
   createInfoCliente,
   getInfoCliente,
   getInfoClienteById,
+  getAsesorByName,
   updateInfoCliente,
   deleteInfoCliente
 }
