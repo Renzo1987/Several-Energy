@@ -1,14 +1,16 @@
 import React from "react";
 
-const FormCups = () => {
-  return <>
-  <form>
-    <label>Escribir CUPS</label>
-    <input type="text"/>
-    <input type="submit" value="Continuar"/>
-    <button>Atrás</button>
-  </form>
-  </>;
+const FormCups = ({ cups, setCups }) => {
+  return (
+    <form>
+      <label>Escribir CUPS</label>
+      <input
+        type="text"
+        value={cups}
+        onChange={(e) => setCups(e.target.value)}
+      />
+    </form>
+  );
 };
 
 export default FormCups;
