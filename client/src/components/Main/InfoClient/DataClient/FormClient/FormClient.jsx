@@ -1,7 +1,7 @@
-import { useState, useContext } from "react";
-import axios from "../../../../../api/axios";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useInfoCliente } from "../../../../../context/InfoClienteProvider";
+import axios from "axios";
 
 const FormClient = () => {
   const [infoData, setInfoData] = useState({
@@ -10,30 +10,21 @@ const FormClient = () => {
     comp_actual: "",
   });
 
-  const { infoClienteState, createInfoCliente } = useInfoCliente();
+  const { infoClienteState } = useInfoCliente();
 
-  const navigate = useNavigate();
 
   const postInfoCliente = async () => {
     const infoCliente = {
       ...infoData,
-      cups: infoClienteState.cup,
-      usuario_id: "", //pendiente authprovider?
+      cup: infoClienteState.cup,
+      usuario_id: 1, 
     };
-
+  
     try {
-      const response = await axios.post(
-        "/api/infocliente",
-        createInfoCliente(
-          infoCliente.usuario_id,
-          infoCliente.titular,
-          infoCliente.direccion,
-          infoCliente.cups,
-          infoCliente.comp_actual
-        )
+      const response = await axios.post( "http://localhost:3000/api/infocliente", infoCliente
       );
-      console.log(response.data);
-      navigate("/energy");
+      console.log(response);
+      navigate("/energy"); 
     } catch (error) {
       console.error("Hubo un error al enviar los datos", error);
     }
@@ -78,8 +69,10 @@ const FormClient = () => {
         pattern="[a-zA-Z0-9\s]+"
         title="Solo letras y números son permitidos."
         required
-      />
+      /> 
+      <Link to="/energy">
       <button type="submit">Continuar</button>
+      </Link>
     </form>
   );
 };

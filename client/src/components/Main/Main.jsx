@@ -5,6 +5,8 @@ import Cups from "./InfoClient/Cups";
 import DataClient from "./InfoClient/DataClient";
 import Login from "./Login";
 import Register from "./Register";
+import Energy from "./Invoice/Energy"
+import Power from "./Invoice/Power";
 
 const Main = () => {
   return (
@@ -13,6 +15,10 @@ const Main = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/cups" element={<Cups />} />
         <Route path="/client" element={<DataClient />} />
+        <Route path="/energy" element={<Energy />} />
+        <Route path="/power" element={<Power />} />
+        <Route path="/other"/>
+        <Route path="/proposal" />
         <Route path='/' element={<Login />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
