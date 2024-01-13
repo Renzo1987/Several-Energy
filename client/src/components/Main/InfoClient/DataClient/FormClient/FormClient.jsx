@@ -17,12 +17,21 @@ const FormClient = () => {
   const postInfoCliente = async () => {
     const infoCliente = {
       ...infoData,
-      cups: infoClienteState.cup,        
-      usuario_id:"" 
+      cups: infoClienteState.cup,
+      usuario_id: "", //pendiente authprovider?
     };
 
     try {
-      const response = await axios.post("/api/infocliente", infoCliente);
+      const response = await axios.post(
+        "/api/infocliente",
+        createInfoCliente(
+          infoCliente.usuario_id,
+          infoCliente.titular,
+          infoCliente.direccion,
+          infoCliente.cups,
+          infoCliente.comp_actual
+        )
+      );
       console.log(response.data);
       navigate("/energy");
     } catch (error) {
