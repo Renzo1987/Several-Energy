@@ -2,8 +2,8 @@ const franjasClienteModel = require("../models/franjasClienteModel");
 
 const getAllFranjasCliente = async (req, res) => {
   try {
-    const result = await franjasClienteModel.getAllFranjasCliente();
-    res.json(result.rows);
+    const data = await franjasClienteModel.getAllFranjasCliente();
+    res.status(200).json(data);
   } catch (error) {
     res
       .status(500)
@@ -14,13 +14,13 @@ const getAllFranjasCliente = async (req, res) => {
 const getFranjasClienteById = async (req, res) => {
   const id  = req.params.id
   try {
-    const result = await franjasClienteModel.getFranjasClienteById(id);
-    // if (result.rows.length === 0) {
-    //   res.status(404).json({ error: "Client not found" });
-    // } else {
-    //   res.json(result.rows[0]);
-    // }
-    res.json(result.rows[0]);
+    const id = req.params.id;
+    const data = await franjasClienteModel.getFranjasClienteById(id);
+    if (data) {
+      res.json(data);
+    } else {
+      res.status(404).json({ error: 'Datos not found' });
+    }
   } catch (error) {
     res
       .status(500)
@@ -41,11 +41,14 @@ const createFranjasCliente = async (req, res) => {
 };
 
 const updateFranjasCliente = async (req, res) => {
-  const { id } = req.params;
-  const values = Object.values(req.body);
-  try {
-    await franjasClienteModel.updateFranjasCliente(id, values);
-    res.json(result);
+try {
+    const id = req.params.id;
+    const updatedData = await franjasClienteModel.updateFranjasCliente(id, req.body);
+    if (updatedData) {      
+      res.status(200).json(updatedData);
+    } else {
+      res.status(404).json({ error: 'Franjas not found' });
+    }
   } catch (error) {
     res
       .status(500)

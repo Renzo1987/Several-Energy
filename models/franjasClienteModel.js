@@ -68,11 +68,48 @@ async function getFranjasClienteById(id) {
   }
 }
 
-async function updateFranjasCliente(id, updatedValues) {
+async function updateFranjasCliente(id, body) {
   try {
+
+    const {
+      franja,
+      con_anual,
+      con_fact_actual,
+      pre_ener_act_me,
+      pre_ener_act_mes_fact,
+      descuento_energia,
+      pre_desc_energia,
+      total_pago_fact_energia,
+      total_pago_anual_energia,
+      pot_cont,
+      pot_fact,
+      precio_pot,
+      descuento_potencia,
+      pre_desc_pot,
+      total_pago_fact_potencia,
+      total_pago_anual_potencia,
+    } = body;
+
+
+
+
     const result = await pool.query(franjasQueries.updateFranjas_Cliente, [
-      id,
-      ...updatedValues.slice(1),
+      franja,
+      con_anual,
+      con_fact_actual,
+      pre_ener_act_me,
+      pre_ener_act_mes_fact,
+      descuento_energia,
+      pre_desc_energia,
+      total_pago_fact_energia,
+      total_pago_anual_energia,
+      pot_cont,
+      pot_fact,
+      precio_pot,
+      descuento_potencia,
+      pre_desc_pot,
+      total_pago_fact_potencia,
+      total_pago_anual_potencia, id
     ]);
     return result.rows[0];
   } catch (error) {
