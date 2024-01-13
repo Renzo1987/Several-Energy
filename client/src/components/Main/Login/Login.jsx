@@ -98,6 +98,7 @@ const Login = () => {
                         <a href="#" className='align-start login-a'>¿Has olvidado tu contraseña?</a>
                         <button disabled={ !email || !pwd ? true : false }>Iniciar sesión</button>
                     </form>
+                    
                     <p className="align-start">
                         ¿Eres un nuevo colaborador? 
                         <span className='line'>
