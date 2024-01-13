@@ -1,7 +1,14 @@
-import React from "react";
+import React from 'react';
+import TablePower from './TablePower';
+import "./Power.css"
 
 const Power = () => {
-  return <div>Power</div>;
+  return (
+    <div>
+      <h2 className="title_power">Potencia</h2>
+      <TablePower />
+    </div>
+  );
 };
 
 export default Power;
