@@ -21,7 +21,8 @@ const Cups = () => {
       <Link to="/client">
         <button onClick={handleContinue}>Continuar</button>
       </Link>
-      <Link to="/#">No tengo el CUPS</Link> // aquí no sé si va a vista a "/client" pero contemplando sin CUPS
+      <Link to="/#">No tengo el CUPS</Link> 
+      {/* {aquí no sé si va a vista a "/client" pero contemplando sin CUPS} */}
     </>
   );
 };
