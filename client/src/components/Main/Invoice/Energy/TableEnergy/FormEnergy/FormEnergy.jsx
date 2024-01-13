@@ -11,23 +11,23 @@ import TableRow from "@mui/material/TableRow";
 import { useFranjasContext } from "../../../../../../context/FranjasProvider"; 
 
 
-function createData(
-  franja,
-  consumoAnual,
-  consumoFacturaActual,
-  precioMediaAnual,
-  precioMesFacturacion,
-  descuento
-) {
-  return {
-    franja,
-    consumoAnual,
-    consumoFacturaActual,
-    precioMediaAnual,
-    precioMesFacturacion,
-    descuento,
-  };
-}
+// function createData(
+//   franja,
+//   consumoAnual,
+//   consumoFacturaActual,
+//   precioMediaAnual,
+//   precioMesFacturacion,
+//   descuento
+// ) {
+//   return {
+//     franja,
+//     consumoAnual,
+//     consumoFacturaActual,
+//     precioMediaAnual,
+//     precioMesFacturacion,
+//     descuento,
+//   };
+// }
 
 function createDataTotales(precioDescuento, totalPagoFactura, totalPagoAnual) {
   return { precioDescuento, totalPagoFactura, totalPagoAnual };
@@ -35,14 +35,11 @@ function createDataTotales(precioDescuento, totalPagoFactura, totalPagoAnual) {
 
 const FormEnergy = () => {
 
-  const { rows, setRows, rowsTotales, setRowsTotales } = useFranjasContext();
-
-
-
+  const { rowsEnergy, setRowsEnergy, rowsEnergyTotales, setRowsEnergyTotales } = useFranjasContext();
  
 
-  const calculateTotals = (rows) => {
-    return rows.map(row => {
+  const calculateTotals = (rowsEnergy) => {
+    return rowsEnergy.map(row => {
       let precioConDescuento = row.precioMesFacturacion * (1 - row.descuento / 100);
       let totalPagoFactura = row.consumoFacturaActual * precioConDescuento;
       let totalPagoAnual = row.consumoAnual * (row.precioMediaAnual * (1 - row.descuento / 100));
@@ -51,12 +48,12 @@ const FormEnergy = () => {
   };
 
   useEffect(() => {
-    const newTotalesRows = calculateTotals(rows);
-    setRowsTotales(newTotalesRows);
-  }, [rows, setRowsTotales]);
+    const newTotalesRows = calculateTotals(rowsEnergy);
+    setRowsEnergyTotales(newTotalesRows);
+  }, [rowsEnergy]);
 
   const handleChange = (index, column, value) => {
-    setRows(prevRows => {
+    setRowsEnergy(prevRows => {
       const newRows = [...prevRows];
       const updatedRow = { ...newRows[index], [column]: value };
       newRows[index] = updatedRow;
@@ -90,10 +87,10 @@ const FormEnergy = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {rowsEnergy.map((row, index) => (
               <TableRow
                 sx={{ "& > *": { border: "unset", padding: "6px 10px" } }}
-                key={row.franja}
+                key={rowsEnergy.franja}
               >
                 <TableCell component="th" scope="row">
                   {row.franja}
@@ -176,7 +173,7 @@ const FormEnergy = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rowsTotales.map((row, index) => (
+              {rowsEnergyTotales.map((row, index) => (
                 <TableRow
                   sx={{ "& > *": { border: "unset", padding: "5px" } }}
                   key={index}
