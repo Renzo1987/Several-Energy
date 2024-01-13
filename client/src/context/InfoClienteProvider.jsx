@@ -60,7 +60,9 @@ const InfoClienteProvider = ({ children }) => {
 
   const getInfoCliente = async () => {
     try {
-      const response = await axios.get('/infocliente/all');
+
+      const response = await axios.get('/infocliente/');
+
       return response.data;
     } catch (error) {
       throw error;
@@ -116,4 +118,6 @@ const useInfoCliente = () => {
   return context;
 };
 
+
 export { InfoClienteProvider, useInfoCliente };
+
