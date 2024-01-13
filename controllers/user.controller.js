@@ -39,16 +39,19 @@ const createUser = async (req, res) => {
   // }
 };
 
-const getUserById = async (req, res) => {
+const getUserByEmail = async (req, res) => {
   try {
-    let allUsers = await users.getUserById(req.params.id);
-
-    res.status(200).json(allUsers);
+    console.log(req.params.email);
+    let asesorInfo = await users.getUserByEmail(req.params.email);
+    console.log(asesorInfo)
+    let asesorID = asesorInfo.usuario_id;
+    res.status(200).json(asesorID);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 const handleLogin = async (req, res) => {
   try {
     const { email, pwd } = req.body
@@ -127,7 +130,7 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-  getUserById,
+  getUserByEmail,
   handleLogin, 
   getAllUsers, 
   createUser, 
