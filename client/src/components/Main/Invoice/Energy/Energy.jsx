@@ -1,7 +1,7 @@
-import React from "react";
+import TableEnergy from "./TableEnergy";
 
 const Energy = () => {
-  return <div>Energy</div>;
+  return <TableEnergy/>;
 };
 
 export default Energy;
