@@ -1,0 +1,37 @@
+.button1{
+    background-color:#F1D8D7;
+    color: black;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.374);
+    padding: 8px 16px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    width: 200px;
+    margin-left: 400px;
+    font-weight: 650;
+  }
+
+  .button2{
+    background-color:#F1D8D7;
+    color: black;
+    width: 200px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.374);
+    padding: 8px 16px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    margin-left: 400px;
+    font-weight: 650;
+  }
+
+.custom-cell {
+   background-color: #FAFAFA;
+   
+  }
+  
+.custom-cell2{
+    background-color: #4240408d;
+
+}
