@@ -98,11 +98,11 @@ const FormPower = () => {
   };
 
   const handleVerTablaClick = () => {
-    console.log("Boton ver tabla");
+    console.log("Botón ver tabla");
   };
 
   const handleContinuarClick = () => {
-    console.log("Boton continuar");
+    console.log("Botón continuar");
   };
 
   return (
