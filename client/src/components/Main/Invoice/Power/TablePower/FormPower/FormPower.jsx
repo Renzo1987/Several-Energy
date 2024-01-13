@@ -2,9 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
+import axios from "axios";
 import "./FormPower.css";
+import { useFranjasContext } from "../../../../../../context/FranjasProvider"; 
+
 
 const FormPower = () => {
+
+  const { rows, rowsTotales } = useFranjasContext();
+
   const numberParser = (params) => {
     const value = parseFloat(params.newValue);
     if (isNaN(value)) {
@@ -104,6 +110,40 @@ const FormPower = () => {
   const handleContinuarClick = () => {
     console.log("Botón continuar");
   };
+
+
+
+  const handleSubmit = async () => {
+    const dataToSend = rowsData.map((row) => ({
+      info_id: 1, 
+      franja: row.franja === "P1" ? "1" : row.franja === "P2" ? "2" : "3",
+      con_anual: rows.consumoAnual, 
+      con_fact_actual: null, 
+      pre_ener_act_me: null, 
+      pre_ener_act_mes_fact: null, 
+      descuento_energia: null, 
+      pre_desc_energia: null, 
+      total_pago_fact_energia: null, 
+      total_pago_anual_energia: null, 
+      pot_cont: row.potenciaContratada,
+      pot_fact: null, 
+      precio_pot: row.precioPotencial,
+      descuento_potencia: row.descuento,
+      pre_desc_pot: row.precioConDescuento,
+      total_pago_fact_potencia: row.totalPagoFactura,
+      total_pago_anual_potencia: row.totalPagoAnual,
+    }));
+  
+    try {
+      const response = await axios.post('/api/franjas_cliente', dataToSend);
+    } catch (error) {
+      console.error("Hubo un error al enviar los datos:", error);
+      
+    }
+  };
+
+
+
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
