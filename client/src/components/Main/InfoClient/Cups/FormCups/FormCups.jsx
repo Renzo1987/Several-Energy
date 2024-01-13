@@ -10,7 +10,7 @@ const FormCups = ({ cups, setCups }) => {
         value={cups}
         onChange={(e) => setCups(e.target.value)}
       />
-      <Link to="/#">No tengo el CUPS</Link>
+      <Link to="/client">No tengo el CUPS</Link>
     </form>
   );
 };
