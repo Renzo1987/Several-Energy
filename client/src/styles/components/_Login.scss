@@ -1,0 +1,54 @@
+img.auth-logo {
+    width: 500px;
+    margin-top: 80px;
+}
+
+#login-section {
+    display: flex;
+
+    width: 100vw;
+    height: 100vh;
+}
+
+.color-picture-article {
+    width: 40%;
+    position: relative;
+
+    .hero-img {
+        position: absolute;
+        top: -20px;
+        bottom: 0;
+        right: 0;
+        left: -25px;
+        height: 110%;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+#login-form {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: center;
+
+    section {
+        width: 75%;
+    }
+}
+
+.login-title {
+    margin-bottom: 20px;
+    text-align: start;
+}
+
+section > form > .login-input {
+    margin-top: 15px;
+    border: none;
+    background-color: #E6E6E6;
+}
+
+.login-a {
+    margin-top: 15px;
+}

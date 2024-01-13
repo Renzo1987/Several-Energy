@@ -1,0 +1,28 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 130px;
+    position: absolute;
+    width: 100%;
+
+    section.asesor-info {
+        display: flex;
+        margin-right: 50px;
+
+        img.user-icon {
+            width: 50px;
+            object-fit: contain;
+        }
+
+        h4 {
+            margin: auto;
+            margin-right: 10px;
+
+        }
+    }
+    img.logo-img {
+        width: 300px;
+        object-fit: contain;
+    }
+}

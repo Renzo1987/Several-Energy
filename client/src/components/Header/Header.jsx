@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import logoImg from "../../assets/logo_several.png";
+import UserIcon from "../../assets/user-icon.png";
+import AuthContext from "../../context/AuthProvider";
 
 const Header = () => {
-  return <img src={logoImg}></img>;
+
+  const { auth } = useContext(AuthContext)
+
+  return (
+    <header className={ !auth.asesor ? "offscreen" : "header" }>
+      <img className="logo-img" src={logoImg}></img>
+      <section className="asesor-info">
+        <h4>¡Hola {auth.asesor}!</h4>
+        <img src={UserIcon} className="user-icon" alt="" />
+      </section>
+    </header>
+  )
 };
 
 export default Header;

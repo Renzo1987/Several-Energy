@@ -3,7 +3,7 @@ const queriesUsuarios = require("../queries/usuarios");
 
 async function createUser(user) {
   try {
-    const result = await pool.query(queriesUsuarios.createUser, [user.email, user.password, user.username, user.phone, user.branch]);
+    const result = await pool.query(queriesUsuarios.createUser, [user.email, user.password, user.asesor, user.contacto, user.delegacion]);
     return result.rows[0];
   } catch (error) {
     console.error(error);
