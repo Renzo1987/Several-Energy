@@ -35,6 +35,10 @@ img.auth-logo {
 
     section {
         width: 75%;
+
+        form {
+            padding-bottom: 5px;
+        }
     }
 }
 
@@ -50,5 +54,7 @@ section > form > .login-input {
 }
 
 .login-a {
-    margin-top: 15px;
+    margin-top: 5px;
+    margin-bottom: 30px;
+    
 }

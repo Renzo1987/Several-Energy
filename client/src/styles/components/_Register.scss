@@ -7,6 +7,10 @@
     background-color: #E6E6E6;
 }
 
+.register-input#branch {
+    margin-bottom: 30px;
+}
+
 #register-section {
     display: flex;
 
@@ -44,5 +48,12 @@
 
     section {
         width: 75%;
+
+        form {
+            padding-bottom: 5px;
+            label {
+                margin-top: 10px;
+            }
+        }
     }
 }

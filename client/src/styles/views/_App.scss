@@ -14,7 +14,7 @@ html {
 
 body {
     min-height: 100vh;
-    background-color: #FFFAFA;
+    background-color: gray;
     color: black
 }
 
@@ -28,26 +28,6 @@ main {
     height: 100vh;
 }
 
-/* .App {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; 
-  padding: 1rem 0.5rem;
-} */
-
-/* section {
-    width: 100%;
-    max-width: 420px;
-    min-height: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 1rem;
-    background-color: rgba(0,0,0,0.4);
-    margin: auto;
-} */
 
 form {
     display: flex;
@@ -55,8 +35,9 @@ form {
     padding-bottom: 1rem;
 }
 
-a, a:visited {
+a, a:visited, a:hover {
     color: black;
+    cursor: pointer;
 }
 
 input[type="text"],
@@ -69,7 +50,7 @@ textarea {
   font-family: 'Nunito', sans-serif;
   font-size: 22px;
   padding: 0.25rem;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem !important;
 }
 
 button:disabled {
@@ -87,7 +68,12 @@ button {
   margin-top: 1rem;
   background-color: #A10707;
   color: white;
+
+  :hover {
+    cursor: pointer;
+  }
 }
+
 
 #uidnote, #emailnote, #pwdnote, #confirmnote, #phonenote {
   text-align: start;
@@ -141,4 +127,16 @@ button {
 
 .align-start {
     text-align: start;
+}
+
+#root > header > section > div > div > a:nth-child(3) {
+    display: flex;
+}
+
+#root > header > section > div > div > a:nth-child(3) > button {
+    background-color: #CF4E4D !important;
+    margin: auto;
+    width: 75%;
+
+    border-radius: 7px !important;
 }
