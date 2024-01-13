@@ -16,14 +16,20 @@ const Cups = () => {
   };
 
   return (
-    <>
+    <section id="cups-section">
       <FormCups cups={cups} setCups={setCups} />
-      <Link to="/client">
-        <button onClick={handleContinue}>Continuar</button>
-      </Link>
-      <Link to="/#">No tengo el CUPS</Link> 
+
+      <article className="navigation-sct">
+        <Link to="/home">
+          <button className="back-btn">Atrás</button>
+        </Link>
+        <Link to="/client">
+          <button className="continue-btn" onClick={handleContinue}>Continuar</button>
+        </Link>
+      </article>
+      
       {/* {aquí no sé si va a vista a "/client" pero contemplando sin CUPS} */}
-    </>
+    </section>
   );
 };
 
