@@ -1,59 +1,167 @@
-import React from "react";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { DataExtraContext } from "../../../../context/DataExtraProvider";
+import axios from "axios";
 
 const FormDataExtra = () => {
+  const { dataExtra, setDataExtra } = useContext(DataExtraContext);
+  const [otrosFields, setOtrosFields] = useState([
+    { concepto: "", cantidad: "", opcion1: "no", opcion2: "no" },
+    { concepto: "", cantidad: "", opcion1: "no", opcion2: "no" },
+  ]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setDataExtra((prevState) => ({
+      ...prevState,
+      otros_1:
+        otrosFields[0]?.opcion1 === "si" ? otrosFields[0]?.cantidad : "0",
+      otros_2:
+        otrosFields[1]?.opcion1 === "si" ? otrosFields[1]?.cantidad : "0",
+    }));
+  }, [otrosFields]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setDataExtra({
+      ...dataExtra,
+      [name]: value,
+    });
+  };
+
+  const handleOtrosFieldChange = (index, field, value) => {
+    let nuevosOtros = [...otrosFields];
+    nuevosOtros[index] = {
+      ...nuevosOtros[index],
+      [field]: value,
+    };
+    setOtrosFields(nuevosOtros);
+  };
+
+  const postData = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/datoscliente",
+        dataExtra
+      );
+      console.log("Data submitted successfully", response.data);
+      navigate("/energy");
+    } catch (error) {
+      console.error("There was an error submitting the form:", error);
+    }
+  };
+
   return (
     <>
       <section className="datos-extra-form">
         <div className="form-group">
-          <label htmlFor="importeElectrico">Importe eléctrico</label>
-          <input id="importeElectrico" type="text" />
+          <label htmlFor="dias_facturacion">Días de facturación</label>
+          <input
+            id="dias_facturacion"
+            name="dias_facturacion"
+            type="text"
+            value={dataExtra.dias_facturacion}
+            onChange={handleInputChange}
+          />
         </div>
+
         <div className="form-group">
-          <label htmlFor="energiaReactiva">Energía reactiva</label>
-          <input id="energiaReactiva" type="text" />
+          <label htmlFor="impuesto_electrico">Impuesto Eléctrico</label>
+          <input
+            id="impuesto_electrico"
+            name="impuesto_electrico"
+            type="text"
+            value={dataExtra.impuesto_electrico}
+            onChange={handleInputChange}
+          />
         </div>
+
         <div className="form-group">
-          <label htmlFor="otros1">Otros</label>
-          <input  type="text" placeholder="concepto" />
-          <input  type="text" placeholder="cantidad" />
-          <select name="otrosOpcion1">
-            <option value="si">Sí</option>
-            <option value="no">No</option>
-          </select>
-          <select name="otrosOpcion2">
-            <option value="si">Sí</option>
-            <option value="no">No</option>
-          </select>
-          <label htmlFor="otros1">Otros</label>
-          <input  type="text" placeholder="concepto" />
-          <input  type="text" placeholder="cantidad" />
-          <select name="otrosOpcion1">
-            <option value="si">Sí</option>
-            <option value="no">No</option>
-          </select>
-          <select name="otrosOpcion2">
-            <option value="si">Sí</option>
-            <option value="no">No</option>
-          </select>
+          <label htmlFor="energia_reactiva">Energia reactiva</label>
+          <input
+            id="energia_reactiva"
+            name="energia_reactiva"
+            type="text"
+            value={dataExtra.energia_reactiva}
+            onChange={handleInputChange}
+          />
         </div>
+
         <div className="form-group">
-          <label htmlFor="diasFacturacion">Días de facturación</label>
-          <input id="diasFacturacion" type="text" />
+          <label htmlFor="alquiler_equipo">Alquiler de equipo</label>
+          <input
+            id="alquiler_equipo"
+            name="alquiler_equipo"
+            type="text"
+            value={dataExtra.alquiler_equipo}
+            onChange={handleInputChange}
+          />
         </div>
-      </section>
-      <div className="datos-extra-footer">
+
         <div className="form-group">
-          <label htmlFor="iva">Iva</label>
-          <select name="iva">
+          <label htmlFor="iva">IVA</label>
+          <select
+            id="iva"
+            name="iva"
+            value={dataExtra.iva}
+            onChange={handleInputChange}
+          >
             <option value="21">21%</option>
             <option value="10">10%</option>
             <option value="5">5%</option>
           </select>
         </div>
-        <button>Ver tabla completa</button>
-        <button>Atrás</button>
-        <button>Generar ofertas</button>
-      </div>
+
+        {otrosFields.map((field, index) => (
+          <div key={index} className="form-group">
+            <label htmlFor={`otros-concepto-${index}`}>Otros</label>
+            <input
+              id={`otros-concepto-${index}`}
+              type="text"
+              placeholder="concepto"
+              value={field.concepto}
+              onChange={(e) =>
+                handleOtrosFieldChange(index, "concepto", e.target.value)
+              }
+            />
+            <input
+              id={`otros-cantidad-${index}`}
+              type="text"
+              placeholder="cantidad"
+              value={field.cantidad}
+              onChange={(e) =>
+                handleOtrosFieldChange(index, "cantidad", e.target.value)
+              }
+            />
+            <select
+              id={`otrosOpcion1-${index}`}
+              value={field.opcion1}
+              onChange={(e) =>
+                handleOtrosFieldChange(index, "opcion1", e.target.value)
+              }
+            >
+              <option value="si">Sí</option>
+              <option value="no">No</option>
+            </select>
+            <select
+              id={`otrosOpcion2-${index}`}
+              value={field.opcion2}
+              onChange={(e) =>
+                handleOtrosFieldChange(index, "opcion2", e.target.value)
+              }
+            >
+              <option value="si">Sí</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        ))}
+        <p>Añadir otros</p>
+        <div>
+          <button type="button" onClick={postData}>
+            Continuar
+          </button>
+        </div>
+      </section>
     </>
   );
 };
