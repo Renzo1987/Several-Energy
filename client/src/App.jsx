@@ -4,6 +4,7 @@ import Main from "./components/Main";
 import { AuthProvider } from "./context/AuthProvider";
 import { InfoClienteProvider } from "./context/InfoClienteProvider";
 import { FranjasProvider } from "./context/FranjasProvider";
+import { PowerProvider } from "./context/PowerProvider";
 import "./App.css";
 
 function App() {
@@ -13,8 +14,10 @@ function App() {
         <AuthProvider>
           <InfoClienteProvider>
             <FranjasProvider>
+            <PowerProvider>
                 <Header />
                 <Main />
+              </PowerProvider>
             </FranjasProvider>
           </InfoClienteProvider>
         </AuthProvider>
