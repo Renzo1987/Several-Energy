@@ -36,7 +36,7 @@ const Login = () => {
                 {
                     headers: { 'Content-Type': 'application/json' }
                 })
-            console.log(response?.data)
+            // console.log(response?.data)
             const asesor = response?.data?.asesor
             const contacto = response?.data?.contacto
             const delegacion = response?.data?.delegacion

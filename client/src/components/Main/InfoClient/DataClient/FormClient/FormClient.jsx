@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useInfoCliente } from "../../../../../context/InfoClienteProvider";
+import AuthContext from "../../../../../context/AuthProvider";
 import axios from "../../../../../api/axios";
 const POST_URL = "api/infocliente"
 
 const FormClient = () => {
+
+  const { auth } = useContext(AuthContext)
 
   const navigate = useNavigate()
   const [infoData, setInfoData] = useState({
@@ -16,20 +19,21 @@ const FormClient = () => {
   const { infoClienteState } = useInfoCliente();
 
   const postInfoCliente = async () => {
-    const asesorData = await axios.get(`api/infocliente/obtenerasesor/${infoData.titular}`)
-    console.log(asesorData.data)
+    const asesorData = await axios.get(`api/user/obtenerasesor/${auth.email}`)
+    const asesorID = asesorData.data
+    console.log(asesorID)
 
     const infoCliente = {
       ...infoData,
       cup: infoClienteState.cup,
-      asesor_id: asesorData.data.usuario_id, 
-    };
+      usuario_id: asesorID
+    }
   
     try {
       const response = await axios.post(POST_URL, infoCliente
       );
-      console.log(response);
-      // navigate("/energy"); 
+      console.log(response.data);
+      navigate("/energy"); 
     } catch (error) {
       console.error("Hubo un error al enviar los datos", error);
     }

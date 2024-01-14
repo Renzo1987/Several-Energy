@@ -8,7 +8,8 @@ const queriesUser = {
         WHERE id_user = $1;`,
 
     getUserByEmail: `
-        SELECT 
+        SELECT
+            usuario_id, 
             asesor,
             email,
             contacto,

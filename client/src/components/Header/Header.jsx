@@ -5,10 +5,10 @@ import AuthContext from "../../context/AuthProvider";
 import UserDropDown from "./UserDropDown/UserDropDown";
 
 const Header = () => {
-
+  
   const { auth } = useContext(AuthContext)
 
-  return (
+   return (
     <header className={ !auth.asesor ? "offscreen" : "header" }>
       <img className="logo-img" src={logoImg}></img>
       <section className="asesor-info">
