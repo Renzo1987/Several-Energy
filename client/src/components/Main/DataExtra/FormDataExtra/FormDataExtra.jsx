@@ -110,7 +110,7 @@ const FormDataExtra = () => {
             <input
               id={`otros-concepto-${index}`}
               type="text"
-              placeholder="concepto"
+              placeholder="Concepto..."
               value={field.concepto}
               onChange={(e) =>
                 handleOtrosFieldChange(index, "concepto", e.target.value)
@@ -119,7 +119,7 @@ const FormDataExtra = () => {
             <input
               id={`otros-cantidad-${index}`}
               type="text"
-              placeholder="cantidad"
+              placeholder="Cantidad..."
               value={field.cantidad}
               onChange={(e) =>
                 handleOtrosFieldChange(index, "cantidad", e.target.value)
