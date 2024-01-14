@@ -33,7 +33,7 @@ const FormClient = () => {
       const response = await axios.post(POST_URL, infoCliente
       );
       console.log(response.data);
-      navigate("/energy"); 
+      navigate("/dataextra"); 
     } catch (error) {
       console.error("Hubo un error al enviar los datos", error);
     }

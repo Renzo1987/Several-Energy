@@ -5,7 +5,7 @@ import { AuthProvider } from "./context/AuthProvider";
 import { InfoClienteProvider } from "./context/InfoClienteProvider";
 import { FranjasProvider } from "./context/FranjasProvider";
 import { DataExtraProvider } from "./context/DataExtraProvider";
-
+import { PowerProvider } from "./context/PowerProvider";
 import "./App.css";
 
 function App() {
@@ -14,12 +14,14 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <InfoClienteProvider>
-            <FranjasProvider>
-            <DataExtraProvider>
+           <DataExtraProvider>   
+            <FranjasProvider>             
+            <PowerProvider>
                 <Header />
                 <Main />
-            </DataExtraProvider>
+             </PowerProvider>
             </FranjasProvider>
+          </DataExtraProvider>
           </InfoClienteProvider>
         </AuthProvider>
       </BrowserRouter>

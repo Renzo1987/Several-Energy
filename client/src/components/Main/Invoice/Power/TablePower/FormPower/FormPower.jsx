@@ -1,180 +1,169 @@
-import React, { useState, useEffect, useRef } from "react";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import axios from "axios";
-import "./FormPower.css";
-import { useFranjasContext } from "../../../../../../context/FranjasProvider"; 
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TextField from "@mui/material/TextField";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import { usePowerContext } from "../../../../../../context/PowerProvider"; 
 
+function createDataTotales(precioDescuento, totalPagoFactura, totalPagoAnual) {
+  return { precioDescuento, totalPagoFactura, totalPagoAnual };
+}
 
 const FormPower = () => {
+  const { rowsPower, setRowsPower, rowsPowerTotales, setRowsPowerTotales } = usePowerContext();
 
-  const { rows, rowsTotales } = useFranjasContext();
-
-  const numberParser = (params) => {
-    const value = parseFloat(params.newValue);
-    if (isNaN(value)) {
-      return null;
-    }
-    return value;
-  };
-
-  const initialRows = [
-    { franja: "P1", potenciaContratada: 0, precioPotencial: 0, descuento: 0, cellClass: "custom-cell" },
-    { franja: "P2", potenciaContratada: 0, precioPotencial: 0, descuento: 0, cellClass: "custom-cell" },
-    { franja: "Margen Fijo", potenciaContratada: 0, precioPotencial: 0, descuento: 0, cellClass: "custom-cell" },
-  ];
-
-  const [rowsData, setRowsData] = useState(
-    initialRows.map((row) => ({
-      ...row,
-      potenciaContratada: null,
-      precioPotencial: null,
-      descuento: null,
-      precioConDescuento: null,
-      totalPagoFactura: null,
-      totalPagoAnual: null,
-    }))
-  );
-
-  const calculateTotals = (rows) => {
-    return rows.map((row) => {
-      const precioConDescuento = row.precioPotencial * (1 - row.descuento / 100);
-      const totalPagoFactura = row.potenciaContratada * precioConDescuento;
-      const totalPagoAnual = row.potenciaContratada * (row.precioPotencial * (1 - row.descuento / 100));
-      return { ...row, precioConDescuento, totalPagoFactura, totalPagoAnual };
+  const calculateTotals = (rowsPower) => {
+    return rowsPower.map(row => {
+      let precioConDescuento = row.precioPotencia * (1 - row.descuento / 100);
+      let totalPagoFactura = row.potenciaContratada * precioConDescuento * row.numeroDiasFacturados;
+      let totalPagoAnual = row.potenciaContratada * precioConDescuento * 365;
+      return createDataTotales(precioConDescuento, totalPagoFactura, totalPagoAnual);
     });
   };
 
-  const colDefs = [
-    { headerName: "Franja", field: "franja", editable: false, cellClass: "custom-cell" },
-    {
-      headerName: "Potencia Contratada",
-      field: "potenciaContratada",
-      editable: true,
-      cellClass: "custom-cell2",
-      type: "numericColumn",
-      valueParser: numberParser,
-      onCellValueChanged: (event) => handleChange(event.rowIndex, "potenciaContratada", event.data.potenciaContratada),
-    },
-    {
-      headerName: "Precio Potencial",
-      field: "precioPotencial",
-      editable: true,
-      cellClass: "custom-cell3",
-      type: "numericColumn",
-      valueParser: numberParser,
-      onCellValueChanged: (event) => handleChange(event.rowIndex, "precioPotencial", event.data.precioPotencial),
-    },
-    {
-      headerName: "Descuento %",
-      field: "descuento",
-      editable: true,
-      cellClass: "custom-cell2",
-      type: "numericColumn",
-      valueParser: numberParser,
-      onCellValueChanged: (event) => handleChange(event.rowIndex, "descuento", event.data.descuento),
-    },
-  ];
-
-  const colDefsSecondTable = [
-    { headerName: "Precio con descuento", field: "precioConDescuento", editable: false, cellClass: "custom-cell2", type: "numericColumn" },
-    { headerName: "Total pago factura", field: "totalPagoFactura", editable: false, cellClass: "custom-cell3", type: "numericColumn" },
-    { headerName: "Total pago anual", field: "totalPagoAnual", editable: false, cellClass: "custom-cell2", type: "numericColumn" },
-  ];
-
-  const gridOptions = {};
-  const gridApiRef = useRef(null);
+  useEffect(() => {
+    const newTotalesRows = calculateTotals(rowsPower);
+    setRowsPowerTotales(newTotalesRows);
+  }, [rowsPower]);
 
   const handleChange = (index, column, value) => {
-    const newRows = rowsData.map((row, i) => {
-      if (i === index) {
-        return { ...row, [column]: value };
-      }
-      return row;
-    });
-    setRowsData(newRows);
-  };
-
-  const handleGridReady = (params) => {
-    gridApiRef.current = params.api;
-    params.api.addEventListener("rowDataChanged", () => {
-      console.log("Row Data Changed");
+    setRowsPower(prevRows => {
+      const newRows = [...prevRows];
+      const updatedRow = { ...newRows[index], [column]: value };
+      newRows[index] = updatedRow;
+      return newRows;
     });
   };
-
-  const handleVerTablaClick = () => {
-    console.log("Botón ver tabla");
-  };
-
-  const handleContinuarClick = () => {
-    console.log("Botón continuar");
-  };
-
-
-
-  const handleSubmit = async () => {
-    const dataToSend = rowsData.map((row) => ({
-      info_id: 1, 
-      franja: row.franja === "P1" ? "1" : row.franja === "P2" ? "2" : "3",
-      con_anual: rows.consumoAnual, 
-      con_fact_actual: null, 
-      pre_ener_act_me: null, 
-      pre_ener_act_mes_fact: null, 
-      descuento_energia: null, 
-      pre_desc_energia: null, 
-      total_pago_fact_energia: null, 
-      total_pago_anual_energia: null, 
-      pot_cont: row.potenciaContratada,
-      pot_fact: null, 
-      precio_pot: row.precioPotencial,
-      descuento_potencia: row.descuento,
-      pre_desc_pot: row.precioConDescuento,
-      total_pago_fact_potencia: row.totalPagoFactura,
-      total_pago_anual_potencia: row.totalPagoAnual,
-    }));
-  
-    try {
-      const response = await axios.post('/api/franjas_cliente', dataToSend);
-    } catch (error) {
-      console.error("Hubo un error al enviar los datos:", error);
-      
-    }
-  };
-
-
-
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <div className="ag-theme-quartz" style={{ height: "176px", width: "800px", margin: "40px" }}>
-        <AgGridReact rowData={rowsData} columnDefs={colDefs} gridOptions={gridOptions} onGridReady={handleGridReady} />
-      </div>
+    <>
+      <TableContainer className="table-energy">
+        <Table>
+          <TableHead>
+            <TableRow className="table-row">
+              <TableCell className="table-cell">Franja</TableCell>
+              <TableCell className="table-cell" align="center">
+                Potencia contratada
+              </TableCell>
+              <TableCell className="table-cell" align="center">
+                Precio Potencia
+              </TableCell>
+              <TableCell className="table-cell" align="center">
+                Descuento %
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rowsPower.map((row, index) => (
+              <TableRow
+                sx={{ "& > *": { border: "unset", padding: "6px 10px" } }}
+                key={row.franja}
+              >
+                <TableCell component="th" scope="row">
+                  {row.franja}
+                </TableCell>
+                <TableCell align="center">
+                  <TextField
+                    size="small"
+                    value={row.potenciaContratada ?? ""}
+                    onChange={(e) =>
+                      handleChange(index, "potenciaContratada", e.target.value)
+                    }
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  <TextField
+                    size="small"
+                    value={row.precioPotencia ?? ""}
+                    onChange={(e) =>
+                      handleChange(index, "precioPotencia", e.target.value)
+                    }
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  <TextField
+                    size="small"
+                    value={row.descuento ?? ""}
+                    onChange={(e) =>
+                      handleChange(index, "descuento", e.target.value)
+                    }
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "20px auto" }}>
-        <div className="ag-theme-quartz" style={{ height: "170px", width: "600px" }}>
-          <AgGridReact
-            rowData={calculateTotals(rowsData).map((calculatedRow) => ({
-              ...calculatedRow,
-              precioConDescuento: calculatedRow.precioConDescuento !== null ? calculatedRow.precioConDescuento.toFixed(2) : null,
-              totalPagoFactura: calculatedRow.totalPagoFactura !== null ? calculatedRow.totalPagoFactura.toFixed(2) : null,
-              totalPagoAnual: calculatedRow.totalPagoAnual !== null ? calculatedRow.totalPagoAnual.toFixed(2) : null,
-            }))}
-            columnDefs={colDefsSecondTable}
-            gridOptions={gridOptions}
-          />
-        </div>
+      {/* esto es para la tabla de totales*/}
 
-        <div style={{ display: "flex", flexDirection: "column", marginLeft: "20px" }}>
-          <button onClick={handleVerTablaClick} className="button1">
-            Ver Tabla Completa
-          </button>
-          <button onClick={handleContinuarClick} className="button2">
-            Continuar
-          </button>
+      <div className="table-buttons">
+        <TableContainer className="table-energy">
+          <Table>
+            <TableHead>
+              <TableRow sx={{ "& > *": { border: "unset", padding: "5px" } }}>
+                <TableCell className="table-cell" align="center">
+                  Precio con descuento
+                </TableCell>
+                <TableCell className="table-cell" align="center">
+                  Total pago factura
+                </TableCell>
+                <TableCell className="table-cell" align="center">
+                  Total pago anual
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rowsPowerTotales.map((row, index) => (
+                <TableRow
+                  sx={{ "& > *": { border: "unset", padding: "5px" } }}
+                  key={index}
+                >
+                  <TableCell className="table-cell" align="center">
+                    <TextField
+                      size="small"
+                      value={row.precioDescuento ?? ""}
+                      onChange={(e) =>
+                        handleChange(index, "precioDescuento", e.target.value)
+                      }
+                    />
+                  </TableCell>
+                  <TableCell className="table-cell" align="center">
+                    <TextField
+                      size="small"
+                      value={row.totalPagoFactura ?? ""}
+                      onChange={(e) =>
+                        handleChange(index, "totalPagoFactura", e.target.value)
+                      }
+                    />
+                  </TableCell>
+                  <TableCell className="table-cell" align="center">
+                    <TextField
+                      size="small"
+                      value={row.totalPagoAnual ?? ""}
+                      onChange={(e) =>
+                        handleChange(index, "totalPagoAnual", e.target.value)
+                      }
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <div>
+          <button>Ver tabla completa</button>
+          <Link to="/#">
+            <button >Generar Ofertas</button>
+          </Link>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
