@@ -58,86 +58,50 @@ const FormDataExtra = () => {
   return (
     <article id="data-extra-sct">
       <h5>Datos extra</h5>
-      <section className="datos-extra-form">
+      <section className="datos-extra-form">   
         <div className="importe-energia">
           <div className="form-group">
-            <label htmlFor="importeElectrico">Importe eléctrico</label>
-            <input id="importeElectrico" type="text" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="energiaReactiva">Energía reactiva</label>
-            <input id="energiaReactiva" type="text" />
-          </div>
-        </div>
-        <div className="importe-energia">
-          <div className="form-group">
-            <label htmlFor="dias-facturación">Días de facturación</label>
-            <input id="dias-facturación" type="text" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="alquiler-equipos">Alquiler de equipos</label>
-            <input id="alquiler-equipos" type="text" />
-          </div>
-        </div>
-        <div className="otros">
-          <label htmlFor="otros">Otros</label>
-          <input  type="text" placeholder="Concepto..." />
-          <input  type="text" placeholder="Cantidad..." />
-          <select name="otrosOpcion1">
-            <option value="si">Sí</option>
-            <option value="no">No</option>
-          </select>
-          <select name="otrosOpcion2" className="last-select">
-            <option value="si">Sí</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-        <div className="iva">
-          <label htmlFor="iva">Iva</label>
-          <select name="iva">     
-      <div className="importe-energia">
-        <div className="form-group">
-          <label htmlFor="impuesto_electrico">Impuesto Eléctrico</label>
-          <input
-            id="impuesto_electrico"
-            name="impuesto_electrico"
-            type="text"
-            value={dataExtra.impuesto_electrico}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="energia_reactiva">Energia reactiva</label>
-          <input
-            id="energia_reactiva"
-            name="energia_reactiva"
-            type="text"
-            value={dataExtra.energia_reactiva}
-            onChange={handleInputChange}
-          />
-        </div>
-       </div>
-       <div className="importe-energia">
-          <div className="form-group">
-            <label htmlFor="dias_facturacion">Días de facturación</label>
+            <label htmlFor="impuesto_electrico">Impuesto Eléctrico</label>
             <input
-              id="dias_facturacion"
-              name="dias_facturacion"
+              id="impuesto_electrico"
+              name="impuesto_electrico"
               type="text"
-              value={dataExtra.dias_facturacion}
+              value={dataExtra.impuesto_electrico}
               onChange={handleInputChange}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="alquiler_equipo">Alquiler de equipo</label>
+            <label htmlFor="energia_reactiva">Energia reactiva</label>
             <input
-              id="alquiler_equipo"
-              name="alquiler_equipo"
+              id="energia_reactiva"
+              name="energia_reactiva"
               type="text"
-              value={dataExtra.alquiler_equipo}
+              value={dataExtra.energia_reactiva}
               onChange={handleInputChange}
             />
           </div>
+        </div>
+        <div className="importe-energia">
+            <div className="form-group">
+              <label htmlFor="dias_facturacion">Días de facturación</label>
+              <input
+                id="dias_facturacion"
+                name="dias_facturacion"
+                type="text"
+                value={dataExtra.dias_facturacion}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="alquiler_equipo">Alquiler de equipo</label>
+              <input
+                id="alquiler_equipo"
+                name="alquiler_equipo"
+                type="text"
+                value={dataExtra.alquiler_equipo}
+                onChange={handleInputChange}
+              />
+            </div>
         </div>
         <div className="otros">
           {otrosFields.map((field, index) => (
@@ -208,6 +172,7 @@ const FormDataExtra = () => {
         </Link>
       </article>
     </article>
+
 
 
       
