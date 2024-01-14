@@ -9,7 +9,7 @@ import { useFranjasContext } from "../../../../../../context/FranjasProvider";
 
 const FormPower = () => {
 
-  const { rows, rowsTotales } = useFranjasContext();
+  const { rowsEnergy, rowsEnergyTotales } = useFranjasContext();
 
   const numberParser = (params) => {
     const value = parseFloat(params.newValue);
@@ -111,40 +111,45 @@ const FormPower = () => {
     console.log("Botón continuar");
   };
 
-
-
   const handleSubmit = async () => {
-    const dataToSend = rowsData.map((row) => ({
-      info_id: 1, 
-      franja: row.franja === "P1" ? "1" : row.franja === "P2" ? "2" : "3",
-      con_anual: rows.consumoAnual, 
-      con_fact_actual: null, 
-      pre_ener_act_me: null, 
-      pre_ener_act_mes_fact: null, 
-      descuento_energia: null, 
-      pre_desc_energia: null, 
-      total_pago_fact_energia: null, 
-      total_pago_anual_energia: null, 
-      pot_cont: row.potenciaContratada,
-      pot_fact: null, 
-      precio_pot: row.precioPotencial,
-      descuento_potencia: row.descuento,
-      pre_desc_pot: row.precioConDescuento,
-      total_pago_fact_potencia: row.totalPagoFactura,
-      total_pago_anual_potencia: row.totalPagoAnual,
-    }));
+    const franjasData = rowsEnergy.map((rowEnergia, index) => {
+      const energiaTotales = rowsEnergyTotales[index];
+      const rowPotencia = rowsData[index]; 
+      return {
+        info_id: 9, 
+        franja: rowEnergia.franja, 
+        con_anual: parseFloat(rowEnergia.consumoAnual) || 0,
+        con_fact_actual: parseFloat(rowEnergia.consumoFacturaActual) || 0,
+        pre_ener_act_me: parseFloat(rowEnergia.precioMediaAnual) || 0,
+        pre_ener_act_mes_fact: parseFloat(rowEnergia.precioMesFacturacion) || 0,
+        descuento_energia: parseFloat(rowEnergia.descuento) || 0,
+        pre_desc_energia: parseFloat(energiaTotales.precioDescuento) || 0,
+        total_pago_fact_energia: parseFloat(energiaTotales.totalPagoFactura) || 0,
+        total_pago_anual_energia: parseFloat(energiaTotales.totalPagoAnual) || 0,
+        pot_cont: parseFloat(rowPotencia.potenciaContratada) || 0,
+        pot_fact: parseFloat(rowPotencia.pot_fact) || 0, 
+        precio_pot: parseFloat(rowPotencia.precioPotencial) || 0,
+        descuento_potencia: parseFloat(rowPotencia.descuento) || 0,
+        pre_desc_pot: parseFloat(rowPotencia.precioConDescuento) || 0,
+        total_pago_fact_potencia: parseFloat(rowPotencia.totalPagoFactura) || 0,
+        total_pago_anual_potencia: parseFloat(rowPotencia.totalPagoAnual) || 0,
+      };
+    });
   
     try {
-      const response = await axios.post('/api/franjas_cliente', dataToSend);
+      for (const franjaData of franjasData) {
+        console.log('Sending data for franja:', franjaData.franja, franjaData);
+        const response = await axios.post('http://localhost:3000/api/franjas', franjaData);
+        console.log('Response data:', response.data);
+      }
     } catch (error) {
       console.error("Hubo un error al enviar los datos:", error);
-      
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+      }
     }
   };
-
-
-
-
+  
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div className="ag-theme-quartz" style={{ height: "176px", width: "800px", margin: "40px" }}>
@@ -169,7 +174,7 @@ const FormPower = () => {
           <button onClick={handleVerTablaClick} className="button1">
             Ver Tabla Completa
           </button>
-          <button onClick={handleContinuarClick} className="button2">
+          <button onClick={handleSubmit} className="button2">
             Continuar
           </button>
         </div>
@@ -177,5 +182,6 @@ const FormPower = () => {
     </div>
   );
 };
+
 
 export default FormPower;
