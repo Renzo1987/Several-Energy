@@ -50,7 +50,7 @@ const FormEnergy = () => {
   useEffect(() => {
     const newTotalesRows = calculateTotals(rowsEnergy);
     setRowsEnergyTotales(newTotalesRows);
-  }, [rowsEnergy]);
+  }, [rowsEnergy, setRowsEnergyTotales]);
 
   const handleChange = (index, column, value) => {
     setRowsEnergy(prevRows => {
@@ -63,11 +63,12 @@ const FormEnergy = () => {
 
 
   return (
-    <>
+    <section id="energy-sct">
+      <h5>Introducir datos del cliente</h5>
       <TableContainer className="table-energy">
         <Table>
           <TableHead>
-            <TableRow className="table-row">
+            <TableRow className="table-row" sx={{ "& > *": { border: "unset", padding: "6px 10px" } }}>
               <TableCell className="table-cell">Franja</TableCell>
               <TableCell className="table-cell" align="center">
                 Consumo anual 
@@ -156,11 +157,16 @@ const FormEnergy = () => {
 
       {/* tabla de totales*/}
 
+
       <div className="table-buttons">
+      <h5>Totales (autocompletado)</h5>
         <TableContainer className="table-energy">
           <Table>
             <TableHead>
-              <TableRow sx={{ "& > *": { border: "unset", padding: "5px" } }}>
+              <TableRow sx={{ "& > *": { border: "unset", padding: "6px 10px" } }}>
+                <TableCell className="table-cell" align="center">
+                  Franja
+                </TableCell>
                 <TableCell className="table-cell" align="center">
                   Precio con descuento
                 </TableCell>
@@ -175,9 +181,12 @@ const FormEnergy = () => {
             <TableBody>
               {rowsEnergyTotales.map((row, index) => (
                 <TableRow
-                  sx={{ "& > *": { border: "unset", padding: "5px" } }}
+                  sx={{ "& > *": { border: "unset", padding: "6px 10px" } }}
                   key={index}
                 >
+                  <TableCell component="th" scope="row">
+                    P{index+1}
+                  </TableCell>
                   <TableCell className="table-cell" align="center">
                     <TextField
                       size="small"
@@ -222,14 +231,16 @@ const FormEnergy = () => {
             </TableBody>
           </Table>
         </TableContainer>
-          <div>
-            <button>Ver tabla completa</button>
-            <Link to="/power">
-              <button >Continuar</button>
-            </Link>
-          </div>
-        </div>
-      </>
+       </div>
+        <article className="navigation-sct">
+          <Link to="/client">
+            <button className="back-btn">Atrás</button>
+          </Link>
+          <Link to="/power">
+            <button className="continue-btn">Continuar</button>
+          </Link>
+        </article>
+      </section>
     );
   };
 export default FormEnergy;
