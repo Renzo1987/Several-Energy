@@ -111,10 +111,10 @@ const FormPower = () => {
             <TableRow className="table-row">
               <TableCell className="table-cell">Franja</TableCell>
               <TableCell className="table-cell" align="center">
-                Potencia contratada
+                Potencia contratada (kW)
               </TableCell>
               <TableCell className="table-cell" align="center">
-                Precio Potencia
+                Precio Potencia (€/kW/día)
               </TableCell>
               <TableCell className="table-cell" align="center">
                 Descuento %
@@ -164,15 +164,13 @@ const FormPower = () => {
       </TableContainer>
 
       {/* esto es para la tabla de totales*/}
-
+      <h5 className="totales-title">Totales (autocompletado)</h5>
       <div className="table-buttons">
         <TableContainer className="table-energy">
           <Table>
             <TableHead>
-              <TableRow sx={{ "& > *": { border: "unset", padding: "5px" } }}>
-                <TableCell className="table-cell" align="center">
-                  Franja
-                </TableCell>
+              <TableRow className="table-row">
+                <TableCell className="table-cell">Franja</TableCell>
                 <TableCell className="table-cell" align="center">
                   Precio con descuento
                 </TableCell>
@@ -187,13 +185,13 @@ const FormPower = () => {
             <TableBody>
               {rowsPowerTotales.map((row, index) => (
                 <TableRow
-                  sx={{ "& > *": { border: "unset", padding: "5px" } }}
+                  sx={{ "& > *": { border: "unset", padding: "6px 10px" } }}
                   key={index}
                 >
-                  <TableCell className="table-cell" align="center">
+                  <TableCell component="th" scope="row">
                     {row.franja}
                   </TableCell>
-                  <TableCell className="table-cell" align="center">
+                  <TableCell align="center">
                     <TextField
                       size="small"
                       value={row.precioDescuento ?? ""}
@@ -202,7 +200,7 @@ const FormPower = () => {
                       }
                     />
                   </TableCell>
-                  <TableCell className="table-cell" align="center">
+                  <TableCell align="center">
                     <TextField
                       size="small"
                       value={row.totalPagoFactura ?? ""}
@@ -211,7 +209,7 @@ const FormPower = () => {
                       }
                     />
                   </TableCell>
-                  <TableCell className="table-cell" align="center">
+                  <TableCell align="center">
                     <TextField
                       size="small"
                       value={row.totalPagoAnual ?? ""}
@@ -226,12 +224,14 @@ const FormPower = () => {
           </Table>
         </TableContainer>
 
-        <div>
-          <button>Ver tabla completa</button>
-          <Link to="/proposal">
-            <button onClick={handleSubmit}>Generar Ofertas</button>
-          </Link>
-        </div>
+        <article className="navigation-sct">
+        <Link to="/energy">
+          <button className="back-btn">Atrás</button>
+        </Link>
+        <Link to="/proposal">
+          <button  className="continue-btn" onClick={handleSubmit}>Continuar</button>
+        </Link>
+      </article>
       </div>
     </>
   );

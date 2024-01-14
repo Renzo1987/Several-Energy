@@ -56,6 +56,7 @@ const FormDataExtra = () => {
   };
 
   return (
+    <>
     <article id="data-extra-sct">
       <h5>Datos extra</h5>
       <section className="datos-extra-form">   
@@ -163,19 +164,16 @@ const FormDataExtra = () => {
           </select>
         </div>
       </section>
-      <article className="navigation-sct">
-        <Link to="/client">
-          <button className="back-btn">Atrás</button>
-        </Link>
-        <Link to="/energy">
-          <button  className="continue-btn" onClick={postData}>Continuar</button>
-        </Link>
-      </article>
     </article>
-
-
-
-      
+    <article className="navigation-sct">
+      <Link to="/client">
+        <button className="back-btn">Atrás</button>
+      </Link>
+      <Link to="/energy">
+        <button  className="continue-btn" onClick={postData}>Continuar</button>
+      </Link>
+    </article>
+    </>
   );
 };
 
