@@ -233,7 +233,7 @@ const FormEnergy = () => {
         </TableContainer>
        </div>
         <article className="navigation-sct">
-          <Link to="/client">
+          <Link to="/dataextra">
             <button className="back-btn">Atrás</button>
           </Link>
           <Link to="/power">
