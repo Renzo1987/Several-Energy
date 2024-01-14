@@ -4,6 +4,7 @@ import Main from "./components/Main";
 import { AuthProvider } from "./context/AuthProvider";
 import { InfoClienteProvider } from "./context/InfoClienteProvider";
 import { FranjasProvider } from "./context/FranjasProvider";
+import { DataExtraProvider } from "./context/DataExtraProvider";
 import { PowerProvider } from "./context/PowerProvider";
 import "./App.css";
 
@@ -13,12 +14,14 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <InfoClienteProvider>
-            <FranjasProvider>
+           <DataExtraProvider>   
+            <FranjasProvider>             
             <PowerProvider>
                 <Header />
                 <Main />
-              </PowerProvider>
+             </PowerProvider>
             </FranjasProvider>
+          </DataExtraProvider>
           </InfoClienteProvider>
         </AuthProvider>
       </BrowserRouter>
