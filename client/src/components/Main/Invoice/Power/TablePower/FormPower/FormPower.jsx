@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,7 +7,9 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { usePowerContext } from "../../../../../../context/PowerProvider"; 
+import { usePowerContext } from "../../../../../../context/PowerProvider";
+import { DataExtraContext } from "../../../../../../context/DataExtraProvider";
+
 
 function createDataTotales(precioDescuento, totalPagoFactura, totalPagoAnual) {
   return { precioDescuento, totalPagoFactura, totalPagoAnual };
@@ -15,7 +17,7 @@ function createDataTotales(precioDescuento, totalPagoFactura, totalPagoAnual) {
 
 const FormPower = () => {
   const { rowsPower, setRowsPower, rowsPowerTotales, setRowsPowerTotales } = usePowerContext();
-
+  const { dataExtra } = useContext(DataExtraContext);
   const calculateTotals = (rowsPower) => {
     return rowsPower.map(row => {
       let precioConDescuento = row.precioPotencia * (1 - row.descuento / 100);
@@ -26,9 +28,9 @@ const FormPower = () => {
   };
 
   useEffect(() => {
-    const newTotalesRows = calculateTotals(rowsPower);
+    const newTotalesRows = calculateTotals(rowsPower, dataExtra.dias_facturacion);
     setRowsPowerTotales(newTotalesRows);
-  }, [rowsPower]);
+  }, [rowsPower, dataExtra.dias_facturacion]);
 
   const handleChange = (index, column, value) => {
     setRowsPower(prevRows => {

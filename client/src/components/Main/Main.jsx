@@ -16,9 +16,9 @@ const Main = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/cups" element={<Cups />} />
         <Route path="/client" element={<DataClient />} />
+        <Route path="/dataextra" element={<DataExtra/>}/>
         <Route path="/energy" element={<Energy />} />
         <Route path="/power" element={<Power />} />
-        <Route path="/dataextra" element={<DataExtra/>}/>
         <Route path="/proposal" />
         <Route path='/' element={<Login />} />
         <Route path='/login' element={<Login />} />
