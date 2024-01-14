@@ -1,7 +1,11 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataExtraContext } from "../../../../context/DataExtraProvider";
 import axios from "axios";
+
 
 const FormDataExtra = () => {
   const { dataExtra, setDataExtra } = useContext(DataExtraContext);
@@ -52,19 +56,46 @@ const FormDataExtra = () => {
   };
 
   return (
-    <>
+    <article id="data-extra-sct">
+      <h5>Datos extra</h5>
       <section className="datos-extra-form">
-        <div className="form-group">
-          <label htmlFor="dias_facturacion">Días de facturación</label>
-          <input
-            id="dias_facturacion"
-            name="dias_facturacion"
-            type="text"
-            value={dataExtra.dias_facturacion}
-            onChange={handleInputChange}
-          />
+        <div className="importe-energia">
+          <div className="form-group">
+            <label htmlFor="importeElectrico">Importe eléctrico</label>
+            <input id="importeElectrico" type="text" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="energiaReactiva">Energía reactiva</label>
+            <input id="energiaReactiva" type="text" />
+          </div>
         </div>
-
+        <div className="importe-energia">
+          <div className="form-group">
+            <label htmlFor="dias-facturación">Días de facturación</label>
+            <input id="dias-facturación" type="text" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="alquiler-equipos">Alquiler de equipos</label>
+            <input id="alquiler-equipos" type="text" />
+          </div>
+        </div>
+        <div className="otros">
+          <label htmlFor="otros">Otros</label>
+          <input  type="text" placeholder="Concepto..." />
+          <input  type="text" placeholder="Cantidad..." />
+          <select name="otrosOpcion1">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+          <select name="otrosOpcion2" className="last-select">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div className="iva">
+          <label htmlFor="iva">Iva</label>
+          <select name="iva">     
+      <div className="importe-energia">
         <div className="form-group">
           <label htmlFor="impuesto_electrico">Impuesto Eléctrico</label>
           <input
@@ -75,7 +106,6 @@ const FormDataExtra = () => {
             onChange={handleInputChange}
           />
         </div>
-
         <div className="form-group">
           <label htmlFor="energia_reactiva">Energia reactiva</label>
           <input
@@ -86,33 +116,31 @@ const FormDataExtra = () => {
             onChange={handleInputChange}
           />
         </div>
-
-        <div className="form-group">
-          <label htmlFor="alquiler_equipo">Alquiler de equipo</label>
-          <input
-            id="alquiler_equipo"
-            name="alquiler_equipo"
-            type="text"
-            value={dataExtra.alquiler_equipo}
-            onChange={handleInputChange}
-          />
+       </div>
+       <div className="importe-energia">
+          <div className="form-group">
+            <label htmlFor="dias_facturacion">Días de facturación</label>
+            <input
+              id="dias_facturacion"
+              name="dias_facturacion"
+              type="text"
+              value={dataExtra.dias_facturacion}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="alquiler_equipo">Alquiler de equipo</label>
+            <input
+              id="alquiler_equipo"
+              name="alquiler_equipo"
+              type="text"
+              value={dataExtra.alquiler_equipo}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="iva">IVA</label>
-          <select
-            id="iva"
-            name="iva"
-            value={dataExtra.iva}
-            onChange={handleInputChange}
-          >
-            <option value="21">21%</option>
-            <option value="10">10%</option>
-            <option value="5">5%</option>
-          </select>
-        </div>
-
-        {otrosFields.map((field, index) => (
+        <div className="otros">
+          {otrosFields.map((field, index) => (
           <div key={index} className="form-group">
             <label htmlFor={`otros-concepto-${index}`}>Otros</label>
             <input
@@ -156,13 +184,33 @@ const FormDataExtra = () => {
           </div>
         ))}
         <p>Añadir otros</p>
-        <div>
-          <button type="button" onClick={postData}>
-            Continuar
-          </button>
+        </div>
+        <div className="iva">
+          <label htmlFor="iva">IVA</label>
+          <select
+            id="iva"
+            name="iva"
+            value={dataExtra.iva}
+            onChange={handleInputChange}
+          >
+            <option value="21">21%</option>
+            <option value="10">10%</option>
+            <option value="5">5%</option>
+          </select>
         </div>
       </section>
-    </>
+      <article className="navigation-sct">
+        <Link to="/client">
+          <button className="back-btn">Atrás</button>
+        </Link>
+        <Link to="/energy">
+          <button  className="continue-btn" onClick={postData}>Continuar</button>
+        </Link>
+      </article>
+    </article>
+
+
+      
   );
 };
 
