@@ -7,7 +7,9 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import axios from "axios";
 import { usePowerContext } from "../../../../../../context/PowerProvider";
+import { useFranjasContext } from "../../../../../../context/FranjasProvider"; 
 import { DataExtraContext } from "../../../../../../context/DataExtraProvider";
 
 function createDataRow(franja, potenciaContratada, precioPotencia, descuento) {
@@ -20,6 +22,7 @@ function createDataTotales(franja, precioDescuento, totalPagoFactura, totalPagoA
 
 const FormPower = () => {
   const { rowsPower, setRowsPower, rowsPowerTotales, setRowsPowerTotales } = usePowerContext();
+  const { rowsEnergy, rowsEnergyTotales } = useFranjasContext();
   const { dataExtra } = useContext(DataExtraContext);
 
   const calculateTotals = (rowsPower) => {
@@ -57,6 +60,48 @@ const FormPower = () => {
       return newRows;
     });
   };
+
+
+
+
+  const handleSubmit = async () => {
+    const datosParaEnviar = rowsPower.map((rowPower, index) => {
+      const energiaRow = rowsEnergy[index];
+      const energiaTotalesRow = rowsEnergyTotales[index]; 
+      return {
+        info_id: 1,
+        franja: rowPower.franja,
+        con_anual: parseFloat(energiaRow.consumoAnual) || 0,
+        con_fact_actual: parseFloat(energiaRow.consumoFacturaActual) || 0,
+        pre_ener_act_me: parseFloat(energiaRow.precioMediaAnual) || 0,
+        pre_ener_act_mes_fact: parseFloat(energiaRow.precioMesFacturacion) || 0,
+        descuento_energia: parseFloat(energiaRow.descuento) || 0,
+        pre_desc_energia: parseFloat(energiaTotalesRow.precioDescuento) || 0,
+        total_pago_fact_energia: parseFloat(energiaTotalesRow.totalPagoFactura) || 0,
+        total_pago_anual_energia: parseFloat(energiaTotalesRow.totalPagoAnual) || 0,
+        pot_cont: parseFloat(rowPower.potenciaContratada) || 0,
+        precio_pot: parseFloat(rowPower.precioPotencia) || 0,
+        descuento_potencia: parseFloat(rowPower.descuento) || 0,
+        pre_desc_pot: parseFloat(rowsPowerTotales.precioDescuento) || 0,
+        total_pago_fact_potencia: parseFloat(rowsPowerTotales.totalPagoFactura) || 0,
+        total_pago_anual_potencia: parseFloat(rowsPowerTotales.totalPagoAnual) || 0,
+      };
+    });
+    
+  
+    try {
+      const responses = await Promise.all(datosParaEnviar.map(franjaData =>
+        axios.post('http://localhost:3000/api/franjas', franjaData)
+      ));
+      console.log('Todas las respuestas:', responses);
+    } catch (error) {
+      console.error("Hubo un error al enviar los datos:", error);
+      if (error.response) {
+        console.error("Datos de la respuesta:", error.response.data);
+      }
+    }
+  };
+
 
   return (
     <>
@@ -184,7 +229,7 @@ const FormPower = () => {
         <div>
           <button>Ver tabla completa</button>
           <Link to="/proposal">
-            <button>Generar Ofertas</button>
+            <button onClick={handleSubmit}>Generar Ofertas</button>
           </Link>
         </div>
       </div>
