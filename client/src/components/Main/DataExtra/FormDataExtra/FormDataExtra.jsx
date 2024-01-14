@@ -14,7 +14,19 @@ const FormDataExtra = () => {
         </div>
         <div className="form-group">
           <label htmlFor="otros1">Otros</label>
-          <input id="otros1" type="text" />
+          <input  type="text" placeholder="concepto" />
+          <input  type="text" placeholder="cantidad" />
+          <select name="otrosOpcion1">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+          <select name="otrosOpcion2">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+          <label htmlFor="otros1">Otros</label>
+          <input  type="text" placeholder="concepto" />
+          <input  type="text" placeholder="cantidad" />
           <select name="otrosOpcion1">
             <option value="si">Sí</option>
             <option value="no">No</option>
