@@ -8,6 +8,7 @@ import Register from "./Register";
 import Energy from "./Invoice/Energy"
 import Power from "./Invoice/Power";
 import DataExtra from "./DataExtra/DataExtra";
+import Proposal from "./Proposal/Proposal"
 
 const Main = () => {
   return (
@@ -19,7 +20,7 @@ const Main = () => {
         <Route path="/dataextra" element={<DataExtra/>}/>
         <Route path="/energy" element={<Energy />} />
         <Route path="/power" element={<Power />} />
-        <Route path="/proposal" />
+        <Route path="/proposal" element={<Proposal />}/>
         <Route path='/' element={<Login />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
