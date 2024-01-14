@@ -16,7 +16,6 @@ const Proposal = () => {
 
       <form>
         <Grid container spacing={2} justifyContent="center">
-          {/* Cada título y desplegable ocupa 1 columna */}
           <Grid container item xs={8} spacing={1}>
             <Grid item xs={2}>
               <Typography variant="subtitle1" style={titleStyle}>
