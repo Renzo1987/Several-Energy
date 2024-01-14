@@ -4,10 +4,10 @@ import "./Power.css"
 
 const Power = () => {
   return (
-    <div>
-      <h2 className="title_power">Potencia</h2>
+    <section id="power-sct">
+      <h5 className="title_power">Introducir datos de potencia</h5>
       <TablePower />
-    </div>
+    </section>
   );
 };
 
