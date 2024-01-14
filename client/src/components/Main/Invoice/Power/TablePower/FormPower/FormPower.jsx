@@ -10,21 +10,38 @@ import TableRow from "@mui/material/TableRow";
 import { usePowerContext } from "../../../../../../context/PowerProvider";
 import { DataExtraContext } from "../../../../../../context/DataExtraProvider";
 
+function createDataRow(franja, potenciaContratada, precioPotencia, descuento) {
+  return { franja, potenciaContratada, precioPotencia, descuento };
+}
 
-function createDataTotales(precioDescuento, totalPagoFactura, totalPagoAnual) {
-  return { precioDescuento, totalPagoFactura, totalPagoAnual };
+function createDataTotales(franja, precioDescuento, totalPagoFactura, totalPagoAnual) {
+  return { franja, precioDescuento, totalPagoFactura, totalPagoAnual };
 }
 
 const FormPower = () => {
   const { rowsPower, setRowsPower, rowsPowerTotales, setRowsPowerTotales } = usePowerContext();
   const { dataExtra } = useContext(DataExtraContext);
+
   const calculateTotals = (rowsPower) => {
-    return rowsPower.map(row => {
+    const totalsRows = rowsPower.map(row => {
       let precioConDescuento = row.precioPotencia * (1 - row.descuento / 100);
       let totalPagoFactura = row.potenciaContratada * precioConDescuento * row.numeroDiasFacturados;
       let totalPagoAnual = row.potenciaContratada * precioConDescuento * 365;
-      return createDataTotales(precioConDescuento, totalPagoFactura, totalPagoAnual);
+      return createDataTotales(row.franja, precioConDescuento, totalPagoFactura, totalPagoAnual);
     });
+  
+   
+    totalsRows.push(createDataTotales("Total", 0, 0, 0));
+  
+ 
+    const totalPagoFactura = totalsRows.reduce((sum, row) => sum + (row.totalPagoFactura || 0), 0);
+    const totalPagoAnual = totalsRows.reduce((sum, row) => sum + (row.totalPagoAnual || 0), 0);
+  
+   
+    totalsRows[totalsRows.length - 1].totalPagoFactura = totalPagoFactura;
+    totalsRows[totalsRows.length - 1].totalPagoAnual = totalPagoAnual;
+  
+    return totalsRows;
   };
 
   useEffect(() => {
@@ -109,6 +126,9 @@ const FormPower = () => {
             <TableHead>
               <TableRow sx={{ "& > *": { border: "unset", padding: "5px" } }}>
                 <TableCell className="table-cell" align="center">
+                  Franja
+                </TableCell>
+                <TableCell className="table-cell" align="center">
                   Precio con descuento
                 </TableCell>
                 <TableCell className="table-cell" align="center">
@@ -125,6 +145,9 @@ const FormPower = () => {
                   sx={{ "& > *": { border: "unset", padding: "5px" } }}
                   key={index}
                 >
+                  <TableCell className="table-cell" align="center">
+                    {row.franja}
+                  </TableCell>
                   <TableCell className="table-cell" align="center">
                     <TextField
                       size="small"
@@ -161,7 +184,7 @@ const FormPower = () => {
         <div>
           <button>Ver tabla completa</button>
           <Link to="/#">
-            <button >Generar Ofertas</button>
+            <button>Generar Ofertas</button>
           </Link>
         </div>
       </div>
