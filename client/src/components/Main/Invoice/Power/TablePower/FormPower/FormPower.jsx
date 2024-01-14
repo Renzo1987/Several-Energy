@@ -183,7 +183,7 @@ const FormPower = () => {
 
         <div>
           <button>Ver tabla completa</button>
-          <Link to="/#">
+          <Link to="/proposal">
             <button>Generar Ofertas</button>
           </Link>
         </div>
