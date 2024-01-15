@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import FormCups from "./FormCups";
-import { useInfoCliente } from "../../../../context/InfoClienteProvider"; 
+import { useInfoCliente } from "../../../../context/InfoClienteProvider";
 
 const CUPS_REGEX = /^.{0,22}$/
 
@@ -14,12 +14,12 @@ const Cups = () => {
   const [validCups, setValidCups] = useState(true)
 
 
-
   useEffect(() => {
     setValidCups(CUPS_REGEX.test(cups))
   }, [cups])
 
   const handleContinue = () => {
+
     setCup(cups)
   }
 
