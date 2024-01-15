@@ -59,18 +59,23 @@ const Cups = () => {
   return (
     <section id="cups-section">
       <FormCups cups={cups} load={load} setCups={setCups} />
-      <p id="cupsnote" className={cups && !validCups ? "instructions" : "offscreen"}>
-      <FontAwesomeIcon icon={faInfoCircle} />
-            El CUPS no puede ser mayor de 22 caracteres.
-      </p>
-      <p id="cupsnote" className={success ? "instructions-success" : "offscreen"}>
-      <FontAwesomeIcon icon={faInfoCircle} />
-             Datos de consumo energéticos anuales cargados correctamente.
-      </p>
-      <p id="cupsnote" className={error ? "instructions-error" : "offscreen"}>
-      <FontAwesomeIcon icon={faInfoCircle} />
-             Los datos no pudieron ser cargados. Por favor, introdúzcalos manualmente.
-      </p>
+      <div className="cup-notes-cnt">
+        <div className="cup-notes">
+          <p id="cupsnote" className={cups && !validCups ? "instructions" : "offscreen"}>
+          <FontAwesomeIcon icon={faInfoCircle} />
+                El CUPS no puede ser mayor de 22 caracteres.
+          </p>
+          <p id="cupsnote" className={success ? "instructions-success" : "offscreen"}>
+          <FontAwesomeIcon icon={faInfoCircle} />
+                Datos de consumo energéticos anuales cargados correctamente.
+          </p>
+          <p id="cupsnote" className={error ? "instructions-error" : "offscreen"}>
+          <FontAwesomeIcon icon={faInfoCircle} />
+                Los datos no pudieron ser cargados. Por favor, introdúzcalos manualmente.
+          </p>
+        </div>
+        <Link to="/client">No tengo el CUPS</Link>
+      </div>
       <article className="navigation-sct">
         <Link to="/home">
           <button className="back-btn">Atrás</button>

@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/logo_several.png";
 import UserIcon from "../../assets/user-icon.png";
 import AuthContext from "../../context/AuthProvider";
@@ -8,11 +7,6 @@ import UserDropDown from "./UserDropDown/UserDropDown";
 const Header = () => {
   
   const { auth } = useContext(AuthContext)
-  const navigate = useNavigate()
-
-  if (!auth.asesor) {
-    navigate("/login")
-  }
 
    return (
     <header className={ !auth.asesor ? "offscreen" : "header" }>

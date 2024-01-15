@@ -5,10 +5,23 @@
     align-items: center;
 
     height: 100%;
+
+    div.cup-notes-cnt {
+        display: flex;
+        justify-content: space-between;
+        width: 75%;
+
+        a {
+        margin-top: 5px;
+        margin-left: auto;
+        display: inline-block;
+    }
+    }
 }
 
 #cups-form {
     width: 75%;
+    padding-bottom: 0;
 
     div {
         display: flex;
@@ -31,11 +44,7 @@
         border: none;
     }
 
-    a {
-        margin-top: 5px;
-        text-align: end;
-        display: inline-block;
-    }
+    
 
     
 }

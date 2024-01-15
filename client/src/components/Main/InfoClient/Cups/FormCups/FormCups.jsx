@@ -13,9 +13,7 @@ const FormCups = ({ cups, setCups, load }) => {
         type="text"
         value={cups}
         onChange={(e) => setCups(e.target.value)}
-      />
-        <Link to="/client">No tengo el CUPS</Link>
-      
+      />      
     </form>
   );
 };
