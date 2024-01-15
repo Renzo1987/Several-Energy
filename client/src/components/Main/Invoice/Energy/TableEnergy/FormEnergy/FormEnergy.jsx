@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,26 +8,8 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { useFranjasContext } from "../../../../../../context/FranjasProvider"; 
-
-
-// function createData(
-//   franja,
-//   consumoAnual,
-//   consumoFacturaActual,
-//   precioMediaAnual,
-//   precioMesFacturacion,
-//   descuento
-// ) {
-//   return {
-//     franja,
-//     consumoAnual,
-//     consumoFacturaActual,
-//     precioMediaAnual,
-//     precioMesFacturacion,
-//     descuento,
-//   };
-// }
+import { useFranjasContext } from "../../../../../../context/FranjasProvider";
+import ConsumosAnualesContext from "../../../../../../context/ConsumosAnualesProvider"; 
 
 function createDataTotales(precioDescuento, totalPagoFactura, totalPagoAnual) {
   return { precioDescuento, totalPagoFactura, totalPagoAnual };
@@ -36,13 +18,14 @@ function createDataTotales(precioDescuento, totalPagoFactura, totalPagoAnual) {
 const FormEnergy = () => {
 
   const { rowsEnergy, setRowsEnergy, rowsEnergyTotales, setRowsEnergyTotales } = useFranjasContext();
+  const { consumosAnuales } = useContext(ConsumosAnualesContext)
  
 
   const calculateTotals = (rowsEnergy) => {
-    return rowsEnergy.map(row => {
+    return rowsEnergy.map((row, index) => {
       let precioConDescuento = row.precioMesFacturacion * (1 - row.descuento / 100);
       let totalPagoFactura = row.consumoFacturaActual * precioConDescuento;
-      let totalPagoAnual = row.consumoAnual * (row.precioMediaAnual * (1 - row.descuento / 100));
+      let totalPagoAnual = consumosAnuales[index] * (row.precioMediaAnual * (1 - row.descuento / 100));
       return createDataTotales(precioConDescuento, totalPagoFactura, totalPagoAnual);
     });
   };
@@ -99,7 +82,7 @@ const FormEnergy = () => {
                 <TableCell align="center">
                   <TextField
                     size="small"
-                    value={row.consumoAnual}
+                    value={ consumosAnuales[index] }
                     onChange={(e) =>
                       handleChange(index, "consumoAnual", e.target.value)
                     }
@@ -217,12 +200,13 @@ const FormEnergy = () => {
                     <TextField
                       size="small"
                       value={row.totalPagoAnual}
-                      // onChange={(e) =>
+                      // onChange={(e) => {
                       //   handleTotalesChange(
                       //     index,
                       //     "totalPagoAnual",
                       //     e.target.value
                       //   )
+                      // }
                       // }
                     />
                   </TableCell>

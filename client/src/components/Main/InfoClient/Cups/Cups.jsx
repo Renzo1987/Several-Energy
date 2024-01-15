@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import FormCups from "./FormCups";
 import { useInfoCliente } from "../../../../context/InfoClienteProvider"; 
+import ConsumosAnualesContext from "../../../../context/ConsumosAnualesProvider";
 
 const CUPS_REGEX = /^.{0,22}$/
 
 const Cups = () => {
 
+
+
   const { setCup } = useInfoCliente();
+  const { setConsumosAnuales } = useContext(ConsumosAnualesContext)
   const [cups, setCups] = useState("");
   const [validCups, setValidCups] = useState(true)
   const [success, setSuccess] = useState(false)
@@ -37,8 +41,9 @@ const Cups = () => {
       
       if (data?.error) {
         setError(true)
-      } else if (data?.resultado) {
+      } else if (data?.Distribuidora) {
         setSuccess(true)
+        setConsumosAnuales([data.ConsumoAnualP1, data.ConsumoAnualP2, data.ConsumoAnualP3])
       }
       
       setTimeout(() => {

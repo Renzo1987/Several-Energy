@@ -6,6 +6,7 @@ import { InfoClienteProvider } from "./context/InfoClienteProvider";
 import { FranjasProvider } from "./context/FranjasProvider";
 import { DataExtraProvider } from "./context/DataExtraProvider";
 import { PowerProvider } from "./context/PowerProvider";
+import { ConsumosAnualesProvider } from "./context/ConsumosAnualesProvider";
 import "./App.css";
 
 function App() {
@@ -14,16 +15,18 @@ function App() {
     <>
       <BrowserRouter>
         <AuthProvider>
-          <InfoClienteProvider>
-           <DataExtraProvider>   
-            <FranjasProvider>             
-            <PowerProvider>
-                <Header />
-                <Main />
-             </PowerProvider>
-            </FranjasProvider>
-          </DataExtraProvider>
-          </InfoClienteProvider>
+          <ConsumosAnualesProvider>
+            <InfoClienteProvider>
+              <DataExtraProvider>   
+                <FranjasProvider>             
+                  <PowerProvider>
+                      <Header />
+                      <Main />
+                  </PowerProvider>
+                </FranjasProvider>
+              </DataExtraProvider>
+            </InfoClienteProvider>
+          </ConsumosAnualesProvider>
         </AuthProvider>
       </BrowserRouter>
     </>

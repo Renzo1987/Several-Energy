@@ -11,6 +11,7 @@ import axios from "axios";
 import { usePowerContext } from "../../../../../../context/PowerProvider";
 import { useFranjasContext } from "../../../../../../context/FranjasProvider";
 import { DataExtraContext } from "../../../../../../context/DataExtraProvider";
+import ConsumosAnualesContext from "../../../../../../context/ConsumosAnualesProvider"; 
 import { useInfoCliente } from "../../../../../../context/InfoClienteProvider";
 
 function createDataRow(franja, potenciaContratada, precioPotencia, descuento) {
@@ -27,6 +28,7 @@ function createDataTotales(
 }
 
 const FormPower = () => {
+  const { consumosAnuales } = useContext(ConsumosAnualesContext)
   const { rowsPower, setRowsPower, rowsPowerTotales, setRowsPowerTotales } =
     usePowerContext();
   const { rowsEnergy, rowsEnergyTotales } = useFranjasContext();
@@ -91,6 +93,7 @@ const FormPower = () => {
 
   const handleSubmit = async () => {
     const datosParaEnviar = rowsPower.map((rowPower, index) => {
+      const energiaAnual = consumosAnuales[index]
       const energiaRow = rowsEnergy[index];
       const energiaTotalesRow = rowsEnergyTotales[index];
       const infoId = infoClienteState.clientData.info_id;
@@ -98,7 +101,7 @@ const FormPower = () => {
       return {
         info_id: infoId,
         franja: rowPower.franja,
-        con_anual: parseFloat(energiaRow.consumoAnual) || 0,
+        con_anual: parseFloat(energiaAnual) || 0,
         con_fact_actual: parseFloat(energiaRow.consumoFacturaActual) || 0,
         pre_ener_act_me: parseFloat(energiaRow.precioMediaAnual) || 0,
         pre_ener_act_mes_fact: parseFloat(energiaRow.precioMesFacturacion) || 0,

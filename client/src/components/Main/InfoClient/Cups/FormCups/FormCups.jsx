@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SmallSpinner from '../../../../../assets/small-spinner.png'
+import SmallSpinner from '../../../../../assets/Gif_carga.gif'
 
 const FormCups = ({ cups, setCups, load }) => {
   return (
