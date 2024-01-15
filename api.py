@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import json
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -12,6 +13,7 @@ from selenium.webdriver.chrome.service import Service
 import time
 
 app = Flask(__name__)
+CORS(app)
 app.config['DEBUG'] = True
 
 @app.route("/", methods=['GET'])

@@ -89,6 +89,26 @@ button {
     bottom: -10px;
 }
 
+.instructions-success {
+    font-size: 0.75rem;
+    border-radius: 0.5rem;
+    background: #71AF3B;
+    color: #fff;
+    padding: 0.25rem;
+    position: relative;
+    bottom: -10px;
+}
+
+.instructions-error {
+    font-size: 0.75rem;
+    border-radius: 0.5rem;
+    background: #DB4C3E;
+    color: #fff;
+    padding: 0.25rem;
+    position: relative;
+    bottom: -10px;
+}
+
 .instructions > svg {
     margin-right: 0.25rem;
 }
