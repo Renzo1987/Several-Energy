@@ -32,12 +32,12 @@ steps:
   ]
 
   secretEnv: [
-    - 'ACCESS_TOKEN_SECRET'
-    - 'PG_DATABASE'
-    - 'PG_HOST'
-    - 'PG_PASSWORD'
-    - 'PG_USER'
-    - 'REFRESH_TOKEN_SECRET'
+    'ACCESS_TOKEN_SECRET',
+    'PG_DATABASE',
+    'PG_HOST',
+    'PG_PASSWORD',
+    'PG_USER',
+    'REFRESH_TOKEN_SECRET'
   ]
 
 images:
