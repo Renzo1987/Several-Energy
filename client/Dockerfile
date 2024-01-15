@@ -11,7 +11,7 @@ COPY . ./client
 RUN cd client && npm install
 
 # Exponer el puerto utilizado por el cliente
-EXPOSE 5173
+EXPOSE 5174
 
 # Iniciar el cliente
-CMD ["sh", "-c", "cd client && npm start -- --port 5173 --host 0.0.0.0"]
+CMD ["sh", "-c", "cd client && npm start -- --port 5174 --host 0.0.0.0"]

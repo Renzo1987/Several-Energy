@@ -21,7 +21,7 @@ steps:
     --region=europe-west1 
     --platform=managed 
     --allow-unauthenticated 
-    --port=5173"
+    --port=5174"
   ]
 
 images:
