@@ -6,6 +6,7 @@ const InfoClienteContext = createContext();
 const SET_CUP = 'SET_CUP';
 const SET_CLIENT_DATA = 'SET_CLIENT_DATA';
 const SET_INFO_ID = 'SET_INFO_ID';
+const SET_TITULAR_DIRECCION_CIA = 'SET_TITULAR_DOMICILIO_CIA';
 
 
 const infoClienteReducer = (infoClienteState, action) => {
@@ -26,6 +27,16 @@ const infoClienteReducer = (infoClienteState, action) => {
           clientData: {
             ...infoClienteState.clientData,
             info_id: action.payload,
+          },
+        };
+        case SET_TITULAR_DIRECCION_CIA:
+        return {
+          ...infoClienteState,
+          clientData: {
+            ...infoClienteState.clientData,
+            titular: action.payload.titular,
+            direccion: action.payload.direccion,
+            comp_actual:action.payload.comp_actual
           },
         };
     default:
@@ -54,6 +65,9 @@ const InfoClienteProvider = ({ children }) => {
 
   const setInfoId = (infoId) => {
     updateInfoClienteState({ type: SET_INFO_ID, payload: infoId });
+  };
+  const setTitularDireccionCia = (titular, direccion, comp_actual) => {
+    updateInfoClienteState({ type: SET_TITULAR_DIRECCION_CIA, payload: { titular, direccion, comp_actual } });
   };
   
 
@@ -114,6 +128,7 @@ const InfoClienteProvider = ({ children }) => {
         setCup,
         setClientData,
         setInfoId,
+        setTitularDireccionCia,
         createInfoCliente,
         getInfoCliente,
         updateInfoCliente,

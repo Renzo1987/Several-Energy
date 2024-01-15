@@ -16,7 +16,7 @@ const FormClient = () => {
     comp_actual: "",
   });
 
-  const { infoClienteState, setInfoId } = useInfoCliente();
+  const { infoClienteState, setInfoId, setTitularDireccionCia} = useInfoCliente();
 
   const postInfoCliente = async () => {
     const asesorData = await axios.get(`api/user/obtenerasesor/${auth.email}`)
@@ -33,7 +33,11 @@ const FormClient = () => {
       const response = await axios.post(POST_URL, infoCliente
       );
       const createdInfoId = response.data.info_id; 
+      const titular = response.data.titular;
+      const direccion = response.data.direccion;
+      const comp_actual = response.data.comp_actual;
       setInfoId(createdInfoId);
+      setTitularDireccionCia(titular, direccion, comp_actual);
       console.log(response.data);
       navigate("/dataextra"); 
     } catch (error) {
