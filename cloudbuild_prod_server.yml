@@ -22,7 +22,38 @@ steps:
     --platform=managed 
     --allow-unauthenticated 
     --port=3000"
+    --update-env-vars
+      ACCESS_TOKEN_SECRET=$$ACCESS_TOKEN_SECRET,\
+      PG_DATABASE=$$PG_DATABASE,\
+      PG_HOST=$$PG_HOST,\
+      PG_PASSWORD=$$PG_PASSWORD,\
+      PG_USER=$$PG_USER,\
+      REFRESH_TOKEN_SECRET=$$REFRESH_TOKEN_SECRET"
+  ]
+
+  secretEnv: [
+    - 'ACCESS_TOKEN_SECRET'
+    - 'PG_DATABASE'
+    - 'PG_HOST'
+    - 'PG_PASSWORD'
+    - 'PG_USER'
+    - 'REFRESH_TOKEN_SECRET'
   ]
 
 images:
 - 'gcr.io/$PROJECT_ID/server-app-prod:$COMMIT_SHA'
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/626688550366/secrets/ACCESS_TOKEN_SECRET/versions/latest
+      env: 'ACCESS_TOKEN_SECRET'
+    - versionName: projects/626688550366/secrets/PG_DATABASE/versions/latest
+      env: 'PG_DATABASE'
+    - versionName: projects/626688550366/secrets/PG_HOST/versions/latest
+      env: 'PG_HOST'
+    - versionName: projects/626688550366/secrets/PG_PASSWORD/versions/latest
+      env: 'PG_PASSWORD'
+    - versionName: projects/626688550366/secrets/PG_USER/versions/latest
+      env: 'PG_USER'
+    - versionName: projects/626688550366/secrets/REFRESH_TOKEN_SECRET/versions/latest
+      env: 'REFRESH_TOKEN_SECRET'
