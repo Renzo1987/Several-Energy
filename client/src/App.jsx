@@ -9,6 +9,7 @@ import { PowerProvider } from "./context/PowerProvider";
 import "./App.css";
 
 function App() {
+
   return (
     <>
       <BrowserRouter>
