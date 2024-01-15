@@ -14,4 +14,4 @@ RUN cd client && npm install
 EXPOSE 5173
 
 # Iniciar el cliente
-CMD ["sh", "-c", "cd client && npm run dev -- --port 5173 --host 0.0.0.0"]
+CMD ["sh", "-c", "cd client && npm start -- --port 5173 --host 0.0.0.0"]
