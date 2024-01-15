@@ -9,55 +9,79 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import { usePowerContext } from "../../../../../../context/PowerProvider";
-import { useFranjasContext } from "../../../../../../context/FranjasProvider"; 
+import { useFranjasContext } from "../../../../../../context/FranjasProvider";
 import { DataExtraContext } from "../../../../../../context/DataExtraProvider";
 import { useInfoCliente } from "../../../../../../context/InfoClienteProvider";
-
 
 function createDataRow(franja, potenciaContratada, precioPotencia, descuento) {
   return { franja, potenciaContratada, precioPotencia, descuento };
 }
 
-function createDataTotales(franja, precioDescuento, totalPagoFactura, totalPagoAnual) {
+function createDataTotales(
+  franja,
+  precioDescuento,
+  totalPagoFactura,
+  totalPagoAnual
+) {
   return { franja, precioDescuento, totalPagoFactura, totalPagoAnual };
 }
 
 const FormPower = () => {
-  const { rowsPower, setRowsPower, rowsPowerTotales, setRowsPowerTotales } = usePowerContext();
+  const { rowsPower, setRowsPower, rowsPowerTotales, setRowsPowerTotales } =
+    usePowerContext();
   const { rowsEnergy, rowsEnergyTotales } = useFranjasContext();
   const { dataExtra } = useContext(DataExtraContext);
   const { infoClienteState } = useInfoCliente();
 
-
-  const calculateTotals = (rowsPower) => {
-    const totalsRows = rowsPower.map(row => {
+  const calculateTotals = (rowsPower, diasFacturacionNumerico) => {
+    const totalsRows = rowsPower.map((row) => {
       let precioConDescuento = row.precioPotencia * (1 - row.descuento / 100);
-      let totalPagoFactura = row.potenciaContratada * precioConDescuento * row.numeroDiasFacturados;
+      let totalPagoFactura =
+        row.potenciaContratada * precioConDescuento * diasFacturacionNumerico;
       let totalPagoAnual = row.potenciaContratada * precioConDescuento * 365;
-      return createDataTotales(row.franja, precioConDescuento, totalPagoFactura, totalPagoAnual);
+      return createDataTotales(
+        row.franja,
+        precioConDescuento,
+        totalPagoFactura,
+        totalPagoAnual
+      );
     });
-  
-   
+
     totalsRows.push(createDataTotales("Total", 0, 0, 0));
-  
- 
-    const totalPagoFactura = totalsRows.reduce((sum, row) => sum + (row.totalPagoFactura || 0), 0);
-    const totalPagoAnual = totalsRows.reduce((sum, row) => sum + (row.totalPagoAnual || 0), 0);
-  
-   
+
+    const totalPagoFactura = totalsRows.reduce(
+      (sum, row) => sum + (row.totalPagoFactura || 0),
+      0
+    );
+    const totalPagoAnual = totalsRows.reduce(
+      (sum, row) => sum + (row.totalPagoAnual || 0),
+      0
+    );
+
     totalsRows[totalsRows.length - 1].totalPagoFactura = totalPagoFactura;
     totalsRows[totalsRows.length - 1].totalPagoAnual = totalPagoAnual;
-  
+
     return totalsRows;
   };
 
   useEffect(() => {
-    const newTotalesRows = calculateTotals(rowsPower, dataExtra.dias_facturacion);
-    setRowsPowerTotales(newTotalesRows);
+    const diasFacturacionNumerico = parseInt(dataExtra.dias_facturacion, 10);
+    if (!isNaN(diasFacturacionNumerico)) {
+      const newTotalesRows = calculateTotals(
+        rowsPower,
+        diasFacturacionNumerico
+      );
+      setRowsPowerTotales(newTotalesRows);
+    } else {
+      console.error(
+        "El valor de días de facturación no es un número:",
+        dataExtra.dias_facturacion
+      );
+    }
   }, [rowsPower, dataExtra.dias_facturacion]);
 
   const handleChange = (index, column, value) => {
-    setRowsPower(prevRows => {
+    setRowsPower((prevRows) => {
       const newRows = [...prevRows];
       const updatedRow = { ...newRows[index], [column]: value };
       newRows[index] = updatedRow;
@@ -65,13 +89,10 @@ const FormPower = () => {
     });
   };
 
-
-
-
   const handleSubmit = async () => {
     const datosParaEnviar = rowsPower.map((rowPower, index) => {
       const energiaRow = rowsEnergy[index];
-      const energiaTotalesRow = rowsEnergyTotales[index]; 
+      const energiaTotalesRow = rowsEnergyTotales[index];
       const infoId = infoClienteState.clientData.info_id;
 
       return {
@@ -83,23 +104,28 @@ const FormPower = () => {
         pre_ener_act_mes_fact: parseFloat(energiaRow.precioMesFacturacion) || 0,
         descuento_energia: parseFloat(energiaRow.descuento) || 0,
         pre_desc_energia: parseFloat(energiaTotalesRow.precioDescuento) || 0,
-        total_pago_fact_energia: parseFloat(energiaTotalesRow.totalPagoFactura) || 0,
-        total_pago_anual_energia: parseFloat(energiaTotalesRow.totalPagoAnual) || 0,
+        total_pago_fact_energia:
+          parseFloat(energiaTotalesRow.totalPagoFactura) || 0,
+        total_pago_anual_energia:
+          parseFloat(energiaTotalesRow.totalPagoAnual) || 0,
         pot_cont: parseFloat(rowPower.potenciaContratada) || 0,
         precio_pot: parseFloat(rowPower.precioPotencia) || 0,
         descuento_potencia: parseFloat(rowPower.descuento) || 0,
         pre_desc_pot: parseFloat(rowsPowerTotales.precioDescuento) || 0,
-        total_pago_fact_potencia: parseFloat(rowsPowerTotales.totalPagoFactura) || 0,
-        total_pago_anual_potencia: parseFloat(rowsPowerTotales.totalPagoAnual) || 0,
+        total_pago_fact_potencia:
+          parseFloat(rowsPowerTotales.totalPagoFactura) || 0,
+        total_pago_anual_potencia:
+          parseFloat(rowsPowerTotales.totalPagoAnual) || 0,
       };
     });
-    
-  
+
     try {
-      const responses = await Promise.all(datosParaEnviar.map(franjaData =>
-        axios.post('http://localhost:3000/api/franjas', franjaData)
-      ));
-      console.log('Todas las respuestas:', responses);
+      const responses = await Promise.all(
+        datosParaEnviar.map((franjaData) =>
+          axios.post("http://localhost:3000/api/franjas", franjaData)
+        )
+      );
+      console.log("Todas las respuestas:", responses);
     } catch (error) {
       console.error("Hubo un error al enviar los datos:", error);
       if (error.response) {
@@ -107,7 +133,6 @@ const FormPower = () => {
       }
     }
   };
-
 
   return (
     <>
@@ -231,13 +256,15 @@ const FormPower = () => {
         </TableContainer>
 
         <article className="navigation-sct">
-        <Link to="/energy">
-          <button className="back-btn">Atrás</button>
-        </Link>
-        <Link to="/proposal">
-          <button  className="continue-btn" onClick={handleSubmit}>Continuar</button>
-        </Link>
-      </article>
+          <Link to="/energy">
+            <button className="back-btn">Atrás</button>
+          </Link>
+          <Link to="/proposal">
+            <button className="continue-btn" onClick={handleSubmit}>
+              Continuar
+            </button>
+          </Link>
+        </article>
       </div>
     </>
   );
