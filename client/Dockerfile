@@ -1,5 +1,7 @@
 # Utilizar la imagen base de Node.js 14
-FROM node:20
+FROM node:20-alpine
+
+ENV port=5173
 
 # Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /App
@@ -14,4 +16,4 @@ RUN cd client && npm install
 EXPOSE 5173
 
 # Iniciar el cliente
-CMD ["sh", "-c", "cd client && npm start -- --port 5173 --host 0.0.0.0"]
+CMD ["sh", "-c", "cd client && npm run dev -- --port 5173 --host 0.0.0.0"]
