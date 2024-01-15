@@ -4,8 +4,7 @@
     align-items: center;
     justify-content: space-evenly;
 
-    height: 100%;
-    padding: 120px 0;
+    padding-top: 120px;
 
     h5 {
         border-bottom: 2px solid black;
@@ -132,3 +131,6 @@
     }
 }
 
+.navigation-sct {
+    margin: 0 70px 0 auto;
+}
