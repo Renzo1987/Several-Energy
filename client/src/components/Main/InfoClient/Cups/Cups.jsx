@@ -64,7 +64,7 @@ const Cups = () => {
       </p>
       <p id="cupsnote" className={error ? "instructions-error" : "offscreen"}>
       <FontAwesomeIcon icon={faInfoCircle} />
-             Los datos no pudieron ser cargados. Por favor, introdúzcalos manualmente.
+             Los datoss no pudieron ser cargados. Por favor, introdúzcalos manualmente.
       </p>
       <article className="navigation-sct">
         <Link to="/home">
