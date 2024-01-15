@@ -76,7 +76,7 @@ steps:
     "-c",
     "gcloud run deploy server-app-prod
     --image=gcr.io/$PROJECT_ID/server-app-prod:$COMMIT_SHA 
-    --region=europe-west1  # Reemplazar con la región de tu preferencia
+    --region=europe-west1 
     --platform=managed 
     --allow-unauthenticated 
     --port=5173
@@ -91,7 +91,7 @@ steps:
   - 'REFRESH_TOKEN_SECRET=$(cat $REFRESH_TOKEN_SECRET_FILE)'
 
 images:
-- 'gcr.io/$PROJECT_ID/client-app-prod:$COMMIT_SHA'
+- 'gcr.io/$PROJECT_ID/server-app-prod:$COMMIT_SHA'
 secrets:
 - versionName: projects/desafio-tripulaciones-grupo1/secrets/PG_USER/versions/latest
   secretEnv:
