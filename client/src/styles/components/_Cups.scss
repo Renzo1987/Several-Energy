@@ -10,6 +10,22 @@
 #cups-form {
     width: 75%;
 
+    div {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        
+        .small-spinner {
+            width: 40px;
+            object-fit: contain;
+            margin-left: 10px;
+        }
+
+        label {
+            margin: 0;
+        }
+    }
+
     input {
         background-color: #E6E6E6;
         border: none;
@@ -18,7 +34,10 @@
     a {
         margin-top: 5px;
         text-align: end;
+        display: inline-block;
     }
+
+    
 }
 
 .navigation-sct {

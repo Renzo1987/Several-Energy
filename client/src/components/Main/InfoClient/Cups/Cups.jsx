@@ -15,6 +15,7 @@ const Cups = () => {
   const [validCups, setValidCups] = useState(true)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
+  const [load, setLoad] = useState(false)
   const navigate = useNavigate()
 
 
@@ -24,14 +25,16 @@ const Cups = () => {
 
   const handleContinue = async () => {
     setCup(cups)
+    setLoad(true)
     try {
       const response = await axios.post("http://127.0.0.1:5000/cups", JSON.stringify({ cups }),
       {
         headers: { 'Content-Type': 'application/json' }
       })
+      setLoad(false)
       const data = response.data
       console.log(data)
-
+      
       if (data?.error) {
         setError(true)
       } else if (data?.resultado) {
@@ -50,7 +53,7 @@ const Cups = () => {
 
   return (
     <section id="cups-section">
-      <FormCups cups={cups} setCups={setCups} />
+      <FormCups cups={cups} load={load} setCups={setCups} />
       <p id="cupsnote" className={cups && !validCups ? "instructions" : "offscreen"}>
       <FontAwesomeIcon icon={faInfoCircle} />
             El CUPS no puede ser mayor de 22 caracteres.
