@@ -5,6 +5,8 @@ const InfoClienteContext = createContext();
 
 const SET_CUP = 'SET_CUP';
 const SET_CLIENT_DATA = 'SET_CLIENT_DATA';
+const SET_INFO_ID = 'SET_INFO_ID';
+
 
 const infoClienteReducer = (infoClienteState, action) => {
   switch (action.type) {
@@ -14,10 +16,18 @@ const infoClienteReducer = (infoClienteState, action) => {
         cup: action.payload,
       };
     case SET_CLIENT_DATA:
-      return {
+      return { 
         ...infoClienteState,
         clientData: action.payload,
       };
+      case SET_INFO_ID:
+        return {
+          ...infoClienteState,
+          clientData: {
+            ...infoClienteState.clientData,
+            info_id: action.payload,
+          },
+        };
     default:
       return infoClienteState;
   }
@@ -40,6 +50,10 @@ const InfoClienteProvider = ({ children }) => {
 
   const setClientData = (newClientData) => {
     updateInfoClienteState({ type: SET_CLIENT_DATA, payload: newClientData });
+  };
+
+  const setInfoId = (infoId) => {
+    updateInfoClienteState({ type: SET_INFO_ID, payload: infoId });
   };
   
 
@@ -99,6 +113,7 @@ const InfoClienteProvider = ({ children }) => {
         infoClienteState,
         setCup,
         setClientData,
+        setInfoId,
         createInfoCliente,
         getInfoCliente,
         updateInfoCliente,
