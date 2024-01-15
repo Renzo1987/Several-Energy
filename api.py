@@ -52,8 +52,8 @@ def tu_endpoint():
 
             # Ingresa las credenciales
             empresa_input.send_keys('CANDELA COMERCIALIZADORA, S.L ELECTRICIDAD')
-            usuario_input.send_keys('CA001507')
-            contrasena_input.send_keys('CI001-507/258071')
+            usuario_input.send_keys('CA091')
+            contrasena_input.send_keys('CI001-091/8463')
 
             # Encuentra el botón de "Entrar" por su clase (puedes usar otro selector según sea necesario)
             entrar_button = driver.find_element(By.CLASS_NAME, 'btn-white')
