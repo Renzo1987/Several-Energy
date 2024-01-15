@@ -1,0 +1,37 @@
+#power-sct {
+    min-height: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    margin: auto auto;
+    padding: 100px 5px;
+
+    h5 {
+        border-bottom: 2px solid black;
+        padding-bottom: 10px;
+    }
+
+    .totales-title {
+        margin-top: 40px;
+    }
+
+    .table-buttons {
+        .navigation-sct {
+            margin-left: auto;
+        }
+    }
+}
+
+.css-1yhpg23-MuiTableCell-root {
+    box-sizing: content-box;
+}
+
+#power-sct > div.MuiTableContainer-root.table-energy.css-rorn0c-MuiTableContainer-root > table > tbody > tr > td > div > div {
+    background-color: #E6E6E6;
+}
+
+#power-sct > div.table-buttons > div.MuiTableContainer-root.table-energy.css-rorn0c-MuiTableContainer-root > table > tbody > tr > td > div > div {
+    background-color: #CCCCCC;
+}

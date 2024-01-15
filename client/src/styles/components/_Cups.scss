@@ -1,0 +1,50 @@
+#cups-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+}
+
+#cups-form {
+    width: 75%;
+
+    input {
+        background-color: #E6E6E6;
+        border: none;
+    }
+
+    a {
+        margin-top: 5px;
+        text-align: end;
+    }
+}
+
+.navigation-sct {
+    width: 75%;
+    margin-top: 50px;
+
+    display: flex;
+    justify-content: end;
+
+    .continue-btn {
+        width: 300px;
+        background-color: #CF4E4D;
+        border: none;
+    }
+
+    .continue-btn:disabled {
+        background-color: #F1D8D7;
+        color: black;
+    }
+
+    .back-btn {
+        width: 150px;
+        margin-right: 30px;
+
+        border: 2px solid #CF4E4D;
+        background-color: white;
+        color: #CF4E4D;
+    }
+}
