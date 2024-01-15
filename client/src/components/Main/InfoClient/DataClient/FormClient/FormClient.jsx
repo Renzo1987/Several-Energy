@@ -16,7 +16,7 @@ const FormClient = () => {
     comp_actual: "",
   });
 
-  const { infoClienteState } = useInfoCliente();
+  const { infoClienteState, setInfoId } = useInfoCliente();
 
   const postInfoCliente = async () => {
     const asesorData = await axios.get(`api/user/obtenerasesor/${auth.email}`)
@@ -32,6 +32,8 @@ const FormClient = () => {
     try {
       const response = await axios.post(POST_URL, infoCliente
       );
+      const createdInfoId = response.data.info_id; 
+      setInfoId(createdInfoId);
       console.log(response.data);
       navigate("/dataextra"); 
     } catch (error) {
