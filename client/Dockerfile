@@ -1,5 +1,5 @@
 # Utilizar la imagen base de Node.js 14
-FROM node:14
+FROM node:20
 
 # Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /App
@@ -11,7 +11,7 @@ COPY . ./client
 RUN cd client && npm install
 
 # Exponer el puerto utilizado por el cliente
-EXPOSE 5174
+EXPOSE 5173
 
 # Iniciar el cliente
-CMD ["sh", "-c", "cd client && npm start -- --port 5174 --host 0.0.0.0"]
+CMD ["sh", "-c", "cd client && npm start -- --port 5173 --host 0.0.0.0"]
