@@ -22,7 +22,6 @@ const Proposal = () => {
   const { dataExtra } = useContext(DataExtraContext);
   const { infoClienteState } = useInfoCliente();
 
-  const infoId = infoClienteState.clientData.info_id;
   const totalConsumoAnual = consumosAnuales.reduce((acc, val) => acc + val, 0);
   const totalEnergia = rowsEnergyTotales[rowsEnergyTotales.length - 1];
   const totalPotencia = rowsPowerTotales[rowsPowerTotales.length - 1];
