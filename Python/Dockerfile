@@ -5,7 +5,7 @@ RUN apt-get update && \
     libpq-dev \
     chromium \
     chromium-driver
-COPY . /app
+COPY ./Python /app
 WORKDIR /app
 RUN pip install --upgrade pip
 #COPY requirements.txt .
