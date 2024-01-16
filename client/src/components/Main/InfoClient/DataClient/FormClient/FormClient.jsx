@@ -85,7 +85,7 @@ const FormClient = () => {
         title="Solo letras y números son permitidos."
         required
       /> 
-      <article className="navigation-sct">
+      <article className="navigation-sct-cups">
         <Link to="/cups">
           <button className="back-btn">Atrás</button>
         </Link>

@@ -76,7 +76,7 @@ const Cups = () => {
         </div>
         <Link to="/client">No tengo el CUPS</Link>
       </div>
-      <article className="navigation-sct">
+      <article className="navigation-sct-cups">
         <Link to="/home">
           <button className="back-btn">Atrás</button>
         </Link>

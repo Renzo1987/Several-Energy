@@ -18,10 +18,36 @@
     }
 
     .table-buttons {
+        display: flex;
+        flex-direction: column;
+        
         .navigation-sct {
+            margin-top: 50px;
             margin-left: auto;
+            
+            .continue-btn {
+                width: 300px;
+                background-color: #CF4E4D;
+                border: none;
+            }
+        
+            .continue-btn:disabled {
+                background-color: #F1D8D7;
+                color: black;
+            }
+        
+            .back-btn {
+                width: 150px;
+                margin-right: 30px;
+        
+                border: 2px solid #CF4E4D;
+                background-color: white;
+                color: #CF4E4D;
+            }
         }
     }
+
+    
 }
 
 .css-1yhpg23-MuiTableCell-root {
