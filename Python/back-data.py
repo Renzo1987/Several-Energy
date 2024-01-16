@@ -290,7 +290,7 @@ def tu_endpoint():
 
         def webscraping (num_cup):
             directorio_actual = os.path.dirname(os.path.abspath(__file__))
-            chromedriver_path = os.path.join(directorio_actual, 'chromedriver.exe')
+            chromedriver_path = os.path.join(directorio_actual, 'chromedriver')
             service = Service(executable_path=chromedriver_path)
             
             options = webdriver.ChromeOptions()
