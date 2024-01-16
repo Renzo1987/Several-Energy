@@ -108,8 +108,10 @@ const Proposal = () => {
   useEffect(() => {
     const fetchData = async () => {
         const response = await axios.post(`http://127.0.0.1:5000/reload_filters?tarifa=${tarifasStringData}&cia=${ciasStringData}&metodo=${metodosStringData}`)
+        console.log(response.data)
         setProductosCiasData(response.data.producto_cia) 
-        // console.log(productosCiasData)
+        setFeeData(response.data.fee) 
+        setMesData(response.data.meses) 
       }
     
     fetchData()
