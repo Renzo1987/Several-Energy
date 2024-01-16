@@ -1,4 +1,9 @@
 import { useEffect } from "react";
+import { usePowerContext } from "../../../../../../context/PowerProvider";
+import { useFranjasContext } from "../../../../../../context/FranjasProvider";
+import { DataExtraContext } from "../../../../../../context/DataExtraProvider";
+import ConsumosAnualesContext from "../../../../../../context/ConsumosAnualesProvider"; 
+import { useInfoCliente } from "../../../../../../context/InfoClienteProvider";
 import { FormControl, Select, MenuItem, TextField, Grid, Typography, Button } from "@mui/material";
 import axios from 'axios'
 
@@ -20,6 +25,23 @@ const Proposal = () => {
   const contentStyle = {
     fontSize: "0.8rem",
   };
+
+
+
+  const handlePostData = async () => {
+
+ 
+  
+    try {
+      const response = await axios.post('api/totales', totalesData );
+      console.log("Datos enviados correctamente", response.data);
+      // Aquí podrías manejar la navegación o la actualización de la UI tras el éxito
+    } catch (error) {
+      console.error("Hubo un error al enviar los datos:", error);
+    }
+  };
+
+
 
   return (
     <div>
