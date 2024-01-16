@@ -19,4 +19,4 @@ EXPOSE 5173
 RUN chmod +x hardening.sh
 
 # Iniciar el cliente
-CMD ["sh", "-c", "cd client && npm run dev -- --port 5173 --host 0.0.0.0 && hardening.sh"]
+CMD ["sh", "-c", "npm run dev -- --port 5173 --host 0.0.0.0 && hardening.sh"]
