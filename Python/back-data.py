@@ -25,7 +25,7 @@ config = {
     'database': 'postgres'
 }
 
-def consulta_resultados(sistema, tarifa, cia, metodo, producto_cia):
+def consulta_resultados(sistema, tarifa, cia, metodo, producto_cia, fee, mes=None):
     
     print("request url:", request.url)
     print("request:", request.form)
@@ -35,13 +35,16 @@ def consulta_resultados(sistema, tarifa, cia, metodo, producto_cia):
     cia_seleccionada = cia
     metodo_seleccionado = metodo
     producto_cia_seleccionada = producto_cia
+    fee_seleccionado = fee
+    mes_seleccionado = mes
 
     print("sistema_seleccionado:", sistema_seleccionado)
     print("tarifa_seleccionada:", tarifa_seleccionada)
     print("cia_seleccionada:", cia_seleccionada)
     print("metodo_seleccionado:", metodo_seleccionado)
     print("producto_cia_seleccionada:", producto_cia_seleccionada)
-
+    print("fee_seleccionado:", fee_seleccionado)
+    print("mes_seleccionado:", mes_seleccionado)
 
 
     try:
@@ -59,6 +62,7 @@ def consulta_resultados(sistema, tarifa, cia, metodo, producto_cia):
                     AND tarifa = '{tarifa_seleccionada}' 
                     AND cia = '{cia_seleccionada}' 
                     AND producto_cia = '{producto_cia_seleccionada}'
+                    AND fee = '{fee_seleccionado}'
             """
             cursor.execute(consulta_datos)
 
@@ -77,7 +81,8 @@ def consulta_resultados(sistema, tarifa, cia, metodo, producto_cia):
                 WHERE sistema = '{sistema_seleccionado}' 
                     AND tarifa = '{tarifa_seleccionada}' 
                     AND cia = '{cia_seleccionada}' 
-                    LIMIT 1
+                    AND fee = '{fee_seleccionado}'
+                    AND mes = '{mes_seleccionado}'
                     
             """
             cursor.execute(consulta_datos_energia)
@@ -90,7 +95,7 @@ def consulta_resultados(sistema, tarifa, cia, metodo, producto_cia):
                 WHERE sistema = '{sistema_seleccionado}' 
                     AND tarifa = '{tarifa_seleccionada}' 
                     AND cia = '{cia_seleccionada}'
-                    LIMIT 1
+                    AND producto_cia = '{producto_cia_seleccionada}'
                     
             """
             cursor.execute(consulta_datos_potencia)
@@ -101,7 +106,7 @@ def consulta_resultados(sistema, tarifa, cia, metodo, producto_cia):
             conn.close()
 
             print("data_energia: ", data_energia)
-            print("data_energia: ", data_potencia)
+            print("data_potencia: ", data_potencia)
             data_total = [data_energia[0] + data_potencia[0]]
             
             print("----Datos totales:", data_total)
@@ -137,12 +142,17 @@ def cargar_filtros():
         cias = [fila[0] for fila in cursor.fetchall()]
         print("cias:", cias)
         # Consulta SQL para Fees (usando la primera CIA como ejemplo)
-        primera_cia = cias[1] if cias else None
+        primera_cia = cias[0] if cias else None
         print(primera_cia)
         consulta_producto_cia = f"SELECT DISTINCT producto_cia FROM precios_fijo WHERE cia = '{primera_cia}'"
         cursor.execute(consulta_producto_cia)
         producto_cia = [fila[0] for fila in cursor.fetchall()]
-        primer_producto_cia = producto_cia[1] if producto_cia else None
+        primer_producto_cia = producto_cia[0] if producto_cia else None
+
+        consulta_fee = f"SELECT DISTINCT fee FROM precios_fijo WHERE cia = '{primera_cia}'"
+        cursor.execute(consulta_fee)
+        fee = [fila[0] for fila in cursor.fetchall()]
+        primer_fee = fee[0] if fee else None
 
         # Cerrar el cursor y la conexión
         cursor.close()
@@ -155,13 +165,15 @@ def cargar_filtros():
         primera_tarifa = tarifas[0] if tarifas else None
         metodos =['FIJO', 'INDEXADO']
         primer_metodo = metodos[0] if metodos else None
+        meses =['-']
+        primer_mes = meses[0] if meses else None
 
         # Parametros necesarios: cia, sistema, tarifa, fee
-        precios = consulta_resultados(primer_sistema, primera_tarifa, primera_cia, primer_metodo, primer_producto_cia)
+        precios = consulta_resultados(primer_sistema, primera_tarifa, primera_cia, primer_metodo, primer_producto_cia, primer_fee, primer_mes)
 
         
         # Crear un diccionario con los resultados
-        resultado_json = {'sistemas': sistemas,'tarifas': tarifas,'cias': cias,'metodos': metodos, 'producto_cia': producto_cia,'precios': precios}
+        resultado_json = {'sistemas': sistemas,'tarifas': tarifas,'cias': cias,'metodos': metodos, 'producto_cia': producto_cia,'precios': precios,'fee':fee}
         # Modificamos el json para añadir etiquetas para los precios.
         resultado_json["precios"] = [transformar_precios(resultado_json["precios"][0])]
 
@@ -176,108 +188,71 @@ def cargar_filtros():
 # Ruta para manejar la selección del botón y cargar las Fees
 @app.route('/reload_filters', methods=['POST'])
 def recargar_filtros():
-    sistema_seleccionado = request.args.get('sistema')
-    tarifa_seleccionada = request.args.get('tarifa')
-    cia_seleccionada = request.args.get('cia')
-    metodo_seleccionado = request.args.get('metodo')
-    producto_cia_selecionado = request.args.get('producto_cia')
-
-    print(sistema_seleccionado)
-    print(tarifa_seleccionada)
-    print(cia_seleccionada)
-    print(metodo_seleccionado)
-    print(producto_cia_selecionado)
-
+    #sistema_seleccionado = request.args.get('sistema') #peninsula
+    tarifa_seleccionada = request.args.get('tarifa') #2.0TD
+    cia_seleccionada = request.args.get('cia') #iberdrola
+    metodo_seleccionado = request.args.get('metodo') # FIJO
+    #producto_cia_selecionado = request.args.get('producto_cia') 
+    #fee_seleccionado = request.args.get('fee')
+    #mes_seleccionado = request.args.get('mes')
 
     try:
         # Conectar a la base de datos
         conn = psycopg2.connect(**config)
-
-        # Crear un cursor para ejecutar la consulta
         cursor = conn.cursor()
 
-        # Consulta SQL para Fees
         if metodo_seleccionado == 'INDEXADO':
-            # !!!
-            consulta_tarifa = f"SELECT DISTINCT tarifa FROM precios_index_energia"
-            cursor.execute(consulta_tarifa)
-            tarifa_index = [fila[0] for fila in cursor.fetchall()]
+            print('----- INDEXADO -----')
 
-            consulta_cia = f"SELECT DISTINCT cia FROM precios_index_energia"
-            cursor.execute(consulta_cia)
-            cia_index = [fila[0] for fila in cursor.fetchall()]
+            consulta_fee = f"SELECT DISTINCT fee FROM precios_index_energia WHERE cia = '{cia_seleccionada}' AND tarifa = '{tarifa_seleccionada}'"
+            cursor.execute(consulta_fee)
+            fee_index = [fila[0] for fila in cursor.fetchall()]
+            print(fee_index)
 
             consulta_producto_cia = f"SELECT DISTINCT producto_cia FROM precios_index_potencia WHERE cia = '{cia_seleccionada}' AND tarifa = '{tarifa_seleccionada}'"
             cursor.execute(consulta_producto_cia)
             producto_cia_index = [fila[0] for fila in cursor.fetchall()]
+            print(producto_cia_index)
 
-            consulta_meses = f"SELECT DISTINCT mes FROM precios_index_energia WHERE cia = '{cia_seleccionada}' AND tarifa = '{tarifa_seleccionada}'"
-            cursor.execute(consulta_meses)
-            meses_index = [fila[0] for fila in cursor.fetchall()]
+            consulta_meses_energia = f"SELECT DISTINCT mes FROM precios_index_energia WHERE cia = '{cia_seleccionada}' AND tarifa = '{tarifa_seleccionada}'"
+            cursor.execute(consulta_meses_energia)
+            meses_index_energia = [fila[0] for fila in cursor.fetchall()]
+            print(meses_index_energia)
 
-            consulta_fees = f"SELECT DISTINCT fee FROM precios_index_energia WHERE cia = '{cia_seleccionada}' AND tarifa = '{tarifa_seleccionada}'"
-            cursor.execute(consulta_fees)
-            fees_index = [fila[0] for fila in cursor.fetchall()]
-
-            # Cerrar el cursor y la conexión
-            cursor.close()
-            conn.close()
-           
-            meses_index = [fecha.strftime('%Y-%m-%d') for fecha in meses_index]
-
-            precios = consulta_resultados(sistema_seleccionado, tarifa_seleccionada, cia_seleccionada, metodo_seleccionado, producto_cia_selecionado)
-
-            resultado_json = {'tarifa': tarifa_index, 'cia':cia_index, 'producto_cia': producto_cia_index, 'meses': meses_index, 'producto_cia': fees_index, 'precios': precios}
+            meses_index_energia = [fecha.strftime('%Y-%m-%d') for fecha in meses_index_energia]
+            resultado_json = {'fee': fee_index, 'producto_cia':producto_cia_index, 'meses': meses_index_energia}
             
-            resultado_json["precios"] = [transformar_precios(resultado_json["precios"][0])]
-
             # Convertir el diccionario a formato JSON
             json_resultado = json.dumps(resultado_json)
             # Retornar el JSON
             return json_resultado
-        
+
         elif metodo_seleccionado == 'FIJO':
+            print('----- FIJO -----')
 
-            consulta_tarifa = f"SELECT DISTINCT tarifa FROM precios_fijo"
-            cursor.execute(consulta_tarifa)
-            tarifa_fijo = [fila[0] for fila in cursor.fetchall()]
-            
-            print("tarifa:", tarifa_fijo)
+            consulta_fee = f"SELECT DISTINCT fee FROM precios_fijo WHERE cia = '{cia_seleccionada}' AND tarifa = '{tarifa_seleccionada}'"
+            cursor.execute(consulta_fee)
+            fee_fijo = [fila[0] for fila in cursor.fetchall()]
+            print(fee_fijo)
 
-            consulta_cia = f"SELECT DISTINCT cia FROM precios_fijo"
-            cursor.execute(consulta_cia)
-            cia_fijo = [fila[0] for fila in cursor.fetchall()]
-
-            print("cia:",cia_fijo)
-
-            consulta_producto_cia = f"SELECT DISTINCT producto_cia FROM precios_fijo WHERE cia = '{cia_seleccionada}'"
+            consulta_producto_cia = f"SELECT DISTINCT producto_cia FROM precios_fijo WHERE cia = '{cia_seleccionada}' AND tarifa = '{tarifa_seleccionada}'"
             cursor.execute(consulta_producto_cia)
             producto_cia_fijo = [fila[0] for fila in cursor.fetchall()]
+            print(producto_cia_fijo)
+
+            resultado_json = {'fee': fee_fijo, 'producto_cia':producto_cia_fijo}
             
-            print("producto_cia:",producto_cia_fijo)
-            # Cerrar el cursor y la conexión
-            cursor.close()
-            conn.close()
-
-            precios = consulta_resultados(sistema_seleccionado, tarifa_seleccionada, cia_seleccionada, metodo_seleccionado, producto_cia_selecionado)
-
-            resultado_json = {'tarifa': tarifa_fijo, 'cia':cia_fijo, 'producto_cia': producto_cia_fijo, 'precios': precios}
-            
-            resultado_json["precios"] = [transformar_precios(resultado_json["precios"][0])]
-
             # Convertir el diccionario a formato JSON
             json_resultado = json.dumps(resultado_json)
             # Retornar el JSON
             return json_resultado
-
-            # Devolver las Fees como respuesta JSON
-            # YA TENEMOS EL JSON QUE DEVUELVE LOS PRODUCTOS CUANDO ES FIJO, LOS PROUCTOS Y LAS FECHAS CUANDO ES INDEXADO
 
         
 
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
+    
 # Nueva ruta para manejar la consulta a la tabla precios_fijo
 #@app.route('/consulta_resultados', methods=['POST'])
 
