@@ -2,19 +2,19 @@
 FROM node:14
 
 # Establecer el directorio de trabajo dentro del contenedor
-WORKDIR /server
+WORKDIR /App
 
 # Copiar el código del servidor al directorio de trabajo
 COPY . ./server
 
 # Instalar las dependencias del servidor
-RUN npm install
+RUN cd server && npm install
 
 # Exponer el puerto utilizado por el servidor
 EXPOSE 3000
 
 # Ejecutar el script de hardening
-RUN chmod +x hardening.sh
+RUN cd server && chmod +x hardening.sh
 
 # Iniciar el servidor
-CMD ["sh", "-c", "npm start && hardening.sh"]
+CMD ["sh", "-c", "cd server && npm start && hardening.sh"]
