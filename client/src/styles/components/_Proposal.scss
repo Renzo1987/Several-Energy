@@ -1,6 +1,108 @@
-.proposal-form {
+.proposal-sct {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
 
-    justify-content: center;
+    padding: 125px 0 40px;
+    border-bottom: 3px solid black;
+    margin: 0 40px;
+
+    h5 {
+        border-bottom: 3px solid black;
+        padding-bottom: 15px;
+        width: 100%;
+    }
+
+    .proposal-form {
+        display: flex;
+        flex-direction: row;
+    
+        justify-content: center;
+
+        margin-top: 20px;
+        padding-bottom: 0;
+        width: 100%;
+
+        border: 1px solid black;
+        border-radius: 10px;
+        overflow: hidden;
+
+
+        select {
+            border: none;
+            border-radius: 0% !important;
+            background-color: #F2F2F2;
+
+            padding: 10px 10px;
+            border-right: 1px solid black;
+            width: 14.28%;
+        }
+    }
+}
+
+.final-offer-nvg {
+    display: flex;
+    margin: 60px 40px;
+
+    align-items: center;
+
+    .final-offer {
+        display: flex;
+        align-items: center;
+        width: 50%;
+        
+        .ahorro-card {
+            margin-right: 50px;
+            padding: 5px 10px;
+            width: 50%;
+
+            .info-ahorro {
+                border: 1px solid black;
+                border-radius: 10px;
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .porcentaje {
+                    font-size: 1.5em;
+                    border: #CF4E4D 1px solid;
+                    background-color: #CF4E4D;
+                    border-radius: 50%;
+                    padding: 5px;
+                    height: 65px;
+                    width: 65px;
+                }
+
+                .total {
+                    font-size: 1.3em;
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+
+    .navigation-sct {
+        margin-left: auto;
+        
+        .continue-btn {
+            width: 300px;
+            background-color: #CF4E4D;
+            border: none;
+        }
+    
+        .continue-btn:disabled {
+            background-color: #F1D8D7;
+            color: black;
+        }
+    
+        .back-btn {
+            width: 150px;
+            margin-right: 30px;
+    
+            border: 2px solid #CF4E4D;
+            background-color: white;
+            color: #CF4E4D;
+        }
+    }
 }

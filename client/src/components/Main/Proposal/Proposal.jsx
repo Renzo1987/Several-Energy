@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import  { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const Proposal = () => {
@@ -149,39 +150,65 @@ const Proposal = () => {
   };
 
   return (
-    <div>
-      <h1>Generar oferta para el cliente</h1>
-      <form className="proposal-form">
-        <select name="sistema" id="sistema" onChange={handleChange}>
-            <option value="" selected disabled>Sistemas</option>
-            {crearInputSistemas()}
-        </select>
-        <select name="tarifa" id="tarifa" onChange={handleChange}>
-            <option value="" selected disabled>Tarifas</option>
-            {crearInputTarifas()} 
-        </select>
-        <select name="compañia" id="compañia" onChange={handleChange}>
-            <option value="" selected disabled>Compañías</option>
-            {crearInputCompañias()}  
-        </select>
-        <select name="metodo" id="metodo" onChange={handleChange}>
-            <option value="" selected disabled>Métodos</option>
-            {crearInputMetodos()}  
-        </select>
-        <select name="producto_cia" id="producto_cia" onChange={handleChange}>
-           <option value="" selected disabled>Productos</option>
-            {crearInputProductoCIA()}  
-        </select>
-        <select name="mes_fact" id="mes_fact" onChange={handleChange}>
-            <option value="" selected disabled>Mes Facturación</option>
-            {crearInputMesFact()}  
-        </select>
-        <select name="fee" id="fee" onChange={handleChange}>
-            <option value="" selected disabled>Fee</option>
-            {crearInputFEE()}
-        </select>
-      </form>
-    </div>
+    <>
+      <section className="proposal-sct">
+        <h5>Generar oferta para el cliente</h5>
+        <form className="proposal-form">
+          <select name="sistema" id="sistema" onChange={handleChange}>
+              <option value="" selected disabled>Sistemas</option>
+              {crearInputSistemas()}
+          </select>
+          <select name="tarifa" id="tarifa" onChange={handleChange}>
+              <option value="" selected disabled>Tarifas</option>
+              {crearInputTarifas()} 
+          </select>
+          <select name="compañia" id="compañia" onChange={handleChange}>
+              <option value="" selected disabled>Compañías</option>
+              {crearInputCompañias()}  
+          </select>
+          <select name="metodo" id="metodo" onChange={handleChange}>
+              <option value="" selected disabled>Métodos</option>
+              {crearInputMetodos()}  
+          </select>
+          <select name="producto_cia" id="producto_cia" onChange={handleChange}>
+            <option value="" selected disabled>Productos</option>
+              {crearInputProductoCIA()}  
+          </select>
+          <select name="mes_fact" id="mes_fact" onChange={handleChange}>
+              <option value="" selected disabled>Mes Facturación</option>
+              {crearInputMesFact()}  
+          </select>
+          <select name="fee" id="fee" onChange={handleChange}>
+              <option value="" selected disabled>Fee</option>
+              {crearInputFEE()}
+          </select>
+        </form>
+      </section>
+      <section className="final-offer-nvg">
+        <article className="final-offer">
+            <div className="ahorro-card">
+              <h5>Ahorro Factura Actual</h5>
+              <div className="info-ahorro">
+                <span className="porcentaje">2%</span>
+                <span className="total">-20,51 €</span>
+              </div>
+            </div>
+            <div className="ahorro-card">
+              <h5>Ahorro Anual</h5>
+              <div className="info-ahorro">
+                <span className="porcentaje">12%</span>
+                <span className="total">-20,51 €</span>
+              </div>
+            </div>
+        </article>
+        <article className="navigation-sct">
+          <Link to="/power">
+            <button className="back-btn">Atrás</button>
+          </Link>
+            <button className="continue-btn">Generar PDF</button>
+        </article>
+      </section>
+    </>
   );
 };
 
