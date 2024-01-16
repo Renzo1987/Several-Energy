@@ -10,7 +10,7 @@ COPY ./Python /app
 WORKDIR /app
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
-ENV CHROME_DRIVER_PATH /usr/lib/chromium-browser/chromedriver
+ENV CHROME_DRIVER_PATH /app/chromedriver.exe
 EXPOSE 5000
 
 CMD ["python","back-data.py"]
