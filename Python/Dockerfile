@@ -11,7 +11,6 @@ WORKDIR /app
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 RUN chmod +x chromedriver.exe
-RUN chmod +x chromedriver
 ENV CHROME_DRIVER_PATH /Python/chromedriver.exe
 EXPOSE 5000
 
