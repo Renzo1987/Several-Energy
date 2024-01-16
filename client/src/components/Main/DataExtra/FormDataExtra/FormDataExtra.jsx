@@ -165,7 +165,7 @@ const FormDataExtra = () => {
         </div>
       </section>
     </article>
-    <article className="navigation-sct">
+    <article className="navigation-sct-dataextra">
       <Link to="/client">
         <button className="back-btn">Atrás</button>
       </Link>
