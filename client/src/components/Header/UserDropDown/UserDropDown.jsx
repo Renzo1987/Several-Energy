@@ -12,6 +12,7 @@ function UserDropDown() {
   const handleLogout = () => {
     setAuth({})
     navigate("/login")
+    window.location.reload()
   }
 
   return (

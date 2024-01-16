@@ -8,7 +8,7 @@ export const DataExtraContext = createContext();
 export const DataExtraProvider = ({ children }) => {
   const [dataExtra, setDataExtra] = useState({
     info_id: 1,
-    dias_facturacion: 0,
+    dias_facturacion: 30,
     energia_reactiva: 0,
     impuesto_electrico: 0,
     alquiler_equipo: 0,
