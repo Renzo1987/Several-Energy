@@ -6,7 +6,7 @@ const Proposal = () => {
 
   useEffect(() => {
     const obtenerFiltros = async () => {
-      const response = await axios.get('http://127.0.0.1:5000/load_filters')
+      const response = await axios.get('https://webscraping-app-dev-kfqooyerta-ew.a.run.app/load_filters')
       console.log(response.data)
     }
 
