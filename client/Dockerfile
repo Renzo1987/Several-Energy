@@ -10,13 +10,13 @@ WORKDIR /client
 COPY ./client ./client
 
 # Instalar las dependencias del cliente
-RUN npm install
+RUN cd client && npm install
 
 # Exponer el puerto utilizado por el cliente
 EXPOSE 5173
 
 # Ejecutar el script de hardening
-RUN chmod +x hardening.sh
+RUN cd client && chmod +x hardening.sh
 
 # Iniciar el cliente
-CMD ["sh", "-c", "npm run dev -- --port 5173 --host 0.0.0.0 && hardening.sh"]
+CMD ["sh", "-c", "cd client && npm run dev -- --port 5173 --host 0.0.0.0 && hardening.sh"]
