@@ -117,7 +117,7 @@ def transformar_precios(precios):
     nuevos_precios = {}
 
     for i, valor in enumerate(precios):
-        clave = f"P{i+1}" if i < 6 else f"P{i-5}."
+        clave = f"p{i+1}" if i < 6 else f"P{i-5}"
         nuevos_precios[clave] = valor
 
     return nuevos_precios
