@@ -448,19 +448,19 @@ const Proposal = () => {
       };
 
       setShowCards(true)
-      // try {
-      //   const resultadosTotales = await postTotales(totalesClienteData);
-      //   const resultadosPropuestas = await enviarPropuestas(propuestaData);
-      //   const resultadoTotalPropuesta = await postTotalPropuesta(totalPropuestaData);
+      try {
+        const resultadosTotales = await postTotales(totalesClienteData);
+        const resultadosPropuestas = await enviarPropuestas(propuestaData);
+        const resultadoTotalPropuesta = await postTotalPropuesta(totalPropuestaData);
     
-      //   console.log("Todos los datos han sido enviados correctamente", {
-      //     resultadosTotales,
-      //     resultadosPropuestas,
-      //     resultadoTotalPropuesta,
-      //   });
-      // } catch (error) {
-      //   console.error("Error al enviar los datos:", error);
-      // }
+        console.log("Todos los datos han sido enviados correctamente", {
+          resultadosTotales,
+          resultadosPropuestas,
+          resultadoTotalPropuesta,
+        });
+      } catch (error) {
+        console.error("Error al enviar los datos:", error);
+      }
   };
 
   return (
@@ -503,15 +503,15 @@ const Proposal = () => {
             <div className="ahorro-card">
               <h5>Ahorro Factura Actual</h5>
               <div className="info-ahorro">
-                <span className={ahorroAnualState > 0 ? "no-ahorro" : "ahorro"} id="porcentaje">{Math.floor(porcentajeFactura)}%</span>
-                <span id="total" className={ahorroAnualState > 0 ? "span-no-ahorro" : "span-ahorro"}>{(ahorroFacturaActual).toFixed(2)} €</span>
+                <span className={ahorroAnualState > 0 ? "ahorro" : "no-ahorro"} id="porcentaje">{Math.floor(porcentajeFactura)}%</span>
+                <span id="total" className={ahorroAnualState > 0 ? "span-ahorro" : "span-no-ahorro"}>{(ahorroFacturaActual).toFixed(2)} €</span>
               </div>
             </div>
             <div className="ahorro-card">
               <h5>Ahorro Anual</h5>
               <div className="info-ahorro">
-                <span className={ahorroAnualState > 0 ? "no-ahorro" : "ahorro"} id="porcentaje">{Math.floor(porcentajeAnual)}%</span>
-                <span id="total" className={ahorroAnualState > 0 ? "span-no-ahorro" : "span-ahorro"}>{(ahorroAnualState).toFixed(2)} €</span>
+                <span className={ahorroAnualState > 0 ? "ahorro" : "no-ahorro"} id="porcentaje">{Math.floor(porcentajeAnual)}%</span>
+                <span id="total" className={ahorroAnualState > 0 ? "span-ahorro" : "span-no-ahorro"}>{(ahorroAnualState).toFixed(2)} €</span>
               </div>
             </div>
         </article>
