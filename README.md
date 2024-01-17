@@ -1,5 +1,4 @@
-
-<h1 align="Proyecto Full Stack: Calculadora de Ofertas Energéticas"></h1>
+<h1 align="center">Proyecto Full Stack: Calculadora de Ofertas Energéticas</h1>
 
 <p> Este proyecto consiste en una aplicación web que permite a los asesores energéticos gestionar y calcular ofertas para clientes en el sector eléctrico. A continuación, se detallan las funcionalidades y pantallas clave de la aplicación. </p>
 
