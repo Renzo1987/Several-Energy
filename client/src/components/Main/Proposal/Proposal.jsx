@@ -129,6 +129,7 @@ const Proposal = () => {
         setCiasData(response.data.cia)
 
         const responsePrecios = await axios.post(`http://127.0.0.1:5000/cargar_precios?tarifa=${tarifasStringData}&cia=${ciasStringData}&metodo=${metodosStringData}&sistema=${sistemasStringData}&producto_cia=${productosCiasStringData}&mes=${mesStringData}&fee=${feeStringData}`)
+        console.log(responsePrecios)
         console.log(responsePrecios.data.precios)
         setPreciosData(responsePrecios.data.precios)
       }
@@ -174,9 +175,17 @@ const Proposal = () => {
     const totalEnergia = rowsEnergyTotales[rowsEnergyTotales.length - 1];
     const totalPotencia = rowsPowerTotales[rowsPowerTotales.length - 1];
   
-    const otrosAnual =(parseFloat(dataExtra.otros_1 + dataExtra.otros_2) / dataExtra.diasFacturacion) * 365;
-    const alquilerEquipoAnual = (parseFloat(dataExtra.alquiler_equipo) / dataExtra.diasFacturacion) * 365;
+    const otrosAnual =(((parseFloat(dataExtra.otros_1) + parseFloat(dataExtra.otros_2)) / parseInt(dataExtra.dias_facturacion))) * 365;
+  
+    const alquilerEquipoAnual = (parseFloat(dataExtra.alquiler_equipo) / (parseInt(dataExtra.dias_facturacion))) * 365;
+
+   
     const ivaDecimal = parseFloat(dataExtra.iva) / 100;
+
+    console.log(dataExtra.alquiler_equipo)
+    console.log(alquilerEquipoAnual)
+    console.log(otrosAnual)
+    console.log(ivaDecimal)
   
     const importeTotalFactura = (parseFloat(totalEnergia.totalPagoFactura) +
         parseFloat(totalPotencia.totalPagoFactura) +
@@ -187,57 +196,72 @@ const Proposal = () => {
     const totalAnualEstimado =
       ((parseFloat(totalEnergia.totalPagoAnual) +
         parseFloat(totalPotencia.totalPagoAnual)) *
-        1.0051127 +
-        alquilerEquipoAnual +
-        otrosAnual) *
-      (1 + ivaDecimal);
+        1.0051127 ) +
+        parseFloat(alquilerEquipoAnual) +
+        parseFloat(otrosAnual) *
+      (1 + parseInt(ivaDecimal));
   
-    console.log(preciosData)
-
-    
-    
+   console.log(totalAnualEstimado)
+      
     //CALCULO FACTURA ENERGIA 
 
+    const precioDescuentoEnergiaP1 = preciosData[0].P1 * (1 - parseFloat(rowsEnergy[0].descuento) / 100)
+    const precioDescuentoEnergiaP2 = preciosData[0].P2 *  (1 - parseFloat(rowsEnergy[1].descuento) / 100)
+    const precioDescuentoEnergiaP3 = preciosData[0].P3 * (1 - parseFloat(rowsEnergy[2].descuento) / 100)
 
-    const precioDescuentoEnergiaP1 = preciosData[0].P1 * (1 - rowsEnergy[0].descuento / 100)
-    const precioDescuentoEnergiaP2 = preciosData[0].P2 *  (1 - rowsEnergy[1].descuento / 100)
-    const precioDescuentoEnergiaP3 = preciosData[0].P3 * (1 - rowsEnergy[2].descuento / 100)
+    const totPagoEnergiaFactP1= parseFloat(rowsEnergy[0].consumoFacturaActual) * precioDescuentoEnergiaP1
+    const totPagoEnergiaFactP2= parseFloat(rowsEnergy[1].consumoFacturaActual) * precioDescuentoEnergiaP2
+    const totPagoEnergiaFactP3= parseFloat(rowsEnergy[2].consumoFacturaActual) * precioDescuentoEnergiaP3
 
-    const totPagoEnergiaFactP1= rowsEnergy[0].consumoFacturaActual * precioDescuentoEnergiaP1
-    const totPagoEnergiaFactP2=rowsEnergy[1].consumoFacturaActual * precioDescuentoEnergiaP2
-    const totPagoEnergiaFactP3=rowsEnergy[2].consumoFacturaActual * precioDescuentoEnergiaP3
-
-    const totConsumoFacturaEn = rowsEnergy[0].consumoFacturaActual + rowsEnergy[1].consumoFacturaActual +rowsEnergy[2].consumoFacturaActual
+    const totConsumoFacturaEn = parseFloat(rowsEnergy[0].consumoFacturaActual) + parseFloat(rowsEnergy[1].consumoFacturaActual) + parseFloat(rowsEnergy[2].consumoFacturaActual)
     const totPagoEnergiaFact = totPagoEnergiaFactP1 + totPagoEnergiaFactP2 + totPagoEnergiaFactP3
+ 
+    //TOTAL PAGO ANUAL ENERGIA
+   console.log(preciosData)
+    const totPagoEnergiaAnualP1 = consumosAnuales[0] * preciosData[0].PM1 * (1 - rowsEnergy[0].descuento / 100)
+    const totPagoEnergiaAnualP2 = consumosAnuales[1] * preciosData[0].PM2 * (1 - rowsEnergy[1].descuento / 100)
+    const totPagoEnergiaAnualP3 = consumosAnuales[2] * preciosData[0].PM3 * (1 - rowsEnergy[2].descuento / 100)
 
-    const totPagoEnergiaAnualP1 = rowsEnergy[0].consumoFacturaActual * preciosData[0].P1 * (1 - rowsEnergy[0].descuento / 100);
-    const totPagoEnergiaAnualP2 = rowsEnergy[1].consumoFacturaActual * preciosData[0].P1 * (1 - rowsEnergy[0].descuento / 100);
-    const totPagoEnergiaAnualP3 = rowsEnergy[2].consumoFacturaActual * (1 - rowsEnergy[0].descuento / 100);
 
-    const totPagoEnergiaAnual = totConsumoFacturaEn * preciosData[0].P1 * (1 - rowsEnergy[0].descuento / 100);
+  const totPagoEnergiaAnual =  totPagoEnergiaAnualP1 + totPagoEnergiaAnualP2 + totPagoEnergiaAnualP3
 
+    
 
+    //CALCULO FACTURA POTENCIA 
 
-    //CALCULO FACTURA ENERGIA 
+    const precioDescuentoPotenciaP1 = preciosData[0].P1 * (1 - parseFloat(rowsPower[0].descuento) / 100)
+    const precioDescuentoPotenciaP2 = preciosData[0].P2 *  (1 - parseFloat(rowsPower[1].descuento) / 100)
 
-    const precioDescuentoPotenciaP1 = preciosData[0].p1 * (1 - rowsPower[0].descuento / 100)
-    const precioDescuentoPotenciaP2 = preciosData[0].p2 *  (1 - rowsPower[1].descuento / 100)
-
-    const totPagoPotenciaFactP1= rowsPower[0].consumoFacturaActual * precioDescuentoPotenciaP1
-    const totPagoPotenciaFactP2=rowsPower[1].consumoFacturaActual * precioDescuentoPotenciaP2
-
-    const totConsumoFacturaPot = rowsPower[0].consumoFacturaActual + rowsPower[1].consumoFacturaActual
-    const totPagoPotenciaFact = (totPagoPotenciaFactP1 + totPagoPotenciaFactP2) * dataExtra.diasFacturacion
+    const totPagoPotenciaFactP1= parseFloat(rowsPower[0].potenciaContratada) * precioDescuentoPotenciaP1
+  
+    const totPagoPotenciaFactP2= parseFloat(rowsPower[1].potenciaContratada) * precioDescuentoPotenciaP2
+    // TOTAL FACTURA POTENCIA
+    const totConsumoFacturaPot = parseFloat(rowsPower[0].potenciaContratada) + parseFloat(rowsPower[1].potenciaContratada)
+    const totPagoPotenciaFact = (totPagoPotenciaFactP1 + totPagoPotenciaFactP2) * parseFloat(dataExtra.dias_facturacion)
+   
+    // TOTAL FACTURA POTENCIA ANUAL
     const totPagoAnualPotencia = totConsumoFacturaPot * 365
 
 
-
-
     // //AHORRO
-    // Importe total factura: (Total pago en factura (Energía) + Total pago en factura (Potencia) + Energía reactiva + impuesto eléctrico + Otros + Alquiler de equipo) * (1 + IVA) 
-    // Total anual estimado: {[Total pago anual (Energía) + Total pago anual (Potencia)] * 1.0051127 + [(Alquiler de equipo / días de facturación) * 365] + [(Otros / días facturados) * 365]} * (1 + IVA)
+
+    const otrosTotal = parseFloat(dataExtra.otros_1) + parseFloat(dataExtra.otros_2)
+
+    const importeTotalFacturaProp = (totPagoEnergiaFact + totPagoPotenciaFact + parseFloat(dataExtra.energia_reactiva) + parseFloat(dataExtra.impuesto_electrico) + otrosTotal + parseFloat(dataExtra.alquiler_equipo)) * (1 + dataExtra.iva / 100);
+
     
+    const totalAnualEstimadoProp = 
+      ((totPagoEnergiaAnual + totPagoAnualPotencia) * 1.0051127) +
+      ((parseFloat(dataExtra.alquiler_equipo) / parseInt(dataExtra.dias_facturacion))) * 365 + 
+      (otrosTotal / parseFloat(dataExtra.dias_facturacion) * 365
+    ) * (1 + parseFloat(dataExtra.iva) / 100);
     
+
+    const ahorroFactura = importeTotalFactura - importeTotalFacturaProp
+    console.log(ahorroFactura)
+    const ahorroAnual = totalAnualEstimado - totalAnualEstimadoProp
+    console.log(ahorroAnual)
+
 
     const totalesClienteData = {
       info_id: infoId,
@@ -286,11 +310,11 @@ const Proposal = () => {
       t_pago_fact_energia: totPagoEnergiaFact,
       t_pago_anual_energia:totPagoEnergiaAnual,
       t_pago_fact_potencia: totPagoPotenciaFact,
-      t_pago_anual_potencia: 0.0,
-      importe_total_factura: 0.0,
-      total_anual_estimado: 0.0,
-      ahorro_fact_actual: 0,
-      ahorro_anual: 0,
+      t_pago_anual_potencia: totPagoAnualPotencia,
+      importe_total_factura: importeTotalFacturaProp,
+      total_anual_estimado: totalAnualEstimadoProp,
+      ahorro_fact_actual: ahorroFactura,
+      ahorro_anual: ahorroAnual,
     };
   
     const postTotales = async (data) => {
