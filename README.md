@@ -2,6 +2,29 @@
 
 <p> Este proyecto consiste en una aplicación web que permite a los asesores energéticos gestionar y calcular ofertas para clientes en el sector eléctrico. A continuación, se detallan las funcionalidades y pantallas clave de la aplicación. </p>
 
+<h2>Arquitectura del proyecto</h2>
+
+<img width="600" width="600" alt="Captura de pantalla 2024-01-16 a las 16 14 53" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/c95fd063-1583-4bc2-81e1-7afd84f545a0">
+
+<h3>1. Fase de Ingreso del Usuario</h3>
+
+<h4>Frontend (React Vite)</h4>
+<p>
+    El proceso de inicio comienza cuando el usuario carga la interfaz de React Vite en su navegador, la cual presenta formularios de inicio de sesión y registro. Al proporcionar sus credenciales, el frontend utiliza Axios para enviar la información al backend con el fin de autenticar al usuario. Express, en el backend, recibe estas solicitudes y, si las credenciales son válidas, responde enviando un token JWT al frontend.
+</p>
+
+<h3>2. Fase de Interacción con el Backend</h3>
+
+<h4>Backend (Express y PostgreSQL)</h4>
+<p>
+    Para acciones que requieren acceso a la base de datos, el frontend envía solicitudes al backend. Express gestiona estas solicitudes a través de su API REST, ejecutando operaciones CRUD en PostgreSQL mediante sentencias SQL.
+</p>
+
+<h3>3. Fase de Interacción con la API (Python)</h3>
+<p>
+    La API en Python actúa como un intermediario entre el backend y Candela, facilitando la obtención de datos específicos solicitados por el usuario. Posteriormente, la API en Python transmite los datos de Candela al backend de Express. Este último procesa la información según las necesidades de la aplicación y responde al frontend con los datos procesados, los cuales se presentan en la interfaz de usuario.
+</p>
+
 <h2>Construido con 🛠️</h2>
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
@@ -56,5 +79,5 @@
   <li><strong>COMPONENTS:</strong> Componentes reutilizables.</li>
 </ul>
 
-<img width="600" width="600" alt="Captura de pantalla 2024-01-16 a las 16 14 53" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/c95fd063-1583-4bc2-81e1-7afd84f545a0">
+
 
