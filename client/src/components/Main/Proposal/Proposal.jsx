@@ -168,7 +168,7 @@ const Proposal = () => {
   };
 
 
-  const handlePostData = async () => {
+  
     const infoId = infoClienteState.clientData.info_id;
   
     const totalConsumoAnual = consumosAnuales.reduce((acc, val) => acc + val, 0);
@@ -428,20 +428,20 @@ const Proposal = () => {
                         // Total_anual_estimado_actual: 
                       }))
     } 
-  
-    try {
-      const resultadosTotales = await postTotales(totalesClienteData);
-      const resultadosPropuestas = await enviarPropuestas(propuestaData);
-      const resultadoTotalPropuesta = await postTotalPropuesta(totalPropuestaData);
-  
-      console.log("Todos los datos han sido enviados correctamente", {
-        resultadosTotales,
-        resultadosPropuestas,
-        resultadoTotalPropuesta,
-      });
-    } catch (error) {
-      console.error("Error al enviar los datos:", error);
-    }
+    const handlePostData = async () => {
+      try {
+        const resultadosTotales = await postTotales(totalesClienteData);
+        const resultadosPropuestas = await enviarPropuestas(propuestaData);
+        const resultadoTotalPropuesta = await postTotalPropuesta(totalPropuestaData);
+    
+        console.log("Todos los datos han sido enviados correctamente", {
+          resultadosTotales,
+          resultadosPropuestas,
+          resultadoTotalPropuesta,
+        });
+      } catch (error) {
+        console.error("Error al enviar los datos:", error);
+      }
   };
 
   return (
