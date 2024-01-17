@@ -338,10 +338,70 @@ const Proposal = () => {
     const generarPDF = async () => {
       const response = await axios.post("http://localhost:5000/descargar_pdf", 
         JSON.stringify({
-                        asesor: auth.asesor,
-                        contacto: auth.contacto,
-                        delegacion: auth.delegacion,
-                        nombre_cliente, 
+                        Nombre_cliente: infoClienteState.clientData.titular,
+                        Direccion_cliente: infoClienteState.clientData.direccion,
+                        Numero_cups: infoClienteState.cup,
+                        Nombre_asesor: auth.asesor,
+                        Telefono_asesor: auth.contacto,
+                        Delegacion: auth.delegacion,
+                        // Ahorro_actual:
+                        // Ahorro_anual:
+                        Compañia: ciasStringData,
+                        Tarifa: tarifasStringData,
+                        P1: preciosData[0].P1,
+                        P2: preciosData[0].P2,
+                        P3: preciosData[0].P3,
+                        P4: preciosData[0].P4,
+                        P5: preciosData[0].P5,
+                        P6: preciosData[0].P6,
+                        p1: preciosData[0].p1,
+                        p2: preciosData[0].p2,
+                        p3: preciosData[0].p3,
+                        p4: preciosData[0].p4,
+                        p5: preciosData[0].p5,
+                        p6: preciosData[0].p6,
+                        PM1: preciosData[0].PM1,
+                        PM2: preciosData[0].PM2,
+                        PM3: preciosData[0].PM3,
+                        PM4: preciosData[0].PM4,
+                        PM5: preciosData[0].PM5,
+                        PM6: preciosData[0].PM6,
+                        Energia_reactiva: dataExtra.energia_reactiva,
+                        Alquiler: dataExtra.alquiler_equipo,
+                        Impuestos: dataExtra.impuesto_electrico + (dataExtra.impuesto_electrico*dataExtra.iva),
+                        Otros: dataExtra.otros_1 || null + dataExtra.otros_2 || null,
+                        // Total_pago_potencia: 
+                        // Total_pago_energia: 
+                        // Total_factura: 
+                        // Total_anual_estimado:
+                        Compañia_actual: infoClienteState.clientData.comp_actual,
+                        Tarifa_actual: "No contemplada",
+                        P1_actual: rowsPower[0].precioPotencia || "No contemplada",
+                        P2_actual: rowsPower[1].precioPotencia || "No contemplada",
+                        P3_actual: rowsPower[2].precioPotencia || "No contemplada",
+                        P4_actual: rowsPower[3].precioPotencia || "No contemplada",
+                        P5_actual: rowsPower[4].precioPotencia || "No contemplada",
+                        P6_actual: rowsPower[5].precioPotencia || "No contemplada",
+                        p1_actual: rowsEnergy[0].consumoFacturaActual || "No contemplada",
+                        p2_actual: rowsEnergy[1].consumoFacturaActual || "No contemplada",
+                        p3_actual: rowsEnergy[2].consumoFacturaActual || "No contemplada",
+                        p4_actual: rowsEnergy[3].consumoFacturaActual || "No contemplada",
+                        p5_actual: rowsEnergy[4].consumoFacturaActual || "No contemplada",
+                        p6_actual: rowsEnergy[5].consumoFacturaActual || "No contemplada",
+                        PM1_actual: rowsEnergy[0].precioMesFacturacion || "No contemplada",
+                        PM2_actual: rowsEnergy[1].precioMesFacturacion || "No contemplada",
+                        PM3_actual: rowsEnergy[2].precioMesFacturacion || "No contemplada",
+                        PM4_actual: rowsEnergy[3].precioMesFacturacion || "No contemplada",
+                        PM5_actual: rowsEnergy[4].precioMesFacturacion || "No contemplada",
+                        PM6_actual: rowsEnergy[5].precioMesFacturacion || "No contemplada",
+                        Energia_reactiva_actual: dataExtra.energia_reactiva,
+                        Alquiler_actual: dataExtra.alquiler_equipo,
+                        Impuestos_actual: dataExtra.impuesto_electrico + (dataExtra.impuesto_electrico*dataExtra.iva),
+                        Otros_actual: dataExtra.otros_1 || null + dataExtra.otros_2 || null,
+                        // Total_pago_potencia_actual: 
+                        // Total_pago_energia_actual: 
+                        // Total_factura_actual: 
+                        // Total_anual_estimado_actual: 
                       }))
     } 
   
