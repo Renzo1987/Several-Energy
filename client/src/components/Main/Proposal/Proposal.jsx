@@ -29,6 +29,8 @@ const Proposal = () => {
   const [ahorroFacturaActual, setAhorroFacturaActual] = useState(0)
   const [ahorroAnualState, setAhorroAnualState] = useState(0)
   const [showCards, setShowCards] = useState(false)
+  const [porcentajeAnual, setPorcentajeAnual] = useState(false)
+  const [porcentajeFactura, setPorcentajeFactura] = useState(false)
 
   const [ciasStringData, setCiasStringData] = useState("")
   const [metodosStringData, setMetodosStringData] = useState("")
@@ -122,6 +124,10 @@ const Proposal = () => {
     }
   }
 
+  const meterPreciosEnEstado = (value) => {
+    setPreciosData(value)
+  }
+
   useEffect(() => {
     const fetchData = async () => {
         const response = await axios.post(`http://127.0.0.1:5000/reload_filters?tarifa=${tarifasStringData}&cia=${ciasStringData}&metodo=${metodosStringData}`)
@@ -135,9 +141,9 @@ const Proposal = () => {
         console.log(responsePrecios.data.precios)
         
 
-        if (response?.data?.precios) {
+        if ((responsePrecios.data.precios).length > 0) {
           
-          setPreciosData(responsePrecios?.data?.precios)
+          meterPreciosEnEstado(responsePrecios?.data?.precios)
 
           const infoId = infoClienteState.clientData.info_id;
     
@@ -178,6 +184,9 @@ const Proposal = () => {
           const precioDescuentoEnergiaP1 = preciosData[0]?.P1 * (1 - parseFloat(rowsEnergy[0].descuento) / 100)
           const precioDescuentoEnergiaP2 = preciosData[0]?.P2 *  (1 - parseFloat(rowsEnergy[1].descuento) / 100)
           const precioDescuentoEnergiaP3 = preciosData[0]?.P3 * (1 - parseFloat(rowsEnergy[2].descuento) / 100)
+          console.log(precioDescuentoEnergiaP1);
+          console.log(precioDescuentoEnergiaP2);
+          console.log(precioDescuentoEnergiaP3);
 
           const totPagoEnergiaFactP1= parseFloat(rowsEnergy[0].consumoFacturaActual) * precioDescuentoEnergiaP1
           const totPagoEnergiaFactP2= parseFloat(rowsEnergy[1].consumoFacturaActual) * precioDescuentoEnergiaP2
@@ -191,7 +200,9 @@ const Proposal = () => {
           const totPagoEnergiaAnualP1 = consumosAnuales[0] * preciosData[0]?.PM1 * (1 - rowsEnergy[0].descuento / 100)
           const totPagoEnergiaAnualP2 = consumosAnuales[1] * preciosData[0]?.PM2 * (1 - rowsEnergy[1].descuento / 100)
           const totPagoEnergiaAnualP3 = consumosAnuales[2] * preciosData[0]?.PM3 * (1 - rowsEnergy[2].descuento / 100)
-
+          console.log(totPagoEnergiaAnualP1);
+          console.log(totPagoEnergiaAnualP2);
+          console.log(totPagoEnergiaAnualP3);
 
           const totPagoEnergiaAnual =  totPagoEnergiaAnualP1 + totPagoEnergiaAnualP2 + totPagoEnergiaAnualP3
 
@@ -201,6 +212,8 @@ const Proposal = () => {
 
           const precioDescuentoPotenciaP1 = preciosData[0]?.P1 * (1 - parseFloat(rowsPower[0].descuento) / 100)
           const precioDescuentoPotenciaP2 = preciosData[0]?.P2 *  (1 - parseFloat(rowsPower[1].descuento) / 100)
+          console.log(precioDescuentoPotenciaP1);
+          console.log(precioDescuentoPotenciaP2);
 
           const totPagoPotenciaFactP1= parseFloat(rowsPower[0].potenciaContratada) * precioDescuentoPotenciaP1
         
@@ -230,6 +243,10 @@ const Proposal = () => {
           const ahorroFactura = importeTotalFactura - importeTotalFacturaProp
           console.log(ahorroFactura)
           const ahorroAnual = totalAnualEstimado - totalAnualEstimadoProp
+          const porcentajeAhorroAnual = (ahorroAnual / totalAnualEstimado) * 100;
+          const porcentajeAhorroFactura = (ahorroFactura/ importeTotalFactura) *100
+          setPorcentajeAnual(porcentajeAhorroAnual)
+          setPorcentajeFactura(porcentajeAhorroFactura)
           console.log(totalAnualEstimado)
           console.log(totalAnualEstimadoProp)
           console.log(ahorroAnual)
@@ -295,7 +312,7 @@ const Proposal = () => {
     // };
       }
     fetchData()
-  }, [tarifasStringData, ciasStringData, metodosStringData, productosCiasStringData, mesStringData, feeStringData])
+  }, [tarifasStringData, ciasStringData, metodosStringData, productosCiasStringData, mesStringData, feeStringData, setPreciosData])
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -485,7 +502,7 @@ const Proposal = () => {
               {crearInputMesFact()}  
           </select>
           <select name="fee" id="fee" onChange={handleChange}>
-              <option value="" selected disabled>Fee</option>
+              <option value="--" selected>Fee</option>
               {crearInputFEE()}
           </select>
         </form>
@@ -495,15 +512,15 @@ const Proposal = () => {
             <div className="ahorro-card">
               <h5>Ahorro Factura Actual</h5>
               <div className="info-ahorro">
-                <span className={ahorroAnualState > 0 ? "no-ahorro" : "ahorro"} id="porcentaje">2%</span>
-                <span id="total">{ahorroFacturaActual}</span>
+                <span className={ahorroAnualState > 0 ? "no-ahorro" : "ahorro"} id="porcentaje">{Math.floor(porcentajeFactura)}%</span>
+                <span id="total">{(ahorroFacturaActual).toFixed(2)}</span>
               </div>
             </div>
             <div className="ahorro-card">
               <h5>Ahorro Anual</h5>
               <div className="info-ahorro">
-                <span className={ahorroAnualState > 0 ? "no-ahorro" : "ahorro"} id="porcentaje">12%</span>
-                <span id="total">{ahorroAnualState}</span>
+                <span className={ahorroAnualState > 0 ? "no-ahorro" : "ahorro"} id="porcentaje">{Math.floor(porcentajeAnual)}%</span>
+                <span id="total">{(ahorroAnualState).toFixed(2)}</span>
               </div>
             </div>
         </article>

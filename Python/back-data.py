@@ -349,6 +349,12 @@ def cargar_precios():
 
             resultado_json = {'precios': data}
             resultado_json["precios"] = [transformar_precios(resultado_json["precios"][0])]
+            resultado_json["precios"][0]["PM1"] = 0
+            resultado_json["precios"][0]["PM2"] = 0
+            resultado_json["precios"][0]["PM3"] = 0
+            resultado_json["precios"][0]["PM4"] = 0
+            resultado_json["precios"][0]["PM5"] = 0
+            resultado_json["precios"][0]["PM6"] = 0
             
             # Convertir el diccionario a formato JSON
             json_resultado = json.dumps(resultado_json)
