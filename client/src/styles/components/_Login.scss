@@ -58,3 +58,22 @@ section > form > .login-input {
     margin-bottom: 30px;
     
 }
+
+@media only screen and (max-width: 768px) {
+    img.auth-logo {
+        margin-top: 20px;
+    }
+
+    #login-section {
+        article {
+            .inner-img {
+                width: 250px;
+            }
+        }
+    }
+
+    #login-form {
+        width: 100%;
+    }
+}
+
