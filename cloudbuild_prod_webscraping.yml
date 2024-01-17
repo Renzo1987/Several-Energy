@@ -1,0 +1,28 @@
+steps:
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['config', 'set', 'project', 'desafio-tripulaciones-grupo1']
+
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/severalenergy-webscraping:$COMMIT_SHA', '-f', 'Python/Dockerfile', '.']
+
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/severalenergy-webscraping:$COMMIT_SHA']
+
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: bash
+  args: [
+    "-c",
+    "gcloud run deploy severalenergy-webscraping
+    --image=gcr.io/$PROJECT_ID/severalenergy-webscraping-dev:$COMMIT_SHA 
+    --region=europe-west1 
+    --platform=managed 
+    --allow-unauthenticated 
+    --port=5000"
+  ]
+
+images:
+- 'gcr.io/$PROJECT_ID/severalenergy-webscraping:$COMMIT_SHA'
