@@ -57,3 +57,17 @@
         }
     }
 }
+
+@media only screen and (max-width: 768px) {
+    #register-section {
+        article {
+            .inner-img {
+                width: 250px;
+            }
+        }
+    }
+    
+    #register-form {
+        width: 100%;
+    }
+}

@@ -48,6 +48,11 @@
 
     
 }
+@media only screen and (max-width: 768px) {
+    #cups-form {
+        width: 90%; 
+    }
+}
 
 .navigation-sct-cups {
     width: 75%;
@@ -74,5 +79,21 @@
         border: 2px solid #CF4E4D;
         background-color: white;
         color: #CF4E4D;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .navigation-sct {
+        width: 90%; 
+    }
+
+    .continue-btn {
+        width: 100%;
+    }
+
+    .back-btn {
+        width: 100%; 
+        margin-right: 0; 
+        margin-top: 10px;
     }
 }

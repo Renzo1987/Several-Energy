@@ -12,6 +12,12 @@ html {
     color: #fff;
 }
 
+@media only screen and (max-width: 768px) {
+    html {
+        font-size: 18px; 
+    }
+}
+
 body {
     min-height: 100vh;
     background-color: gray;
@@ -162,4 +168,10 @@ button {
     width: 75%;
 
     border-radius: 7px !important;
+}
+
+@media only screen and (max-width: 768px) {
+    #root > header > section > div > div > a:nth-child(3) > button {
+        width: 100%; 
+    }
 }

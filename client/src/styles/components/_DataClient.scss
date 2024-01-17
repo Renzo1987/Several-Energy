@@ -50,3 +50,14 @@
         }
     }
 }
+
+    @media only screen and (max-width: 768px) {
+        form, h1 {
+            width: 90%; 
+        }
+
+        input {
+            width: 100%; 
+        }
+    }
+

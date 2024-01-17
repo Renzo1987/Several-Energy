@@ -32,7 +32,7 @@ td {
     flex-direction: column;
     justify-content: center;
 
-    padding: 100px 50px;
+    padding: 100px 20px;
 
     h5 {
         border-bottom: 2px solid black;
@@ -66,7 +66,14 @@ td {
 }
 
 #energy-sct > div.table-buttons {
-    max-width: 70%;
+    max-width: 100%;
 
     margin-top: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+    #energy-sct {
+        padding: 50px 10px; 
+    }
+
 }
