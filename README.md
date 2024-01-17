@@ -1,5 +1,7 @@
-<h1 align="center">Proyecto Full Stack: Calculadora de Ofertas Energéticas</h1>
+# Full Stack Project: Energy Offers Calculator
 
+<div align="center">
+  
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![JSON Web Tokens](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)](https://jwt.io/)
@@ -11,54 +13,77 @@
 [![Sass](https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white)](https://sass-lang.com/)
 [![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+  
+</div>
 
-<h3> Este proyecto consiste en una aplicación web que permite a los asesores energéticos gestionar y calcular ofertas para clientes en el sector eléctrico. A continuación, se detallan las funcionalidades y pantallas clave de la aplicación. </h3>
+## Description of the Project
 
-<h2>Arquitectura del proyecto</h2>
+This project is a web application that allows energy consultants to manage and calculate offers for clients in the electrical sector. Below are the features and key screens of the application.
 
-<img width="600" width="600" alt="Captura de pantalla 2024-01-16 a las 16 14 53" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/c95fd063-1583-4bc2-81e1-7afd84f545a0">
+## Project Architecture
 
-<h3>1. Fase de Ingreso del Usuario</h3>
+<div align="center">
+    <img width="600" alt="Captura de pantalla 2024-01-16 a las 16 14 53"
+        src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/c95fd063-1583-4bc2-81e1-7afd84f545a0">
+</div>
 
-<h4>Frontend (React Vite)</h4>
-<p>
-    El proceso de inicio comienza cuando el usuario carga la interfaz de React Vite en su navegador, la cual presenta formularios de inicio de sesión y registro. Al proporcionar sus credenciales, el frontend utiliza Axios para enviar la información al backend con el fin de autenticar al usuario. Express, en el backend, recibe estas solicitudes y, si las credenciales son válidas, responde enviando un token JWT al frontend.
-</p>
+### 1. User Login Phase
 
-<h3>2. Fase de Interacción con el Backend</h3>
+#### Frontend (React Vite)
 
-<h4>Backend (Express y PostgreSQL)</h4>
-<p>
-    Para acciones que requieren acceso a la base de datos, el frontend envía solicitudes al backend. Express gestiona estas solicitudes a través de su API REST, ejecutando operaciones CRUD en PostgreSQL mediante sentencias SQL.
-</p>
-
-<h3>3. Fase de Interacción con la API (Python)</h3>
-<p>
-    La API en Python actúa como un intermediario entre el backend y Candela, facilitando la obtención de datos específicos solicitados por el usuario. Posteriormente, la API en Python transmite los datos de Candela al backend de Express. Este último procesa la información según las necesidades de la aplicación y responde al frontend con los datos procesados, los cuales se presentan en la interfaz de usuario.
-</p>
+The login process begins when the user loads the React Vite interface in their browser, which presents login and registration forms. By providing their credentials, the frontend uses Axios to send the information to the backend to authenticate the user. Express, on the backend, receives these requests and, if the credentials are valid, responds by sending a JWT token to the frontend.
 
 
-<h2>Organización del Proyecto</h2>
+<div align="center">
+    <img width="400" alt="Captura de pantalla 2024-01-16 a las 23 13 43"
+        src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/01e52325-7cdd-4d63-b080-3c8d9bec5cf8">
+</div>
 
-<h3>Backend (API)</h3>
-<ul>
-  <li><strong>ROUTES:</strong> Rutas de la API.</li>
-  <li><strong>CONFIG:</strong> Configuraciones, como corsOption.js y db-pgsql.js.</li>
-  <li><strong>CONTROLLERS:</strong> Controladores para cada entidad.</li>
-  <li><strong>MIDDLEWARES:</strong> Middleware, como morgan.js y verifyJWT.js.</li>
-  <li><strong>MODELS:</strong> Modelos de datos.</li>
-  <li><strong>QUERIES:</strong> Consultas SQL.</li>
-</ul>
+### 2. Interaction Phase with the Backend
 
-<h3>Frontend (Cliente)</h3>
-<ul>
-  <li><strong>CLIENT:</strong> Directorio principal del cliente.</li>
-  <li><strong>SRC:</strong> Código fuente del cliente.</li>
-  <li><strong>API:</strong> Configuración de Axios para llamadas a la API.</li>
-  <li><strong>STYLES:</strong> Estilos para componentes y vistas.</li>
-  <li><strong>CONTEXT:</strong> Contextos para la gestión del estado.</li>
-  <li><strong>COMPONENTS:</strong> Componentes reutilizables.</li>
-</ul>
+#### Backend (Express y PostgreSQL)
 
+For actions that require access to the database, the frontend sends requests to the backend. Express manages these requests through its REST API, performing CRUD operations in PostgreSQL using SQL statements.
+
+<div align="center">
+<img width="400" alt="Captura de pantalla 2024-01-16 a las 23 14 00" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/3d817556-02b4-4516-8594-2c2328748d04">
+
+<img width="400" alt="Captura de pantalla 2024-01-16 a las 23 14 34" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/2de3d77d-455f-4942-9b26-09a5e6c38074">
+
+<img width="400" alt="Captura de pantalla 2024-01-16 a las 23 15 01" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/446a3de9-1668-4160-a481-b87e30f0cb57">
+
+<img width="400" alt="Captura de pantalla 2024-01-16 a las 23 15 48" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/2c4e0df2-0ad0-46ef-847e-1fb590b6b850">
+
+<img width="400" alt="Captura de pantalla 2024-01-16 a las 23 17 11" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/42d70338-8903-4a1c-b43e-3cb64c3cbc4d">
+</div>
+
+
+FALTAN IMÁGENES
+
+### 3.Interaction Phase with the API (Python)
+
+The Python API acts as an intermediary between the backend and Candela, facilitating the retrieval of specific data requested by the user. Subsequently, the Python API transmits Candela's data to the Express backend. The latter processes the information according to the application's needs and responds to the frontend with the processed data, which is then presented in the user interface.
+
+FALTAN IMÁGENES
+
+## Project Organization
+
+### Backend (API)
+
+- **ROUTES:** API routes.
+- **CONFIG:** Configurations, such as corsOption.js and db-pgsql.js.
+- **CONTROLLERS:** Controladores para cada entidad.
+- **MIDDLEWARES:**Controllers for each entity.
+- **MODELS:** Data models.
+- **QUERIES:** SQL queries.
+
+### Frontend (Client)
+
+- **CLIENT:** Main client directory.
+- **SRC:** Client source code.
+- **API:** Axios configuration for API calls.
+- **STYLES:** Styles for components and views.
+- **CONTEXT:** Contexts for state management.
+- **COMPONENTS:** Reusable components.
 
 
