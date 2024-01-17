@@ -16,12 +16,12 @@ steps:
   entrypoint: bash
   args: [
     "-c",
-    "gcloud run deploy react-nodejs-cloudbuilds-client 
+    "gcloud run deploy client-app-dev 
     --image=gcr.io/$PROJECT_ID/client-app-dev:$COMMIT_SHA 
     --region=europe-west1 
     --platform=managed 
     --allow-unauthenticated 
-    --port=3000"
+    --port=5173"
   ]
 
 images:

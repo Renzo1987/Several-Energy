@@ -5,20 +5,48 @@
     align-items: center;
 
     height: 100%;
+
+    div.cup-notes-cnt {
+        display: flex;
+        justify-content: space-between;
+        width: 75%;
+
+        a {
+        margin-top: 5px;
+        margin-left: auto;
+        display: inline-block;
+    }
+    }
 }
 
 #cups-form {
     width: 75%;
+    padding-bottom: 0;
+
+    div {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        
+        .small-spinner {
+            width: 40px;
+            object-fit: contain;
+            margin-left: 10px;
+        }
+
+        label {
+            margin: 0;
+        }
+    }
 
     input {
         background-color: #E6E6E6;
         border: none;
     }
 
-    a {
-        margin-top: 5px;
-        text-align: end;
-    }
+    
+
+    
 }
 @media only screen and (max-width: 768px) {
     #cups-form {
@@ -26,7 +54,7 @@
     }
 }
 
-.navigation-sct {
+.navigation-sct-cups {
     width: 75%;
     margin-top: 50px;
 

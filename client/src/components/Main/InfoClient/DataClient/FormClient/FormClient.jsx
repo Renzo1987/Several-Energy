@@ -16,7 +16,7 @@ const FormClient = () => {
     comp_actual: "",
   });
 
-  const { infoClienteState } = useInfoCliente();
+  const { infoClienteState, setInfoId, setTitularDireccionCia} = useInfoCliente();
 
   const postInfoCliente = async () => {
     const asesorData = await axios.get(`api/user/obtenerasesor/${auth.email}`)
@@ -32,6 +32,12 @@ const FormClient = () => {
     try {
       const response = await axios.post(POST_URL, infoCliente
       );
+      const createdInfoId = response.data.info_id; 
+      const titular = response.data.titular;
+      const direccion = response.data.direccion;
+      const comp_actual = response.data.comp_actual;
+      setInfoId(createdInfoId);
+      setTitularDireccionCia(titular, direccion, comp_actual);
       console.log(response.data);
       navigate("/dataextra"); 
     } catch (error) {
@@ -79,7 +85,7 @@ const FormClient = () => {
         title="Solo letras y números son permitidos."
         required
       /> 
-      <article className="navigation-sct">
+      <article className="navigation-sct-cups">
         <Link to="/cups">
           <button className="back-btn">Atrás</button>
         </Link>

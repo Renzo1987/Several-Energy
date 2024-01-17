@@ -93,6 +93,29 @@ button {
     padding: 0.25rem;
     position: relative;
     bottom: -10px;
+    margin-bottom: 0;
+}
+
+.instructions-success {
+    font-size: 0.75rem;
+    border-radius: 0.5rem;
+    background: #71AF3B;
+    color: #fff;
+    padding: 0.25rem;
+    position: relative;
+    bottom: -10px;
+    margin-bottom: 0;
+}
+
+.instructions-error {
+    font-size: 0.75rem;
+    border-radius: 0.5rem;
+    background: #DB4C3E;
+    color: #fff;
+    padding: 0.25rem;
+    position: relative;
+    bottom: -10px;
+    margin-bottom: 0;
 }
 
 .instructions > svg {

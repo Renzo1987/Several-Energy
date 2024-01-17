@@ -1,7 +1,11 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataExtraContext } from "../../../../context/DataExtraProvider";
 import axios from "axios";
+
 
 const FormDataExtra = () => {
   const { dataExtra, setDataExtra } = useContext(DataExtraContext);
@@ -53,72 +57,61 @@ const FormDataExtra = () => {
 
   return (
     <>
-      <section className="datos-extra-form">
-        <div className="form-group">
-          <label htmlFor="dias_facturacion">Días de facturación</label>
-          <input
-            id="dias_facturacion"
-            name="dias_facturacion"
-            type="text"
-            value={dataExtra.dias_facturacion}
-            onChange={handleInputChange}
-          />
+    <article id="data-extra-sct">
+      <h5>Datos extra</h5>
+      <section className="datos-extra-form">   
+        <div className="importe-energia">
+          <div className="form-group">
+            <label htmlFor="impuesto_electrico">Impuesto Eléctrico</label>
+            <input
+              id="impuesto_electrico"
+              name="impuesto_electrico"
+              type="text"
+              value={dataExtra.impuesto_electrico}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="energia_reactiva">Energia reactiva</label>
+            <input
+              id="energia_reactiva"
+              name="energia_reactiva"
+              type="text"
+              value={dataExtra.energia_reactiva}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="impuesto_electrico">Impuesto Eléctrico</label>
-          <input
-            id="impuesto_electrico"
-            name="impuesto_electrico"
-            type="text"
-            value={dataExtra.impuesto_electrico}
-            onChange={handleInputChange}
-          />
+        <div className="importe-energia">
+            <div className="form-group">
+              <label htmlFor="dias_facturacion">Días de facturación</label>
+              <input
+                id="dias_facturacion"
+                name="dias_facturacion"
+                type="text"
+                value={dataExtra.dias_facturacion}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="alquiler_equipo">Alquiler de equipo</label>
+              <input
+                id="alquiler_equipo"
+                name="alquiler_equipo"
+                type="text"
+                value={dataExtra.alquiler_equipo}
+                onChange={handleInputChange}
+              />
+            </div>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="energia_reactiva">Energia reactiva</label>
-          <input
-            id="energia_reactiva"
-            name="energia_reactiva"
-            type="text"
-            value={dataExtra.energia_reactiva}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="alquiler_equipo">Alquiler de equipo</label>
-          <input
-            id="alquiler_equipo"
-            name="alquiler_equipo"
-            type="text"
-            value={dataExtra.alquiler_equipo}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="iva">IVA</label>
-          <select
-            id="iva"
-            name="iva"
-            value={dataExtra.iva}
-            onChange={handleInputChange}
-          >
-            <option value="21">21%</option>
-            <option value="10">10%</option>
-            <option value="5">5%</option>
-          </select>
-        </div>
-
-        {otrosFields.map((field, index) => (
+        <div className="otros">
+          {otrosFields.map((field, index) => (
           <div key={index} className="form-group">
             <label htmlFor={`otros-concepto-${index}`}>Otros</label>
             <input
               id={`otros-concepto-${index}`}
               type="text"
-              placeholder="concepto"
+              placeholder="Concepto..."
               value={field.concepto}
               onChange={(e) =>
                 handleOtrosFieldChange(index, "concepto", e.target.value)
@@ -127,7 +120,7 @@ const FormDataExtra = () => {
             <input
               id={`otros-cantidad-${index}`}
               type="text"
-              placeholder="cantidad"
+              placeholder="Cantidad..."
               value={field.cantidad}
               onChange={(e) =>
                 handleOtrosFieldChange(index, "cantidad", e.target.value)
@@ -156,12 +149,30 @@ const FormDataExtra = () => {
           </div>
         ))}
         <p>Añadir otros</p>
-        <div>
-          <button type="button" onClick={postData}>
-            Continuar
-          </button>
+        </div>
+        <div className="iva">
+          <label htmlFor="iva">IVA</label>
+          <select
+            id="iva"
+            name="iva"
+            value={dataExtra.iva}
+            onChange={handleInputChange}
+          >
+            <option value="21">21%</option>
+            <option value="10">10%</option>
+            <option value="5">5%</option>
+          </select>
         </div>
       </section>
+    </article>
+    <article className="navigation-sct-dataextra">
+      <Link to="/client">
+        <button className="back-btn">Atrás</button>
+      </Link>
+      <Link to="/energy">
+        <button  className="continue-btn" onClick={postData}>Continuar</button>
+      </Link>
+    </article>
     </>
   );
 };

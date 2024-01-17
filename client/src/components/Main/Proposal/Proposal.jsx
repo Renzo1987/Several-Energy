@@ -1,7 +1,18 @@
-import React from "react";
+import { useEffect } from "react";
 import { FormControl, Select, MenuItem, TextField, Grid, Typography, Button } from "@mui/material";
+import axios from 'axios'
 
 const Proposal = () => {
+
+  useEffect(() => {
+    const obtenerFiltros = async () => {
+      const response = await axios.get('https://webscraping-app-dev-kfqooyerta-ew.a.run.app/load_filters')
+      console.log(response.data)
+    }
+
+    obtenerFiltros()
+  }, [])
+
   const titleStyle = {
     fontSize: "0.8rem",
   };
@@ -16,7 +27,6 @@ const Proposal = () => {
 
       <form>
         <Grid container spacing={2} justifyContent="center">
-          {/* Cada título y desplegable ocupa 1 columna */}
           <Grid container item xs={8} spacing={1}>
             <Grid item xs={2}>
               <Typography variant="subtitle1" style={titleStyle}>
@@ -97,13 +107,12 @@ const Proposal = () => {
               </FormControl>
             </Grid>
             <Grid item xs={2}>
-              <TextField
-                type="date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                style={{ ...contentStyle, width: "100%" }}
-              />
+              <FormControl fullWidth>
+                  <Select style={contentStyle}>
+                    <MenuItem value="x1">x</MenuItem>
+                    <MenuItem value="x2">x</MenuItem>
+                  </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={2}>
               <FormControl fullWidth>
