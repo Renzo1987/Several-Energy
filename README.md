@@ -16,7 +16,7 @@
   
 </div>
 
-## Description of the Project
+## Description of the Project 💼
 
 This project is a web application that allows energy consultants to manage and calculate offers for clients in the electrical sector. Below are the features and key screens of the application.
 
@@ -46,6 +46,7 @@ The login process begins when the user loads the React Vite interface in their b
 For actions that require access to the database, the frontend sends requests to the backend. Express manages these requests through its REST API, performing CRUD operations in PostgreSQL using SQL statements.
 
 <div align="center">
+  
 <img width="400" alt="Captura de pantalla 2024-01-16 a las 23 14 00" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/3d817556-02b4-4516-8594-2c2328748d04">
 
 <img width="400" alt="Captura de pantalla 2024-01-16 a las 23 14 34" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/2de3d77d-455f-4942-9b26-09a5e6c38074">
@@ -54,7 +55,7 @@ For actions that require access to the database, the frontend sends requests to 
 
 <img width="400" alt="Captura de pantalla 2024-01-16 a las 23 15 48" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/2c4e0df2-0ad0-46ef-847e-1fb590b6b850">
 
-<img width="400" alt="Captura de pantalla 2024-01-16 a las 23 17 11" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/42d70338-8903-4a1c-b43e-3cb64c3cbc4d">
+<img width="400" heigth="250" alt="Captura de pantalla 2024-01-16 a las 23 17 11" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/42d70338-8903-4a1c-b43e-3cb64c3cbc4d">
 </div>
 
 
@@ -66,7 +67,7 @@ The Python API acts as an intermediary between the backend and Candela, facilita
 
 FALTAN IMÁGENES
 
-## Project Organization
+## Project Organization 🗂️
 
 ### Backend (API)
 
@@ -86,4 +87,18 @@ FALTAN IMÁGENES
 - **CONTEXT:** Contexts for state management.
 - **COMPONENTS:** Reusable components.
 
+## Authors 🖋️
+
+- [Antonio Mangado Ariza](https://github.com/AntonioMangado)
+- [Alejandro Márquez Andrade](https://github.com/alejandroFMA)
+- [Alicia Cortínez López](https://github.com/alicia3194)
+
+Together with the entire team from the other areas: data science, cloud, cybersecurity, marketing, and UI/UX design.
+
+
+## Deployment 🚀
+
+The application is deployed and accessible at the following URL:
+
+[Your Deployment URL](YOUR_DEPLOYMENT_URL)
 
