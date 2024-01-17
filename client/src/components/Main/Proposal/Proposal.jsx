@@ -26,6 +26,8 @@ const Proposal = () => {
   const [tarifasData, setTarifasData] = useState([])
   const [feeData, setFeeData] = useState([])
   const [mesData, setMesData] = useState([])
+  const [ahorroFacturaActual, setAhorroFacturaActual] = useState(0)
+  const [ahorroAnualState, setAhorroAnualState] = useState(0)
 
   const [ciasStringData, setCiasStringData] = useState("")
   const [metodosStringData, setMetodosStringData] = useState("")
@@ -165,10 +167,8 @@ const Proposal = () => {
       default:
         break;
     }
-  };
+    };
 
-
-  
     const infoId = infoClienteState.clientData.info_id;
   
     const totalConsumoAnual = consumosAnuales.reduce((acc, val) => acc + val, 0);
@@ -201,7 +201,7 @@ const Proposal = () => {
         parseFloat(otrosAnual) *
       (1 + parseInt(ivaDecimal));
   
-   console.log(totalAnualEstimado)
+    console.log(totalAnualEstimado)
       
     //CALCULO FACTURA ENERGIA 
 
@@ -217,13 +217,13 @@ const Proposal = () => {
     const totPagoEnergiaFact = totPagoEnergiaFactP1 + totPagoEnergiaFactP2 + totPagoEnergiaFactP3
  
     //TOTAL PAGO ANUAL ENERGIA
-   console.log(preciosData)
+    console.log(preciosData)
     const totPagoEnergiaAnualP1 = consumosAnuales[0] * preciosData[0].PM1 * (1 - rowsEnergy[0].descuento / 100)
     const totPagoEnergiaAnualP2 = consumosAnuales[1] * preciosData[0].PM2 * (1 - rowsEnergy[1].descuento / 100)
     const totPagoEnergiaAnualP3 = consumosAnuales[2] * preciosData[0].PM3 * (1 - rowsEnergy[2].descuento / 100)
 
 
-  const totPagoEnergiaAnual =  totPagoEnergiaAnualP1 + totPagoEnergiaAnualP2 + totPagoEnergiaAnualP3
+    const totPagoEnergiaAnual =  totPagoEnergiaAnualP1 + totPagoEnergiaAnualP2 + totPagoEnergiaAnualP3
 
     
 
@@ -394,8 +394,10 @@ const Proposal = () => {
                         Alquiler: dataExtra.alquiler_equipo,
                         Impuestos: dataExtra.impuesto_electrico + (dataExtra.impuesto_electrico*dataExtra.iva),
                         Otros: dataExtra.otros_1 || null + dataExtra.otros_2 || null,
-                        // Total_pago_potencia: 
-                        // Total_pago_energia: 
+                        // Total_pago_potencia_actual_prop: 
+                        // Total_pago_energia_actual_prop: 
+                        // Total_pago_potencia_anual_prop: 
+                        // Total_pago_energia_anual_prop: 
                         // Total_factura: 
                         // Total_anual_estimado:
                         Compañia_actual: infoClienteState.clientData.comp_actual,
@@ -422,8 +424,10 @@ const Proposal = () => {
                         Alquiler_actual: dataExtra.alquiler_equipo,
                         Impuestos_actual: dataExtra.impuesto_electrico + (dataExtra.impuesto_electrico*dataExtra.iva),
                         Otros_actual: dataExtra.otros_1 || null + dataExtra.otros_2 || null,
-                        // Total_pago_potencia_actual: 
-                        // Total_pago_energia_actual: 
+                        // Total_pago_potencia_actual_factura: 
+                        // Total_pago_energia_actual_factura: 
+                        // Total_pago_potencia_anual_factura: 
+                        // Total_pago_energia_anual_factura:  
                         // Total_factura_actual: 
                         // Total_anual_estimado_actual: 
                       }))
