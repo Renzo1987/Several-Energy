@@ -36,7 +36,7 @@
 
 <h2>Organización del Proyecto</h2>
 
-<img width="355" alt="organización del proyecto" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/a03b5c47-5518-4de4-b0c1-19de2306e732">
+<img width="200" height="400" alt="organización del proyecto" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/a03b5c47-5518-4de4-b0c1-19de2306e732">
 
 <h3>Backend (API)</h3>
 <ul>
