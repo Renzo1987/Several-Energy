@@ -71,21 +71,25 @@ FALTAN IMÁGENES
 
 ### Backend (API)
 
-- **ROUTES:** API routes.
-- **CONFIG:** Configurations, such as corsOption.js and db-pgsql.js.
-- **CONTROLLERS:** Controladores para cada entidad.
-- **MIDDLEWARES:**Controllers for each entity.
-- **MODELS:** Data models.
-- **QUERIES:** SQL queries.
+<ul>
+<li>ROUTES:API routes.</li>
+<li>CONFIG:Configurations, such as corsOption.js and db-pgsql.js.</li>
+<li>CONTROLLERS:Controladores para cada entidad.</li>
+<li>MIDDLEWARES:Controllers for each entity.</li>
+<li>MODELS:Data models.</li>
+<li>QUERIES:SQL queries.</li>
+</ul>
 
 ### Frontend (Client)
 
-- **CLIENT:** Main client directory.
-- **SRC:** Client source code.
-- **API:** Axios configuration for API calls.
-- **STYLES:** Styles for components and views.
-- **CONTEXT:** Contexts for state management.
-- **COMPONENTS:** Reusable components.
+<ul>
+<li>CLIENT:Main client directory.</li>
+<li>SRC:Client source code.</li>
+<li>API:Axios configuration for API calls.</li>
+<li>STYLES:Styles for components and views.</li>
+<li>CONTEXT:Contexts for state management.</li>
+<li>COMPONENTS:Reusable components.</li>
+</ul>
 
 ## Authors 🖋️
 
@@ -93,7 +97,12 @@ FALTAN IMÁGENES
 - [Alejandro Márquez Andrade](https://github.com/alejandroFMA)
 - [Alicia Cortínez López](https://github.com/alicia3194)
 
-Together with the entire team from the other areas: data science, cloud, cybersecurity, marketing, and UI/UX design.
+Together with the entire team from the other areas: 
+- Data Science.
+- Cloud.
+- Cybersecurity.
+- Marketing
+- UI/UX design.
 
 
 ## Deployment 🚀
