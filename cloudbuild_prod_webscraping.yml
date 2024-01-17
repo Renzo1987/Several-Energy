@@ -17,7 +17,7 @@ steps:
   args: [
     "-c",
     "gcloud run deploy severalenergy-webscraping
-    --image=gcr.io/$PROJECT_ID/severalenergy-webscraping-dev:$COMMIT_SHA 
+    --image=gcr.io/$PROJECT_ID/severalenergy-webscraping:$COMMIT_SHA 
     --region=europe-west1 
     --platform=managed 
     --allow-unauthenticated 
