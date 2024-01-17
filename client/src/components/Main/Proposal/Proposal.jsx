@@ -7,6 +7,7 @@ import { useFranjasContext } from "../../../context/FranjasProvider";
 import { DataExtraContext } from "../../../context/DataExtraProvider";
 import { useInfoCliente } from "../../../context/InfoClienteProvider";
 import AuthContext from "../../../context/AuthProvider";
+import IconoPDF from '../../../assets/icono-pdf.png'
 
 
 const Proposal = () => {
@@ -124,9 +125,9 @@ const Proposal = () => {
     }
   }
 
-  const meterPreciosEnEstado = (value) => {
-    setPreciosData(value)
-  }
+  
+  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -139,177 +140,7 @@ const Proposal = () => {
 
         const responsePrecios = await axios.post(`http://127.0.0.1:5000/cargar_precios?tarifa=${tarifasStringData}&cia=${ciasStringData}&metodo=${metodosStringData}&sistema=${sistemasStringData}&producto_cia=${productosCiasStringData}&mes=${mesStringData}&fee=${feeStringData}`)
         console.log(responsePrecios.data.precios)
-        
-
-        if ((responsePrecios.data.precios).length > 0) {
-          
-          meterPreciosEnEstado(responsePrecios?.data?.precios)
-
-          const infoId = infoClienteState.clientData.info_id;
-    
-          const totalConsumoAnual = consumosAnuales.reduce((acc, val) => acc + val, 0);
-          const totalEnergia = rowsEnergyTotales[rowsEnergyTotales.length - 1];
-          const totalPotencia = rowsPowerTotales[rowsPowerTotales.length - 1];
-        
-          const otrosAnual =(((parseFloat(dataExtra.otros_1) + parseFloat(dataExtra.otros_2)) / parseInt(dataExtra.dias_facturacion))) * 365;
-        
-          const alquilerEquipoAnual = (parseFloat(dataExtra.alquiler_equipo) / (parseInt(dataExtra.dias_facturacion))) * 365;
-
-        
-          const ivaDecimal = parseFloat(dataExtra.iva) / 100;
-
-          console.log(dataExtra.alquiler_equipo)
-          console.log(alquilerEquipoAnual)
-          console.log(otrosAnual)
-          console.log(ivaDecimal)
-        
-          const importeTotalFactura = (parseFloat(totalEnergia.totalPagoFactura) +
-              parseFloat(totalPotencia.totalPagoFactura) +
-              parseFloat(dataExtra.energia_reactiva) +
-              parseFloat(dataExtra.impuesto_electrico) +
-              parseFloat(dataExtra.otros_1) + parseFloat(dataExtra.otros_2) + parseFloat(dataExtra.alquiler_equipo)) * (1 + ivaDecimal);
-        
-          const totalAnualEstimado =
-            ((parseFloat(totalEnergia.totalPagoAnual) +
-              parseFloat(totalPotencia.totalPagoAnual)) *
-              1.0051127 ) +
-              parseFloat(alquilerEquipoAnual) +
-              parseFloat(otrosAnual) *
-            (1 + parseInt(ivaDecimal));
-        
-          console.log(totalAnualEstimado)
-            
-          //CALCULO FACTURA ENERGIA 
-
-          const precioDescuentoEnergiaP1 = preciosData[0]?.P1 * (1 - parseFloat(rowsEnergy[0].descuento) / 100)
-          const precioDescuentoEnergiaP2 = preciosData[0]?.P2 *  (1 - parseFloat(rowsEnergy[1].descuento) / 100)
-          const precioDescuentoEnergiaP3 = preciosData[0]?.P3 * (1 - parseFloat(rowsEnergy[2].descuento) / 100)
-          console.log(precioDescuentoEnergiaP1);
-          console.log(precioDescuentoEnergiaP2);
-          console.log(precioDescuentoEnergiaP3);
-
-          const totPagoEnergiaFactP1= parseFloat(rowsEnergy[0].consumoFacturaActual) * precioDescuentoEnergiaP1
-          const totPagoEnergiaFactP2= parseFloat(rowsEnergy[1].consumoFacturaActual) * precioDescuentoEnergiaP2
-          const totPagoEnergiaFactP3= parseFloat(rowsEnergy[2].consumoFacturaActual) * precioDescuentoEnergiaP3
-
-          const totConsumoFacturaEn = parseFloat(rowsEnergy[0].consumoFacturaActual) + parseFloat(rowsEnergy[1].consumoFacturaActual) + parseFloat(rowsEnergy[2].consumoFacturaActual)
-          const totPagoEnergiaFact = totPagoEnergiaFactP1 + totPagoEnergiaFactP2 + totPagoEnergiaFactP3
-      
-          //TOTAL PAGO ANUAL ENERGIA
-          console.log(preciosData)
-          const totPagoEnergiaAnualP1 = consumosAnuales[0] * preciosData[0]?.PM1 * (1 - rowsEnergy[0].descuento / 100)
-          const totPagoEnergiaAnualP2 = consumosAnuales[1] * preciosData[0]?.PM2 * (1 - rowsEnergy[1].descuento / 100)
-          const totPagoEnergiaAnualP3 = consumosAnuales[2] * preciosData[0]?.PM3 * (1 - rowsEnergy[2].descuento / 100)
-          console.log(totPagoEnergiaAnualP1);
-          console.log(totPagoEnergiaAnualP2);
-          console.log(totPagoEnergiaAnualP3);
-
-          const totPagoEnergiaAnual =  totPagoEnergiaAnualP1 + totPagoEnergiaAnualP2 + totPagoEnergiaAnualP3
-
-          
-
-          //CALCULO FACTURA POTENCIA 
-
-          const precioDescuentoPotenciaP1 = preciosData[0]?.P1 * (1 - parseFloat(rowsPower[0].descuento) / 100)
-          const precioDescuentoPotenciaP2 = preciosData[0]?.P2 *  (1 - parseFloat(rowsPower[1].descuento) / 100)
-          console.log(precioDescuentoPotenciaP1);
-          console.log(precioDescuentoPotenciaP2);
-
-          const totPagoPotenciaFactP1= parseFloat(rowsPower[0].potenciaContratada) * precioDescuentoPotenciaP1
-        
-          const totPagoPotenciaFactP2= parseFloat(rowsPower[1].potenciaContratada) * precioDescuentoPotenciaP2
-          // TOTAL FACTURA POTENCIA
-          const totConsumoFacturaPot = parseFloat(rowsPower[0].potenciaContratada) + parseFloat(rowsPower[1].potenciaContratada)
-          const totPagoPotenciaFact = (totPagoPotenciaFactP1 + totPagoPotenciaFactP2) * parseFloat(dataExtra.dias_facturacion)
-        
-          // TOTAL FACTURA POTENCIA ANUAL
-          const totPagoAnualPotencia = totConsumoFacturaPot * 365
-
-
-          // //AHORRO
-
-          const otrosTotal = parseFloat(dataExtra.otros_1) + parseFloat(dataExtra.otros_2)
-
-          const importeTotalFacturaProp = (totPagoEnergiaFact + totPagoPotenciaFact + parseFloat(dataExtra.energia_reactiva) + parseFloat(dataExtra.impuesto_electrico) + otrosTotal + parseFloat(dataExtra.alquiler_equipo)) * (1 + dataExtra.iva / 100);
-
-          
-          const totalAnualEstimadoProp = 
-            ((totPagoEnergiaAnual + totPagoAnualPotencia) * 1.0051127) +
-            ((parseFloat(dataExtra.alquiler_equipo) / parseInt(dataExtra.dias_facturacion))) * 365 + 
-            (otrosTotal / parseFloat(dataExtra.dias_facturacion) * 365
-            ) * (1 + parseFloat(dataExtra.iva) / 100);
-          
-
-          const ahorroFactura = importeTotalFactura - importeTotalFacturaProp
-          console.log(ahorroFactura)
-          const ahorroAnual = totalAnualEstimado - totalAnualEstimadoProp
-          const porcentajeAhorroAnual = (ahorroAnual / totalAnualEstimado) * 100;
-          const porcentajeAhorroFactura = (ahorroFactura/ importeTotalFactura) *100
-          setPorcentajeAnual(porcentajeAhorroAnual)
-          setPorcentajeFactura(porcentajeAhorroFactura)
-          console.log(totalAnualEstimado)
-          console.log(totalAnualEstimadoProp)
-          console.log(ahorroAnual)
-          setAhorroFacturaActual(ahorroFactura)
-          setAhorroAnualState(ahorroAnual)
-          setShowCards(true)
-        } else {
-          console.log("No hay precios, siga aplicando filtros")
-        }
-
-    // const totalesClienteData = {
-    //   info_id: infoId,
-    //   t_con_anual: totalConsumoAnual,
-    //   t_con_fact_actual: totalEnergia.consumoFacturaActual,
-    //   t_pago_fact_energia: totalEnergia.totalPagoFactura,
-    //   t_pago_anual_energia: totalEnergia.totalPagoAnual,
-    //   t_pago_fact_potencia: totalPotencia.totalPagoFactura,
-    //   t_pago_anual_potencia: totalPotencia.totalPagoAnual,
-    //   importe_total_factura: importeTotalFactura,
-    //   total_anual_estimado: totalAnualEstimado,
-    // };
-  
-    // const propuestaData = [
-    //   {
-    //     info_id: infoId,
-    //     franja: "P1",
-    //     total_pago_fact_energia:totPagoEnergiaFactP1,
-    //     total_pago_anual_energia: totPagoEnergiaAnualP1,
-    //     total_pago_fact_potencia:totPagoPotenciaFactP1,
-    //     total_pago_anual_potencia: 0.0,
-    //   },
-    //   {
-    //     info_id: infoId,
-    //     franja: "P2",
-    //     total_pago_fact_energia: totPagoEnergiaFactP2,
-    //     total_pago_anual_energia: totPagoEnergiaAnualP2,
-    //     total_pago_fact_potencia: totPagoPotenciaFactP2,
-    //     total_pago_anual_potencia: totPagoAnualPotencia,
-    //   },
-  
-    //   {
-    //     info_id: infoId,
-    //     franja: "P3",
-    //     total_pago_fact_energia: totPagoEnergiaFactP3,
-    //     total_pago_anual_energia: totPagoEnergiaAnualP3,
-    //     total_pago_fact_potencia: 0.0,
-    //     total_pago_anual_potencia: 0.0,
-    //   },
-    // ];
-  
-    // const totalPropuestaData = {
-    //   info_id: infoId,
-    //   t_con_anual: totConsumoFacturaEn,
-    //   t_con_fact_actual: totConsumoFacturaPot,
-    //   t_pago_fact_energia: totPagoEnergiaFact,
-    //   t_pago_anual_energia:totPagoEnergiaAnual,
-    //   t_pago_fact_potencia: totPagoPotenciaFact,
-    //   t_pago_anual_potencia: totPagoAnualPotencia,
-    //   importe_total_factura: importeTotalFacturaProp,
-    //   total_anual_estimado: totalAnualEstimadoProp,
-    //   ahorro_fact_actual: ahorroFactura,
-    //   ahorro_anual: ahorroAnual,
-    // };
+        setPreciosData(responsePrecios.data.precios)
       }
     fetchData()
   }, [tarifasStringData, ciasStringData, metodosStringData, productosCiasStringData, mesStringData, feeStringData, setPreciosData])
@@ -457,19 +288,179 @@ const Proposal = () => {
     //                   }))}
     
     const handlePostData = async () => {
-      try {
-        const resultadosTotales = await postTotales(totalesClienteData);
-        const resultadosPropuestas = await enviarPropuestas(propuestaData);
-        const resultadoTotalPropuesta = await postTotalPropuesta(totalPropuestaData);
+      const infoId = infoClienteState.clientData.info_id;
     
-        console.log("Todos los datos han sido enviados correctamente", {
-          resultadosTotales,
-          resultadosPropuestas,
-          resultadoTotalPropuesta,
-        });
-      } catch (error) {
-        console.error("Error al enviar los datos:", error);
-      }
+      const totalConsumoAnual = consumosAnuales.reduce((acc, val) => acc + val, 0);
+      const totalEnergia = rowsEnergyTotales[rowsEnergyTotales.length - 1];
+      const totalPotencia = rowsPowerTotales[rowsPowerTotales.length - 1];
+        
+      const otrosAnual =(((parseFloat(dataExtra.otros_1) + parseFloat(dataExtra.otros_2)) / parseInt(dataExtra.dias_facturacion))) * 365;
+        
+      const alquilerEquipoAnual = (parseFloat(dataExtra.alquiler_equipo) / (parseInt(dataExtra.dias_facturacion))) * 365;
+
+        
+      const ivaDecimal = parseFloat(dataExtra.iva) / 100;
+
+      console.log(dataExtra.alquiler_equipo)
+      console.log(alquilerEquipoAnual)
+      console.log(otrosAnual)
+      console.log(ivaDecimal)
+    
+      const importeTotalFactura = (parseFloat(totalEnergia.totalPagoFactura) +
+          parseFloat(totalPotencia.totalPagoFactura) +
+          parseFloat(dataExtra.energia_reactiva) +
+          parseFloat(dataExtra.impuesto_electrico) +
+          parseFloat(dataExtra.otros_1) + parseFloat(dataExtra.otros_2) + parseFloat(dataExtra.alquiler_equipo)) * (1 + ivaDecimal);
+    
+      const totalAnualEstimado =
+        ((parseFloat(totalEnergia.totalPagoAnual) +
+          parseFloat(totalPotencia.totalPagoAnual)) *
+          1.0051127 ) +
+          parseFloat(alquilerEquipoAnual) +
+          parseFloat(otrosAnual) *
+        (1 + parseInt(ivaDecimal));
+    
+      console.log(totalAnualEstimado)
+        
+      //CALCULO FACTURA ENERGIA 
+
+      const precioDescuentoEnergiaP1 = preciosData[0]?.P1 * (1 - parseFloat(rowsEnergy[0].descuento) / 100)
+      const precioDescuentoEnergiaP2 = preciosData[0]?.P2 *  (1 - parseFloat(rowsEnergy[1].descuento) / 100)
+      const precioDescuentoEnergiaP3 = preciosData[0]?.P3 * (1 - parseFloat(rowsEnergy[2].descuento) / 100)
+      console.log(precioDescuentoEnergiaP1);
+      console.log(precioDescuentoEnergiaP2);
+      console.log(precioDescuentoEnergiaP3);
+
+      const totPagoEnergiaFactP1= parseFloat(rowsEnergy[0].consumoFacturaActual) * precioDescuentoEnergiaP1
+      const totPagoEnergiaFactP2= parseFloat(rowsEnergy[1].consumoFacturaActual) * precioDescuentoEnergiaP2
+      const totPagoEnergiaFactP3= parseFloat(rowsEnergy[2].consumoFacturaActual) * precioDescuentoEnergiaP3
+
+      const totConsumoFacturaEn = parseFloat(rowsEnergy[0].consumoFacturaActual) + parseFloat(rowsEnergy[1].consumoFacturaActual) + parseFloat(rowsEnergy[2].consumoFacturaActual)
+      const totPagoEnergiaFact = totPagoEnergiaFactP1 + totPagoEnergiaFactP2 + totPagoEnergiaFactP3
+  
+      //TOTAL PAGO ANUAL ENERGIA
+      console.log(preciosData)
+      const totPagoEnergiaAnualP1 = consumosAnuales[0] * preciosData[0]?.PM1 * (1 - rowsEnergy[0].descuento / 100)
+      const totPagoEnergiaAnualP2 = consumosAnuales[1] * preciosData[0]?.PM2 * (1 - rowsEnergy[1].descuento / 100)
+      const totPagoEnergiaAnualP3 = consumosAnuales[2] * preciosData[0]?.PM3 * (1 - rowsEnergy[2].descuento / 100)
+      console.log(totPagoEnergiaAnualP1);
+      console.log(totPagoEnergiaAnualP2);
+      console.log(totPagoEnergiaAnualP3);
+
+      const totPagoEnergiaAnual =  totPagoEnergiaAnualP1 + totPagoEnergiaAnualP2 + totPagoEnergiaAnualP3
+
+      
+
+      //CALCULO FACTURA POTENCIA 
+
+      const precioDescuentoPotenciaP1 = preciosData[0]?.P1 * (1 - parseFloat(rowsPower[0].descuento) / 100)
+      const precioDescuentoPotenciaP2 = preciosData[0]?.P2 *  (1 - parseFloat(rowsPower[1].descuento) / 100)
+      console.log(precioDescuentoPotenciaP1);
+      console.log(precioDescuentoPotenciaP2);
+
+      const totPagoPotenciaFactP1= parseFloat(rowsPower[0].potenciaContratada) * precioDescuentoPotenciaP1
+    
+      const totPagoPotenciaFactP2= parseFloat(rowsPower[1].potenciaContratada) * precioDescuentoPotenciaP2
+      // TOTAL FACTURA POTENCIA
+      const totConsumoFacturaPot = parseFloat(rowsPower[0].potenciaContratada) + parseFloat(rowsPower[1].potenciaContratada)
+      const totPagoPotenciaFact = (totPagoPotenciaFactP1 + totPagoPotenciaFactP2) * parseFloat(dataExtra.dias_facturacion)
+    
+      // TOTAL FACTURA POTENCIA ANUAL
+      const totPagoAnualPotencia = totConsumoFacturaPot * 365
+
+
+      // //AHORRO
+      const otrosTotal = parseFloat(dataExtra.otros_1) + parseFloat(dataExtra.otros_2)
+
+      const importeTotalFacturaProp = (totPagoEnergiaFact + totPagoPotenciaFact + parseFloat(dataExtra.energia_reactiva) + parseFloat(dataExtra.impuesto_electrico) + otrosTotal + parseFloat(dataExtra.alquiler_equipo)) * (1 + dataExtra.iva / 100);
+
+      const totalAnualEstimadoProp = 
+        ((totPagoEnergiaAnual + totPagoAnualPotencia) * 1.0051127) +
+        ((parseFloat(dataExtra.alquiler_equipo) / parseInt(dataExtra.dias_facturacion))) * 365 + 
+        (otrosTotal / parseFloat(dataExtra.dias_facturacion) * 365
+        ) * (1 + parseFloat(dataExtra.iva) / 100);
+      
+      const ahorroFactura = importeTotalFactura - importeTotalFacturaProp
+      console.log(ahorroFactura)
+      const ahorroAnual = totalAnualEstimado - totalAnualEstimadoProp
+      const porcentajeAhorroAnual = (ahorroAnual / totalAnualEstimado) * 100;
+      const porcentajeAhorroFactura = (ahorroFactura/ importeTotalFactura) *100
+      setPorcentajeAnual(porcentajeAhorroAnual)
+      setPorcentajeFactura(porcentajeAhorroFactura)
+      console.log(totalAnualEstimado)
+      console.log(totalAnualEstimadoProp)
+      console.log(ahorroAnual)
+      setAhorroFacturaActual(ahorroFactura)
+      setAhorroAnualState(ahorroAnual)
+        
+      const totalesClienteData = {
+        info_id: infoId,
+        t_con_anual: totalConsumoAnual,
+        t_con_fact_actual: totalEnergia.consumoFacturaActual,
+        t_pago_fact_energia: totalEnergia.totalPagoFactura,
+        t_pago_anual_energia: totalEnergia.totalPagoAnual,
+        t_pago_fact_potencia: totalPotencia.totalPagoFactura,
+        t_pago_anual_potencia: totalPotencia.totalPagoAnual,
+        importe_total_factura: importeTotalFactura,
+        total_anual_estimado: totalAnualEstimado,
+      };
+    
+      const propuestaData = [
+        {
+          info_id: infoId,
+          franja: "P1",
+          total_pago_fact_energia:totPagoEnergiaFactP1,
+          total_pago_anual_energia: totPagoEnergiaAnualP1,
+          total_pago_fact_potencia:totPagoPotenciaFactP1,
+          total_pago_anual_potencia: 0.0,
+        },
+        {
+          info_id: infoId,
+          franja: "P2",
+          total_pago_fact_energia: totPagoEnergiaFactP2,
+          total_pago_anual_energia: totPagoEnergiaAnualP2,
+          total_pago_fact_potencia: totPagoPotenciaFactP2,
+          total_pago_anual_potencia: totPagoAnualPotencia,
+        },
+    
+        {
+          info_id: infoId,
+          franja: "P3",
+          total_pago_fact_energia: totPagoEnergiaFactP3,
+          total_pago_anual_energia: totPagoEnergiaAnualP3,
+          total_pago_fact_potencia: 0.0,
+          total_pago_anual_potencia: 0.0,
+        },
+      ];
+    
+      const totalPropuestaData = {
+        info_id: infoId,
+        t_con_anual: totConsumoFacturaEn,
+        t_con_fact_actual: totConsumoFacturaPot,
+        t_pago_fact_energia: totPagoEnergiaFact,
+        t_pago_anual_energia:totPagoEnergiaAnual,
+        t_pago_fact_potencia: totPagoPotenciaFact,
+        t_pago_anual_potencia: totPagoAnualPotencia,
+        importe_total_factura: importeTotalFacturaProp,
+        total_anual_estimado: totalAnualEstimadoProp,
+        ahorro_fact_actual: ahorroFactura,
+        ahorro_anual: ahorroAnual,
+      };
+
+      setShowCards(true)
+      // try {
+      //   const resultadosTotales = await postTotales(totalesClienteData);
+      //   const resultadosPropuestas = await enviarPropuestas(propuestaData);
+      //   const resultadoTotalPropuesta = await postTotalPropuesta(totalPropuestaData);
+    
+      //   console.log("Todos los datos han sido enviados correctamente", {
+      //     resultadosTotales,
+      //     resultadosPropuestas,
+      //     resultadoTotalPropuesta,
+      //   });
+      // } catch (error) {
+      //   console.error("Error al enviar los datos:", error);
+      // }
   };
 
   return (
@@ -513,14 +504,14 @@ const Proposal = () => {
               <h5>Ahorro Factura Actual</h5>
               <div className="info-ahorro">
                 <span className={ahorroAnualState > 0 ? "no-ahorro" : "ahorro"} id="porcentaje">{Math.floor(porcentajeFactura)}%</span>
-                <span id="total">{(ahorroFacturaActual).toFixed(2)}</span>
+                <span id="total" className={ahorroAnualState > 0 ? "span-no-ahorro" : "span-ahorro"}>{(ahorroFacturaActual).toFixed(2)} €</span>
               </div>
             </div>
             <div className="ahorro-card">
               <h5>Ahorro Anual</h5>
               <div className="info-ahorro">
                 <span className={ahorroAnualState > 0 ? "no-ahorro" : "ahorro"} id="porcentaje">{Math.floor(porcentajeAnual)}%</span>
-                <span id="total">{(ahorroAnualState).toFixed(2)}</span>
+                <span id="total" className={ahorroAnualState > 0 ? "span-no-ahorro" : "span-ahorro"}>{(ahorroAnualState).toFixed(2)} €</span>
               </div>
             </div>
         </article>
@@ -528,7 +519,8 @@ const Proposal = () => {
           <Link to="/power">
             <button className="back-btn">Atrás</button>
           </Link>
-            <button className="continue-btn" onClick={handlePostData}>Generar PDF</button>
+            <button className="continue-btn" onClick={handlePostData}>Mostrar ofertas</button>
+            <button className="pdf" onClick={handlePostData}><img className="pdf-icon" src={IconoPDF} alt="" /></button>
         </article>
       </section>
     </>
