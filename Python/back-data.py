@@ -1,5 +1,5 @@
 # Flask app
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, send_file, request
 import psycopg2
 import json
 from flask_cors import CORS
@@ -402,103 +402,221 @@ def cargar_precios():
 
 #____________________________________________________________________________________________________________________________
 
-@app.route('/descargar_pdf', methods=['GET'])
+@app.route('/descargar_pdf', methods=['POST'])
 def descargar_pdf():
     # Generar el PDF en memoria
     buffer = BytesIO()
     c = canvas.Canvas(buffer)
-
     # Head izquierda
-    c.setFont("Helvetica", 12)
-    #c.drawImage("imagen.png", 20, 770, width=160, height=60)
-    c.drawString(30, 740, "Cliente: NOMBRE CLIENTE")
-    c.drawString(30, 725, "Dirección: DIRECCIÓN CLIENTE")
-    c.drawString(30, 710, "CUPS: NÚMERO CUPS")
-    # Head derecha
+    c.setFont("Helvetica", 11)
     c.setFillColor(colors.gray)
-    c.drawString(360, 815, "Asesor Energético: VARIABLE NOMBRE ASESOR")
-    c.drawString(360, 800, "Contacto: NÚMERO ASESOR")
-    c.drawString(360, 785, "Delegación: LOCALIDAD")
+    #c.drawImage("captura_logo_final.png", 160, 740, width=250, height=100)
+    c.drawString(40, 730, "Cliente: NOMBRE CLIENTE")
+    c.drawString(40, 715, "Dirección: DIRECCIÓN CLIENTE")
+    c.drawString(40, 700, "CUPS: NÚMERO CUPS")
+    # Head derecha
+    #
+    c.drawString(375, 730, "Asesor: NOMBRE ASESOR")
+    c.drawString(375, 715, "Contacto: NÚMERO ASESOR")
+    c.drawString(375, 700, "Delegación: LOCALIDAD")
     c.setFillColor(colors.black)
     ####
-    c.setFont("Helvetica", 10)
-    c.drawString(360, 750, "Válido por 7 días a partir de la propuesta")
-    c.drawString (360, 735, "Documentación para modificar la propuesta:")
-    c.drawString (360, 720, "- DNI titular   - CIF empresa")
-    c.drawString (360, 705, "- Copia Facturas   - Recibo bancario")
-
+    # Tail
+    c.setStrokeColorRGB(0.7, 0.7, 0.7) #LÍNEA tail
+    c.line(50, 50, 550, 50)
+    c.setFont("Helvetica", 8)
+    c.setFillColor(colors.gray)
+    c.drawString(50, 35, "Válido por 7 días. Documentación necesaria para modificar la propuesta: - DNI titular   - CIF empresa - Copia Facturas   - Recibo bancario")
     # Franja horizontal gris claro con opacidad baja
     #Color
     c.setFillColorRGB(0.9, 0.9, 0.9)  # Color gris claro
     c.setStrokeColorRGB(0.9, 0.9, 0.9)  # Color de borde igual al de relleno para evitar contorno visible
     # Forma
-    c.rect (0, 650, 600, 20, 0, fill=1)
-
+    c.rect (0, 663, 600, 20, 0, fill=1)
     # Restaurar el color de relleno y borde a valores no transparentes
     c.setFillColorRGB(0, 0, 0)
-    c.setFont("Helvetica", 16) 
-
+    c.setFont("Helvetica", 16)
     # Título
-    c.drawString(140, 655, "Oferta de contratación de suministro eléctrico")
-
+    c.drawString(140, 668, "Oferta de contratación de suministro eléctrico")
     # Ahorro ¿?
     c.setFont("Helvetica", 12)
-    c.drawString(120, 630, "Ahorro actual")
-    c.drawString(380, 630, "Ahorro anual") 
+    c.drawString(130, 642, "Ahorro actual")
+    c.drawString(385, 642, "Ahorro anual")
     #
     c.setStrokeColorRGB(0, 0, 0) # Color del borde
-    c.setLineWidth(1) #Grosor de la línea 
-    c.roundRect (85,580, 150, 35, 11,fill=0) 
-    c.roundRect (340,580, 150, 35, 11, fill=0)
-    #
-    c.setFillColorRGB(0.5, 0.8, 0.2)  
+    c.setLineWidth(1) #Grosor de la línea
+    c.roundRect (85,592, 160, 40, 11,fill=0)
+    c.roundRect (340,592, 160, 40, 11, fill=0)
+    # Círculos verdes porcentaje
+    c.setFillColorRGB(0.5, 0.8, 0.2)
     c.setStrokeColorRGB(0.5, 0.8, 0.2)
-    c.circle(115, 597, 12, fill=1)
-    c.circle(375, 597,12, fill=1)
-    # Texto
-    c.setFillColorRGB(1.0, 1.0, 1.0)  
+    c.circle(115, 611, 15, fill=1)
+    c.circle(375, 611,15, fill=1)
+    # Texto porcentaje
+    c.setFillColorRGB(1.0, 1.0, 1.0)
     c.setStrokeColorRGB(1.0, 1.0, 1.0)
-    c.drawString(100, 593, "12%")
-    c.drawString(360, 593, "12%")
+    c.drawString(100, 606, "VARIABLE PORCENTAJE AHORRO")
+    c.drawString(360, 606, "VARIABLE PORCENTAJE AHORRO%")
     #
-    c.setFillColorRGB(0.0, 0.0, 0.0)  
+    c.setFillColorRGB(0.0, 0.0, 0.0)
     c.setStrokeColorRGB(0.0, 0.0, 0.0)
     c.setFont("Helvetica", 16)
-    c.drawString(150,593, "€20.51")
-    c.drawString(410, 593, "€20.51")
-
+    c.drawString(150,605, "AHORRO €")
+    c.drawString(410, 605, "100,00€")
+    # OFERTA SEVERAL
     # Franja horizontal
     c.setFillColorRGB(0.9, 0.9, 0.9)  # Color gris claro
     c.setStrokeColorRGB(0.9, 0.9, 0.9)  # Color de borde igual al de relleno para evitar contorno visible
     # Forma
-    c.rect (0, 540, 600, 20, 0, fill=1)
-
+    c.rect (0, 550, 600, 20, 0, fill=1)
     # Restaurar el color de relleno y borde a valores no transparentes
     c.setFillColorRGB(0, 0, 0)
-    c.setFont("Helvetica", 16) 
-
-    # Título
-    c.drawString(230, 545, "Oferta Several")
-
+    c.setFont("Helvetica", 16)
+    c.drawString(230, 555, "Oferta Several")
+    c.setFont("Helvetica", 12)
+    c.drawString(50,525,"Compañía:")
+    c.drawString(132,525,"VAR COMPAÑIA")
+    c.drawString(290,525,"Tarifa:")
+    c.drawString(340,525,"VAR TARIFA")
+    c.setStrokeColorRGB(0.4, 0.4, 0.4) #LÍNEA TABLA
+    c.line(50, 493, 545, 493)
+    # VAR = variable a sustituir
+    # Datos variables
+    datos_oferta_several = [
+        [" ","P1", "P2", "P3", "P4", "P5", "P6"],
+        ["Precio energía (mes) (€/kWh)", "VAR mes p1", "VAR mes p2", "VAR mes p3", "VAR mes p4", "VAR mes p5", "VAR mes p6"],
+        ["Precio energía media (€/kWh)", "VAR media p1", "VAR media p2", "VAR media p3", "VAR media p4", "VAR media p5", "VAR media p6"],
+        ["Precio potencia media (€/kWh)", "VAR potenc1", "VAR potenc2", "VAR potenc3", "VAR potenc4", "VAR potenc5", "VAR potenc6"]
+    ]
+    c.setFont("Helvetica", 10)
+    c.setFillColor(colors.gray)
+    c.drawString(50,420,"Energía reactiva:")
+    c.drawString(128,420,"VAR reactiva")
+    c.drawString(200,420,"Alquiler equipo:")
+    c.drawString(270,420,"VAR equipo")
+    c.drawString(340,420,"Impuestos:")
+    c.drawString(390,420,"VAR impuestos")
+    c.drawString(475,420,"Otros:")
+    c.drawString(505,420,"VAR otros")
+    #
+    c.setFont("Helvetica", 12)
+    c.setFillColor(colors.black)
+    c.drawString(50,380,"Total factura:")
+    c.drawString(125,380,"VAR factura")
+    c.drawString(50,365,"Total anual estimado:")
+    c.drawString(170,365,"VAR estimado")
+    #
+    c.setFont("Helvetica", 8)
+    c.setFillColor(colors.gray)
+    c.drawString(50, 335, "*La estimación anual ha sido realizada utilizando datos históricos de consumo energético\
+    publicados en SIPS en el último año y considerando la")
+    c.drawString(50, 327,"proyección anual del perfil de consumo, \
+    así como los precios facilitados por el cliente en su última factura de luz.")
+    #OFERTA DISTRIBUIDORA ACTUAL
     # Franja horizontal
     c.setFillColorRGB(0.9, 0.9, 0.9)  # Color gris claro
     c.setStrokeColorRGB(0.9, 0.9, 0.9)  # Color de borde igual al de relleno para evitar contorno visible
     # Forma
-    c.rect (0, 270, 600, 20, 0, fill=1)
-
-    # Restaurar el color de relleno y borde a valores no transparentes
-    c.setFillColorRGB(0, 0, 0)
-    c.setFont("Helvetica", 16) 
-
-    # Título
-    c.drawString(230, 275, "Oferta de Distribuidora Actual")
+    c.rect (0, 290, 600, 20, 0, fill=1)
+    c.setFillColorRGB(0, 0, 0)# Restaura color
+    c.setFont("Helvetica", 16)
+    c.drawString(190, 295, "Oferta de Distribuidora Actual")
+    c.setFont("Helvetica", 12)
+    c.drawString(50,265,"Compañía:")
+    c.drawString(132,265,"VAR COMPAÑIA")
+    c.drawString(290,265,"Tarifa:")
+    c.drawString(340,265,"VAR TARIFA")
+    c.setStrokeColorRGB(0.4, 0.4, 0.4)
+    c.line(50, 233, 550, 233)
+    # Factura Several, tabla pequeña 1
+    factura_several = [
+    [" ","Factura Actual", "Anual"],
+        ["Total Potencia", "VarPotAct1", "VarPotAn1"],
+        ["Total Energía", "VarEnAct1", "VarEnAn1"]
+    ]
+    datos_distribuidora_actual = [
+    [" ","P1", "P2", "P3", "P4", "P5", "P6"],
+        ["Precio energía (mes) (€/kWh)", "VAR mes p1", "VAR mes p2", "VAR mes p3", "VAR mes p4", "VAR mes p5", "VAR mes p6"],
+        ["Precio energía media (€/kWh)", "VAR media p1", "VAR media p2", "VAR media p3", "VAR media p4", "VAR media p5", "VAR media p6"],
+        ["Precio potencia media (€/kWh)", "VAR potenc1", "VAR potenc2", "VAR potenc3", "VAR potenc4", "VAR potenc5", "VAR potenc6"]
+    ]
+    c.setFont("Helvetica", 10)
+    c.setFillColor(colors.gray)
+    c.drawString(50,160,"Energía reactiva:")
+    c.drawString(128,160,"VAR reactiva")
+    c.drawString(200,160,"Alquiler equipo:")
+    c.drawString(270,160,"VAR equipo")
+    c.drawString(340,160,"Impuestos:")
+    c.drawString(390,160,"VAR impuestos")
+    c.drawString(475,160,"Otros:")
+    c.drawString(505,160,"VAR otros")
+    #
+    c.setFont("Helvetica", 12)
+    c.setFillColor(colors.black)
+    c.drawString(50,120,"Total factura:")
+    c.drawString(125,120,"VAR factura")
+    c.drawString(50,105,"Total anual estimado:")
+    c.drawString(170,105,"VAR estimado")
+    #
+    c.setFont("Helvetica", 8)
+    c.setFillColor(colors.gray)
+    c.drawString(50, 75, "*La estimación anual ha sido realizada utilizando datos históricos de consumo energético\
+    publicados en SIPS en el último año y considerando la")
+    c.drawString(50, 67,"proyección anual del perfil de consumo, \
+    así como los precios facilitados por el cliente en su última factura de luz.")
+    #Datos factura actual, tabla pequeña:
+    datos_factura_actual = [
+    [" ","Factura Actual", "Anual"],
+        ["Total Potencia", "VarPotAct2", "VarPotAn2"],
+        ["Total Energía", "VarEnAct2", "VarEnAn2"]
+    ]
+    # Definir el estilo de las tablas
+    estilo = TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.transparent),
+        ("ALIGN", (0, -1), (-1, -1), "CENTER"),
+        ("BOX", (0, 0), (-1, -1), 0.25, colors.transparent),
+        ("INNERGRID", (0, 0), (-1, -1), 0.10, colors.transparent),
+        ("FONTSIZE", (0, 0), (-1, -1), 8)  # Ajusta el tamaño de fuente a 8 puntos
+    ])
+    estilo2 = TableStyle([
+        ("LEADING", (0, 0), (-1, -1), 10),
+        ("BACKGROUND", (0, 0), (-1, 0), colors.transparent),
+        ("ALIGN", (0, -1), (-1, -1), "LEFT"),
+        ("BOX", (0, 0), (-1, -1), 0.25, colors.transparent),
+        ("INNERGRID", (0, -1), (0, -1), 0.10, colors.black),
+        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("FONTSIZE", (0, 0), (-1, -1), 8),
+        ("FONTSIZE", (0, 0), (-1, 0), 10)
+    ])
+    # Crear las instancias de la clase Table
+    tabla_several = Table(datos_oferta_several, style=estilo2)
+    tabla_actual = Table(datos_distribuidora_actual, style=estilo2)
+    ancho_disponible = 595 - 2 * 50  # 2 márgenes de 20 puntos cada uno
+    alto_disponible = 842 - 2 * 20  # 2 márgenes de 20 puntos cada uno
+    # Tabla pequeña
+    tabla_factura_several = Table(factura_several, style=estilo2)
+    tabla_factura_actual = Table(datos_factura_actual, style = estilo2)
+    # Dibujo de las tablas en el documento
+    tabla_several.wrapOn(c, 400, 200)
+    tabla_several.drawOn(c, 50, 445)
+    tabla_actual.wrapOn(c, ancho_disponible, 200)
+    tabla_actual.drawOn(c, 50, 185)
+    ##
+    tabla_factura_several.wrapOn(c, 200, 50)
+    tabla_factura_several.drawOn(c, 360, 360)
+    tabla_factura_actual.wrapOn(c, 200, 50)
+    tabla_factura_actual.drawOn(c, 360, 100)
+    # Líneas tablas pequeñas
+    c.setStrokeColorRGB(0.7, 0.7, 0.7) #LÍNEA tail
+    c.setFillColor(colors.gray)
+    c.line(415, 392, 535, 392)
+    c.line(415, 132, 535, 132)
     # Guardar los cambios en el documento
     c.save()
+    # Mover el puntero al principio del buffer antes de enviar el archivo
     buffer.seek(0)
-
     # Descargar el PDF como un archivo adjunto
     return send_file(buffer, as_attachment=True, download_name='pdf2.5.pdf')
-
 
     
 # Nueva ruta para manejar la consulta a la tabla precios_fijo

@@ -6,6 +6,7 @@ import { usePowerContext } from "../../../context/PowerProvider";
 import { useFranjasContext } from "../../../context/FranjasProvider";
 import { DataExtraContext } from "../../../context/DataExtraProvider";
 import { useInfoCliente } from "../../../context/InfoClienteProvider";
+import AuthContext from "../../../context/AuthProvider";
 
 
 const Proposal = () => {
@@ -15,146 +16,157 @@ const Proposal = () => {
   const { rowsEnergy, rowsEnergyTotales } = useFranjasContext();
   const { dataExtra } = useContext(DataExtraContext);
   const { infoClienteState } = useInfoCliente();
+  const { auth } = useContext(AuthContext)
 
   const totalConsumoAnual = consumosAnuales.reduce((acc, val) => acc + val, 0);
   const totalEnergia = rowsEnergyTotales[rowsEnergyTotales.length - 1];
   const totalPotencia = rowsPowerTotales[rowsPowerTotales.length - 1];
 
   const handlePostData = async () => {
-  const infoId = infoClienteState.clientData.info_id;
+    const infoId = infoClienteState.clientData.info_id;
 
-  const totalConsumoAnual = consumosAnuales.reduce((acc, val) => acc + val, 0);
-  const totalEnergia = rowsEnergyTotales[rowsEnergyTotales.length - 1];
-  const totalPotencia = rowsPowerTotales[rowsPowerTotales.length - 1];
+    const totalConsumoAnual = consumosAnuales.reduce((acc, val) => acc + val, 0);
+    const totalEnergia = rowsEnergyTotales[rowsEnergyTotales.length - 1];
+    const totalPotencia = rowsPowerTotales[rowsPowerTotales.length - 1];
 
-  const otrosAnual =(parseFloat(dataExtra.otros_1 + dataExtra.otros_2) / diasFacturacion) * 365;
-  const alquilerEquipoAnual = (parseFloat(dataExtra.alquiler_equipo) / diasFacturacion) * 365;
-  const ivaDecimal = parseFloat(dataExtra.iva) / 100;
+    const otrosAnual =(parseFloat(dataExtra.otros_1 + dataExtra.otros_2) / diasFacturacion) * 365;
+    const alquilerEquipoAnual = (parseFloat(dataExtra.alquiler_equipo) / diasFacturacion) * 365;
+    const ivaDecimal = parseFloat(dataExtra.iva) / 100;
 
-  const importeTotalFactura = (parseFloat(totalEnergia.totalPagoFactura) +
-      parseFloat(totalPotencia.totalPagoFactura) +
-      parseFloat(dataExtra.energia_reactiva) +
-      parseFloat(dataExtra.impuesto_electrico) +
-      parseFloat(dataExtra.otros_1) + parseFloat(dataExtra.otros_2) + parseFloat(dataExtra.alquiler_equipo)) * (1 + ivaDecimal);
+    const importeTotalFactura = (parseFloat(totalEnergia.totalPagoFactura) +
+        parseFloat(totalPotencia.totalPagoFactura) +
+        parseFloat(dataExtra.energia_reactiva) +
+        parseFloat(dataExtra.impuesto_electrico) +
+        parseFloat(dataExtra.otros_1) + parseFloat(dataExtra.otros_2) + parseFloat(dataExtra.alquiler_equipo)) * (1 + ivaDecimal);
 
-  const totalAnualEstimado =
-    ((parseFloat(totalEnergia.totalPagoAnual) +
-      parseFloat(totalPotencia.totalPagoAnual)) *
-      1.0051127 +
-      alquilerEquipoAnual +
-      otrosAnual) *
-    (1 + ivaDecimal);
+    const totalAnualEstimado =
+      ((parseFloat(totalEnergia.totalPagoAnual) +
+        parseFloat(totalPotencia.totalPagoAnual)) *
+        1.0051127 +
+        alquilerEquipoAnual +
+        otrosAnual) *
+      (1 + ivaDecimal);
 
-  const totalesClienteData = {
-    info_id: infoId,
-    t_con_anual: totalConsumoAnual,
-    t_con_fact_actual: totalEnergia.consumoFacturaActual,
-    t_pago_fact_energia: totalEnergia.totalPagoFactura,
-    t_pago_anual_energia: totalEnergia.totalPagoAnual,
-    t_pago_fact_potencia: totalPotencia.totalPagoFactura,
-    t_pago_anual_potencia: totalPotencia.totalPagoAnual,
-    importe_total_factura: importeTotalFactura,
-    total_anual_estimado: totalAnualEstimado,
-  };
-
-  const propuestaData = [
-    {
+    const totalesClienteData = {
       info_id: infoId,
-      franja: "P1",
-      total_pago_fact_energia: 0.0,
-      total_pago_anual_energia: 0.0,
-      total_pago_fact_potencia: 0.0,
-      total_pago_anual_potencia: 0.0,
-    },
-    {
+      t_con_anual: totalConsumoAnual,
+      t_con_fact_actual: totalEnergia.consumoFacturaActual,
+      t_pago_fact_energia: totalEnergia.totalPagoFactura,
+      t_pago_anual_energia: totalEnergia.totalPagoAnual,
+      t_pago_fact_potencia: totalPotencia.totalPagoFactura,
+      t_pago_anual_potencia: totalPotencia.totalPagoAnual,
+      importe_total_factura: importeTotalFactura,
+      total_anual_estimado: totalAnualEstimado,
+    };
+
+    const propuestaData = [
+      {
+        info_id: infoId,
+        franja: "P1",
+        total_pago_fact_energia: 0.0,
+        total_pago_anual_energia: 0.0,
+        total_pago_fact_potencia: 0.0,
+        total_pago_anual_potencia: 0.0,
+      },
+      {
+        info_id: infoId,
+        franja: "P2",
+        total_pago_fact_energia: 0.0,
+        total_pago_anual_energia: 0.0,
+        total_pago_fact_potencia: 0.0,
+        total_pago_anual_potencia: 0.0,
+      },
+
+      {
+        info_id: infoId,
+        franja: "P3",
+        total_pago_fact_energia: 0.0,
+        total_pago_anual_energia: 0.0,
+        total_pago_fact_potencia: 0.0,
+        total_pago_anual_potencia: 0.0,
+      },
+    ];
+
+    const totalPropuestaData = {
       info_id: infoId,
-      franja: "P2",
-      total_pago_fact_energia: 0.0,
-      total_pago_anual_energia: 0.0,
-      total_pago_fact_potencia: 0.0,
-      total_pago_anual_potencia: 0.0,
-    },
+      t_con_anual: 0.0,
+      t_con_fact_actual: 0.0,
+      t_pago_fact_energia: 0.0,
+      t_pago_anual_energia: 0.0,
+      t_pago_fact_potencia: 0.0,
+      t_pago_anual_potencia: 0.0,
+      importe_total_factura: 0.0,
+      total_anual_estimado: 0.0,
+      ahorro_fact_actual: 0,
+      ahorro_anual: 0,
+    };
 
-    {
-      info_id: infoId,
-      franja: "P3",
-      total_pago_fact_energia: 0.0,
-      total_pago_anual_energia: 0.0,
-      total_pago_fact_potencia: 0.0,
-      total_pago_anual_potencia: 0.0,
-    },
-  ];
+    const postTotales = async (data) => {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/totales",
+          data
+        );
+        console.log("Totales enviados:", response.data);
+      } catch (error) {
+        console.error("Error en envío de totales:", error);
+      }
+    };
 
-  const totalPropuestaData = {
-    info_id: infoId,
-    t_con_anual: 0.0,
-    t_con_fact_actual: 0.0,
-    t_pago_fact_energia: 0.0,
-    t_pago_anual_energia: 0.0,
-    t_pago_fact_potencia: 0.0,
-    t_pago_anual_potencia: 0.0,
-    importe_total_factura: 0.0,
-    total_anual_estimado: 0.0,
-    ahorro_fact_actual: 0,
-    ahorro_anual: 0,
-  };
+    const enviarPropuestas = async (data) => {
+      try {
+        const responses = await Promise.all(
+          propuestaData.map((propuesta) =>
+            axios.post("http://localhost:3000/api/propuesta", propuesta)
+          )
+        );
+        console.log(
+          "Propuestas enviadas:",
+          responses.map((res) => res.data)
+        );
+        return responses.map((res) => res.data); 
+      } catch (error) {
+        console.error("Error en envío de propuestas:", error);
+        throw error; 
+      }
+    };
 
-  const postTotales = async (data) => {
+    const postTotalPropuesta = async (data) => {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/totalpropuesta",
+          data
+        );
+        console.log("Total propuesta enviado:", response.data);
+      } catch (error) {
+        console.error("Error en envío de total propuesta:", error);
+      }
+    };
+
+    const generarPDF = async () => {
+      const response = await axios.post("http://localhost:5000/descargar_pdf", 
+        JSON.stringify({
+                        asesor: auth.asesor,
+                        contacto: auth.contacto,
+                        delegacion: auth.delegacion,
+                        nombre_cliente, 
+                      }))
+    } 
+
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/totales",
-        data
-      );
-      console.log("Totales enviados:", response.data);
+      const resultadosTotales = await postTotales(totalesClienteData);
+      const resultadosPropuestas = await enviarPropuestas(propuestaData);
+      const resultadoTotalPropuesta = await postTotalPropuesta(totalPropuestaData);
+
+      console.log("Todos los datos han sido enviados correctamente", {
+        resultadosTotales,
+        resultadosPropuestas,
+        resultadoTotalPropuesta,
+      });
     } catch (error) {
-      console.error("Error en envío de totales:", error);
+      console.error("Error al enviar los datos:", error);
     }
   };
-
-  const enviarPropuestas = async (data) => {
-    try {
-      const responses = await Promise.all(
-        propuestaData.map((propuesta) =>
-          axios.post("http://localhost:3000/api/propuesta", propuesta)
-        )
-      );
-      console.log(
-        "Propuestas enviadas:",
-        responses.map((res) => res.data)
-      );
-      return responses.map((res) => res.data); 
-    } catch (error) {
-      console.error("Error en envío de propuestas:", error);
-      throw error; 
-    }
-  };
-
-  const postTotalPropuesta = async (data) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/totalpropuesta",
-        data
-      );
-      console.log("Total propuesta enviado:", response.data);
-    } catch (error) {
-      console.error("Error en envío de total propuesta:", error);
-    }
-  };
-
-  try {
-    const resultadosTotales = await postTotales(totalesClienteData);
-    const resultadosPropuestas = await enviarPropuestas(propuestaData);
-    const resultadoTotalPropuesta = await postTotalPropuesta(totalPropuestaData);
-
-    console.log("Todos los datos han sido enviados correctamente", {
-      resultadosTotales,
-      resultadosPropuestas,
-      resultadoTotalPropuesta,
-    });
-  } catch (error) {
-    console.error("Error al enviar los datos:", error);
-  }
-};
 
 
   const [preciosData, setPreciosData] = useState([])
