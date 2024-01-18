@@ -8,4 +8,4 @@ Jinja2==2.11.3
 MarkupSafe==2.0.1
 itsdangerous==2.0.1
 reportlab==3.6.1
-webdriver_manager
+webdriver_manager==3.5.0
