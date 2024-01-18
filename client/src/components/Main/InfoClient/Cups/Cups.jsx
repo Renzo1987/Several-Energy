@@ -31,7 +31,7 @@ const Cups = () => {
     setCup(cups)
     setLoad(true)
     try {
-      const response = await axios.post("https://webscraping-app-dev-kfqooyerta-ew.a.run.app/cups", JSON.stringify({ cups }),
+      const response = await axios.post("127.0.0.1:5000/cups", JSON.stringify({ cups }),
       {
         headers: { 'Content-Type': 'application/json' }
       })
