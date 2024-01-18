@@ -872,15 +872,15 @@ def tu_endpoint():
             datos_json = {
                 'Municipio': municipio,
                 'Provincia': provincia,
-                'Codigo Postal': cp,
+                'CodigoPostal': cp,
                 'Tarifa': tarifa,
-                'Consumo Anual': cons_anu,
-                'Consumo Anual P1': cons_anu_p1,
-                'Consumo Anual P2': cons_anu_p2,
-                'Consumo Anual P3': cons_anu_p3,
-                'Consumo Anual P4': cons_anu_p4,
-                'Consumo Anual P5': cons_anu_p5,
-                'Consumo Anual P6': cons_anu_p6,
+                'ConsumoAnual': cons_anu,
+                'ConsumoAnualP1': cons_anu_p1,
+                'ConsumoAnualP2': cons_anu_p2,
+                'ConsumoAnualP3': cons_anu_p3,
+                'ConsumoAnualP4': cons_anu_p4,
+                'ConsumoAnualP5': cons_anu_p5,
+                'ConsumoAnualP6': cons_anu_p6,
                 'P1': p1,
                 'P2': p2,
                 'P3': p3,
@@ -888,24 +888,24 @@ def tu_endpoint():
                 'P5': p5,
                 'P6': p6,
                 'Distribuidora': distribuidora,
-                'Cambio comercializadora': ult_cam_comer,
-                'Ultimo cambio BIE': bie,
+                'CambioComercializadora': ult_cam_comer,
+                'UltimoCambioBIE': bie,
                 'Tensión': tension,
-                'Ultimo Cambio Contrato': ult_cam_contr
+                'UltimoCambioContrato': ult_cam_contr
             }
             
             #convertimos el diccionario a modo JSON
             
-            json_resultado = json.dumps(datos_json)
+            # json_resultado = json.dumps(datos_json)
 
-            return json_resultado
+            return datos_json
 
         # Llamar a la funcion de webscraping
         resultado_cups = webscraping(cups)
         
 
         # Devolver el resultado como JSON
-        return jsonify({"resultado": resultado_cups})
+        return jsonify(resultado_cups)
 
     except Exception as e:
         return jsonify({"error": str(e)})
