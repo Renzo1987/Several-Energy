@@ -1,4 +1,5 @@
-# Full Stack Project: Energy Offers Calculator
+
+<h1 align="center">Full Stack Project: Energy Offers Calculator</h1>Full Stack Project: Energy Offers Calculator
 
 <div align="center">
   
