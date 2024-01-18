@@ -32,6 +32,8 @@ config = {
     'database': 'postgres'
 }
 
+
+
 def consulta_resultados(sistema, tarifa, cia, metodo, producto_cia, fee, mes=None):
     
     print("request url:", request.url)
@@ -439,9 +441,10 @@ def cargar_precios():
 
 #____________________________________________________________________________________________________________________________
 
-@app.route('/descargar_pdf', methods=['POST'])
+@app.route('/descargar_pdf', methods=['GET'])
 def descargar_pdf():
 
+    print("Entra")
     datos_json = request.get_json()
 
     # Generar el PDF en memoria
@@ -458,7 +461,7 @@ def descargar_pdf():
     c.setFillColor(colors.gray)
     #c.drawImage("captura_logo_final.png", 160, 740, width=250, height=100)
     c.drawString(40, 730, "Cliente:", datos_json.get('Nombre_cliente'))
-    c.drawString(40, 715, "Dirección: ", datos_json.get('Direccion_cliente'))
+    c.drawString(40, 715, "Dirección: ", datos_json['Direccion_cliente'])
     c.drawString(40, 700, "CUPS: ", datos_json.get('Numero_cups'))
     # Head derecha
     #
@@ -515,12 +518,7 @@ def descargar_pdf():
     c.setStrokeColorRGB(0.0, 0.0, 0.0)
     c.setFont("Helvetica", 16)
     c.drawString(150,605, datos_json.get('Ahorro_actual'))
-    c.drawString(410, 605, datos_json.get('ahorro_anual'))
-
-
-
-
-
+    c.drawString(410, 605, datos_json.get('Ahorro_anual'))
 
     # OFERTA SEVERAL
 
@@ -633,7 +631,7 @@ def descargar_pdf():
     c.drawString(50,120,"Total factura:")
     c.drawString(125,120,datos_json.get('Total_factura_actual'))
     c.drawString(50,105,"Total anual estimado:")
-    c.drawString(170,105, datos_json.get('Total_anual_actual'))
+    c.drawString(170,105, datos_json.get('Total_anual_estimado_actual'))
     #
     c.setFont("Helvetica", 8)
     c.setFillColor(colors.gray)
@@ -697,9 +695,6 @@ def descargar_pdf():
     c.line(415, 392, 535, 392)
     c.line(415, 132, 535, 132)
 
-
-
-
     # Guardar los cambios en el documento
     c.save()
 
@@ -708,7 +703,6 @@ def descargar_pdf():
 
     # Descargar el PDF como un archivo adjunto
     return send_file(buffer, as_attachment=True, download_name='propuesta_final.pdf')
-
     
 # Nueva ruta para manejar la consulta a la tabla precios_fijo
 #@app.route('/consulta_resultados', methods=['POST'])
