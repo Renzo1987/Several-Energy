@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "start-python": "python api.py",
+    "start-python": "python Python/back-data.py",
     "server": "nodemon index.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run start-python\" \"npm run client\""
@@ -26,7 +26,6 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.2",
-    "concurrently": "^8.2.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -39,5 +38,9 @@
     "nodemon": "^3.0.2",
     "pg": "^8.11.3",
     "react-bootstrap": "^2.9.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "vite": "^5.0.11"
   }
 }

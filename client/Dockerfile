@@ -4,7 +4,7 @@ FROM node:20-alpine
 ENV port=5173
 
 # Establecer el directorio de trabajo dentro del contenedor
-WORKDIR /App
+WORKDIR /client
 
 # Copiar el código del cliente al directorio de trabajo
 COPY ./client ./client
