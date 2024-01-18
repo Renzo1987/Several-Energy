@@ -16,7 +16,7 @@ steps:
   entrypoint: bash
   args: [
     "-c",
-    "gcloud run deploy client-app-dev 
+    "gcloud run deploy several-energy 
     --image=gcr.io/$PROJECT_ID/client-app-dev:$COMMIT_SHA 
     --region=europe-west1 
     --platform=managed 
