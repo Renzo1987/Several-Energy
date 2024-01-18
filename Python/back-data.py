@@ -840,7 +840,7 @@ def tu_endpoint():
             
             #convertimos el diccionario a modo JSON
             
-            # json_resultado = json.dumps(datos_json)c
+            # json_resultado = json.dumps(datos_json)
 
             return datos_json
 
