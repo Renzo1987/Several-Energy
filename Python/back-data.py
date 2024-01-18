@@ -146,7 +146,6 @@ def transformar_precios(precios):
 
 @app.route('/load_filters', methods=['GET'])
 def cargar_filtros():
-
     try:
         conn = psycopg2.connect(**config)
         cursor = conn.cursor()
