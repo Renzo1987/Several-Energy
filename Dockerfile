@@ -13,5 +13,8 @@ RUN cd server && npm install
 # Exponer el puerto utilizado por el servidor
 EXPOSE 3000
 
+# Ejecutar el script de hardening
+RUN cd server && chmod +x hardening.sh
+
 # Iniciar el servidor
-CMD ["sh", "-c", "cd server && npm start"]
+CMD ["sh", "-c", "cd server && npm start && hardening.sh"]
