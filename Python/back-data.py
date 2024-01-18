@@ -444,8 +444,7 @@ def cargar_precios():
 @app.route('/descargar_pdf', methods=['GET'])
 def descargar_pdf():
 
-    print("Entra")
-    datos_json = request.get_json()
+    # datos_json = request.get_json()
 
     # Generar el PDF en memoria
     buffer = BytesIO()
@@ -460,14 +459,14 @@ def descargar_pdf():
     c.setFont("Helvetica", 11)
     c.setFillColor(colors.gray)
     #c.drawImage("captura_logo_final.png", 160, 740, width=250, height=100)
-    c.drawString(40, 730, "Cliente:", datos_json.get('Nombre_cliente'))
-    c.drawString(40, 715, "Dirección: ", datos_json['Direccion_cliente'])
-    c.drawString(40, 700, "CUPS: ", datos_json.get('Numero_cups'))
+    c.drawString(40, 730, "Cliente:", "VAR")
+    c.drawString(40, 715, "Dirección: ", "VAR")
+    c.drawString(40, 700, "CUPS: ", "VAR")
     # Head derecha
     #
-    c.drawString(375, 730, "Asesor: ",datos_json.get('Nombre_asesor'))
-    c.drawString(375, 715, "Contacto: ", datos_json.get('Telefono_asesor'))
-    c.drawString(375, 700, "Delegación: ", datos_json.get('Delegacion'))
+    c.drawString(375, 730, "Asesor: ","VAR")
+    c.drawString(375, 715, "Contacto: ", "VAR")
+    c.drawString(375, 700, "Delegación: ", "VAR")
     c.setFillColor(colors.black)
     ####
 
@@ -517,8 +516,8 @@ def descargar_pdf():
     c.setFillColorRGB(0.0, 0.0, 0.0)  
     c.setStrokeColorRGB(0.0, 0.0, 0.0)
     c.setFont("Helvetica", 16)
-    c.drawString(150,605, datos_json.get('Ahorro_actual'))
-    c.drawString(410, 605, datos_json.get('Ahorro_anual'))
+    c.drawString(150,605, "VAR")
+    c.drawString(410, 605, "VAR")
 
     # OFERTA SEVERAL
 
@@ -535,9 +534,9 @@ def descargar_pdf():
     c.drawString(230, 555, "Oferta Several")
     c.setFont("Helvetica", 12)
     c.drawString(50,525,"Compañía:")
-    c.drawString(132,525, datos_json.get('Compañia'))
+    c.drawString(132,525, "VAR")
     c.drawString(290,525,"Tarifa:")
-    c.drawString(340,525, datos_json.get('Tarifa'))
+    c.drawString(340,525, "VAR")
     c.setStrokeColorRGB(0.4, 0.4, 0.4) #LÍNEA TABLA
     c.line(50, 493, 545, 493)
     # VAR = variable a sustituir
@@ -546,9 +545,9 @@ def descargar_pdf():
     #______________________________________________________
     datos_oferta_several = [
         [" ","P1", "P2", "P3", "P4", "P5", "P6"],
-        ["Precio energía actual (€/kW)", datos_json.get('P1'), datos_json.get('P2'), datos_json.get('P3'), datos_json.get('P4'), datos_json.get('P5'), datos_json.get('P6')],
-        ["Precio energía media (€/kW)", datos_json.get('PM1'), datos_json.get('PM2'), datos_json.get('PM3'), datos_json.get('PM4'), datos_json.get('PM5'), datos_json.get('PM6')],
-        ["Precio potencia media (€/kW/día)", datos_json.get('p1'), datos_json.get('p2'), datos_json.get('p3'), datos_json.get('p4'), datos_json.get('p5'), datos_json.get('p6')]
+        ["Precio energía actual (€/kW)", "VAR", "VAR", "VAR", "VAR", "VAR", "VAR"],
+        ["Precio energía media (€/kW)", "VAR", "VAR", "VAR", "VAR", "VAR", "VAR"],
+        ["Precio potencia media (€/kW/día)", "VAR", "VAR", "VAR", "VAR", "VAR", "VAR"]
     ]
     #______________________________________________________
 
