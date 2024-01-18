@@ -57,16 +57,16 @@ const FormEnergy = () => {
                 Consumo anual 
               </TableCell>
               <TableCell className="table-cell" align="center">
-                Consumo factura actual
+                Consumo factura actual (kWh)
               </TableCell>
               <TableCell className="table-cell" align="center">
-                Precio media anual
+                Precio media anual (€/kWh)
               </TableCell>
               <TableCell className="table-cell" align="center">
-                Precio mes de facturación
+                Precio mes de facturación (€/kWh)
               </TableCell>
               <TableCell className="table-cell" align="center">
-                Descuento
+                Descuento (%)
               </TableCell>
             </TableRow>
           </TableHead>

@@ -31,8 +31,10 @@ td {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-width: 1500px;
 
-    padding: 100px 20px;
+    padding: 125px 20px;
+    margin: 0 auto;
 
     h5 {
         border-bottom: 2px solid black;

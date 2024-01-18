@@ -46,11 +46,10 @@ const Proposal = () => {
 
       setCiasData(response.data.cias);
       setMetodosData(response.data.metodos);
-      // setPreciosData(response.data.precios)
       setProductosCiasData(response.data.producto_cia);
       setSistemasData(response.data.sistemas);
       setTarifasData(response.data.tarifas);
-      setFeeData(response.data.fee);
+      setFeeData(response.data.fee || ["No existen fees en este producto"])
       setMesData(response.data.mes || ["No hay datos mensuales"]);
 
       // console.log(datos)
@@ -153,7 +152,7 @@ const Proposal = () => {
       });
       return datosMapeados;
     } else {
-      return <option value="-">No se cargaron los datos</option>;
+      return <option value="-">No hay fees disponibles</option>;
     }
   };
 

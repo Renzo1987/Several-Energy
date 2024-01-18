@@ -69,6 +69,7 @@ const FormDataExtra = () => {
               type="text"
               value={dataExtra.impuesto_electrico}
               onChange={handleInputChange}
+              className="no-radius"
             />
           </div>
           <div className="form-group">
@@ -79,6 +80,7 @@ const FormDataExtra = () => {
               type="text"
               value={dataExtra.energia_reactiva}
               onChange={handleInputChange}
+              className="no-radius"
             />
           </div>
         </div>
@@ -91,6 +93,7 @@ const FormDataExtra = () => {
                 type="text"
                 value={dataExtra.dias_facturacion}
                 onChange={handleInputChange}
+                className="no-radius"
               />
             </div>
             <div className="form-group">
@@ -101,6 +104,7 @@ const FormDataExtra = () => {
                 type="text"
                 value={dataExtra.alquiler_equipo}
                 onChange={handleInputChange}
+                className="no-radius"
               />
             </div>
         </div>
@@ -116,6 +120,7 @@ const FormDataExtra = () => {
               onChange={(e) =>
                 handleOtrosFieldChange(index, "concepto", e.target.value)
               }
+              className="no-radius"
             />
             <input
               id={`otros-cantidad-${index}`}
@@ -125,6 +130,7 @@ const FormDataExtra = () => {
               onChange={(e) =>
                 handleOtrosFieldChange(index, "cantidad", e.target.value)
               }
+              className="no-radius"
             />
             <select
               id={`otrosOpcion1-${index}`}
@@ -132,9 +138,10 @@ const FormDataExtra = () => {
               onChange={(e) =>
                 handleOtrosFieldChange(index, "opcion1", e.target.value)
               }
+              className="no-radius"
             >
-              <option value="si">Sí</option>
-              <option value="no">No</option>
+              <option value="si" className="no-radius">Sí</option>
+              <option value="no" className="no-radius">No</option>
             </select>
             <select
               id={`otrosOpcion2-${index}`}
@@ -142,9 +149,10 @@ const FormDataExtra = () => {
               onChange={(e) =>
                 handleOtrosFieldChange(index, "opcion2", e.target.value)
               }
+              className="no-radius"
             >
-              <option value="si">Sí</option>
-              <option value="no">No</option>
+              <option value="si" className="no-radius">Sí</option>
+              <option value="no" className="no-radius">No</option>
             </select>
           </div>
         ))}
@@ -157,10 +165,11 @@ const FormDataExtra = () => {
             name="iva"
             value={dataExtra.iva}
             onChange={handleInputChange}
+            className="no-radius"
           >
-            <option value="21">21%</option>
-            <option value="10">10%</option>
-            <option value="5">5%</option>
+            <option className="no-radius" value="21">21%</option>
+            <option value="10" className="no-radius">10%</option>
+            <option value="5" className="no-radius">5%</option>
           </select>
         </div>
       </section>
