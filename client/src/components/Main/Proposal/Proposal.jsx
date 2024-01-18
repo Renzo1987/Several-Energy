@@ -177,47 +177,7 @@ const Proposal = () => {
     }
   };
 
-  const postTotales = async (data) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/totales",
-        data
-      );
-      console.log("Totales enviados:", response.data);
-    } catch (error) {
-      console.error("Error en envío de totales:", error);
-    }
-  };
-
-  const enviarPropuestas = async (data) => {
-    try {
-      const responses = await Promise.all(
-        propuestaData.map((propuesta) =>
-          axios.post("http://localhost:3000/api/propuesta", propuesta)
-        )
-      );
-      console.log(
-        "Propuestas enviadas:",
-        responses.map((res) => res.data)
-      );
-      return responses.map((res) => res.data); 
-    } catch (error) {
-      console.error("Error en envío de propuestas:", error);
-      throw error; 
-    }
-  };
-
-  const postTotalPropuesta = async (data) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/totalpropuesta",
-        data
-      );
-      console.log("Total propuesta enviado:", response.data);
-    } catch (error) {
-      console.error("Error en envío de total propuesta:", error);
-    }
-  };
+ 
 
     // const generarPDF = async () => {
     //   const response = await axios.post("http://localhost:5000/descargar_pdf", 
@@ -366,8 +326,10 @@ const Proposal = () => {
       const totConsumoFacturaPot = parseFloat(rowsPower[0].potenciaContratada) + parseFloat(rowsPower[1].potenciaContratada)
       const totPagoPotenciaFact = (totPagoPotenciaFactP1 + totPagoPotenciaFactP2) * parseFloat(dataExtra.dias_facturacion)
     
-      // TOTAL FACTURA POTENCIA ANUAL
-      const totPagoAnualPotencia = totConsumoFacturaPot * 365
+      // TOTAL  POTENCIA ANUAL
+      const totPagoAnualPotenciaP1 = totPagoPotenciaFactP1 * precioDescuentoPotenciaP1 
+      const totPagoAnualPotenciaP2 = totPagoPotenciaFactP2 *  precioDescuentoPotenciaP2 
+      const totPagoAnualPotencia = totPagoAnualPotenciaP1 +totPagoAnualPotenciaP2 * 365
 
 
       // //AHORRO
@@ -406,33 +368,33 @@ const Proposal = () => {
         total_anual_estimado: totalAnualEstimado,
       };
     
-      const propuestaData = [
+      const propuestaData1 = 
         {
           info_id: infoId,
           franja: "P1",
           total_pago_fact_energia:totPagoEnergiaFactP1,
           total_pago_anual_energia: totPagoEnergiaAnualP1,
           total_pago_fact_potencia:totPagoPotenciaFactP1,
-          total_pago_anual_potencia: 0.0,
-        },
-        {
+          total_pago_anual_potencia: totPagoAnualPotenciaP1,
+        }
+      const propuestaData2= {
           info_id: infoId,
           franja: "P2",
           total_pago_fact_energia: totPagoEnergiaFactP2,
           total_pago_anual_energia: totPagoEnergiaAnualP2,
           total_pago_fact_potencia: totPagoPotenciaFactP2,
-          total_pago_anual_potencia: totPagoAnualPotencia,
-        },
+          total_pago_anual_potencia: totPagoAnualPotenciaP2,
+        }
     
-        {
+       const propuestaData3 =  {
           info_id: infoId,
           franja: "P3",
           total_pago_fact_energia: totPagoEnergiaFactP3,
           total_pago_anual_energia: totPagoEnergiaAnualP3,
-          total_pago_fact_potencia: 0.0,
-          total_pago_anual_potencia: 0.0,
-        },
-      ];
+          total_pago_fact_potencia: 0,
+          total_pago_anual_potencia: 0,
+        }
+      
     
       const totalPropuestaData = {
         info_id: infoId,
@@ -449,18 +411,47 @@ const Proposal = () => {
       };
 
       setShowCards(true)
+
+      const postTotales = async (data) => {
+        const response = await axios.post("http://localhost:3000/api/totales", data);
+        return response; 
+      };
+      
+      const enviarPropuesta = async (propuesta) => {
+        try {
+          const response = await axios.post("http://localhost:3000/api/propuesta", propuesta);
+          console.log("Propuesta enviada:", response.data);
+          return response;
+        } catch (error) {
+          console.error("Error al enviar la propuesta:", error.message);
+          throw error;
+        }
+      };
+      
+      const postTotalPropuesta = async (data) => {
+        const response = await axios.post("http://localhost:3000/api/totalpropuesta", data);
+        return response; 
+      };
+
+
       try {
         const resultadosTotales = await postTotales(totalesClienteData);
-        const resultadosPropuestas = await enviarPropuestas(propuestaData);
+        console.log("Totales enviados:", resultadosTotales);
+
         const resultadoTotalPropuesta = await postTotalPropuesta(totalPropuestaData);
-    
-        console.log("Todos los datos han sido enviados correctamente", {
-          resultadosTotales,
-          resultadosPropuestas,
-          resultadoTotalPropuesta,
-        });
+        console.log("Total propuesta enviado:", resultadoTotalPropuesta);
+            
+        const resultadoPropuesta1 = await enviarPropuesta(propuestaData1);
+        console.log("Totales enviados:", resultadoPropuesta1);
+        const resultadoPropuesta2 = await enviarPropuesta(propuestaData2);
+        console.log("Totales enviados:", resultadoPropuesta2);
+        const resultadoPropuesta3 = await enviarPropuesta(propuestaData3);
+        console.log("Totales enviados:", resultadoPropuesta3);
+
+  
+        
       } catch (error) {
-        console.error("Error al enviar los datos:", error);
+        console.error("Error al enviar los datos:", error.message);
       }
   };
 
