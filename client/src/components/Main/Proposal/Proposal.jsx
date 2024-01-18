@@ -45,7 +45,7 @@ const Proposal = () => {
 
   useEffect(() => {
     const obtenerFiltros = async () => {
-      const response = await axios.get('https://webscraping-app-dev-kfqooyerta-ew.a.run.app/load_filters')
+      const response = await axios.get('http:/127.0.0.1:5000/load_filters')
       
         setCiasData(response.data.cias)
         setMetodosData(response.data.metodos)
@@ -128,14 +128,14 @@ const Proposal = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        const response = await axios.post(`https://webscraping-app-dev-kfqooyerta-ew.a.run.app/reload_filters?tarifa=${tarifasStringData}&cia=${ciasStringData}&metodo=${metodosStringData}`)
+        const response = await axios.post(`http:/127.0.0.1:5000/reload_filters?tarifa=${tarifasStringData}&cia=${ciasStringData}&metodo=${metodosStringData}`)
         console.log(response.data)
         setProductosCiasData(response.data.producto_cia) 
         setFeeData(response.data.fee) 
         setMesData(response.data.meses) 
         setCiasData(response.data.cia)
 
-        const responsePrecios = await axios.post(`https://webscraping-app-dev-kfqooyerta-ew.a.run.app/cargar_precios?tarifa=${tarifasStringData}&cia=${ciasStringData}&metodo=${metodosStringData}&sistema=${sistemasStringData}&producto_cia=${productosCiasStringData}&mes=${mesStringData}&fee=${feeStringData}`)
+        const responsePrecios = await axios.post(`http:/127.0.0.1:5000/cargar_precios?tarifa=${tarifasStringData}&cia=${ciasStringData}&metodo=${metodosStringData}&sistema=${sistemasStringData}&producto_cia=${productosCiasStringData}&mes=${mesStringData}&fee=${feeStringData}`)
         console.log(responsePrecios.data.precios)
         setPreciosData(responsePrecios.data.precios)
       }
