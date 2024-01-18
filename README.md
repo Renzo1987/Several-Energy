@@ -45,6 +45,12 @@ The login process begins when the user loads the React Vite interface in their b
 
 For actions that require access to the database, the frontend sends requests to the backend. Express manages these requests through its REST API, performing CRUD operations in PostgreSQL using SQL statements.
 
+The frontend is responsible for sending requests to the backend whenever there are actions that require access to the database. This interaction is facilitated through the use of the Express API, which manages these requests using its RESTful API and interfaces with the Python API.
+
+The information sent from the frontend is processed based on the specific requirements of the application. The backend, powered by Express and Python APIs, handles these requests, interacts with the database, and processes the data accordingly. This processed data is then sent back to the frontend as a response. 
+
+Subsequently, the frontend displays the processed data on the user interface, allowing users to interact with and view the information. This entire process ensures a seamless flow of data between the frontend, backend, and database, ultimately enhancing the user experience.
+
 <div align="center">
   
 <img width="400" alt="Captura de pantalla 2024-01-16 a las 23 14 00" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/3d817556-02b4-4516-8594-2c2328748d04">
@@ -57,13 +63,6 @@ For actions that require access to the database, the frontend sends requests to 
 
 <img width="400" heigth="250" alt="Captura de pantalla 2024-01-16 a las 23 17 11" src="https://github.com/Desafio-Tripulaciones/Fullstack-g1/assets/131009082/42d70338-8903-4a1c-b43e-3cb64c3cbc4d">
 </div>
-
-
-FALTAN IMÁGENES
-
-### 3.Interaction Phase with the API (Python)
-
-The Python API acts as an intermediary between the backend and Candela, facilitating the retrieval of specific data requested by the user. Subsequently, the Python API transmits Candela's data to the Express backend. The latter processes the information according to the application's needs and responds to the frontend with the processed data, which is then presented in the user interface.
 
 FALTAN IMÁGENES
 
