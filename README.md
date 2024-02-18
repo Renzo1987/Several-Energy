@@ -1,5 +1,5 @@
 
-![cabecera](img/CABECERA2.png)
+![cabecera](img/CABECERA1.png)
 
 ## Descripción del Proyecto
 
